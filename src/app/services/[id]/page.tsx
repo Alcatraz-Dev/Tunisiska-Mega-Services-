@@ -22,7 +22,7 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ id: st
 
   // Check if content exists in settings first, else fallback to translations
   const sectionId = `service_${id}`;
-  const settingsContent = settings.sections[sectionId]?.content?.[lang];
+  const settingsContent = settings?.sections?.[sectionId]?.content?.[lang];
   
   const serviceKey = id as keyof typeof t.serviceDetails;
   const translationService = t.serviceDetails[serviceKey];

@@ -8,9 +8,9 @@
     "facebookEnabled": true,
     "instagram": "https://instagram.com/tunsiska",
     "instagramEnabled": true,
-    "youtube": "",
+    "youtube": "https://youtube.com",
     "youtubeEnabled": false,
-    "tiktok": "",
+    "tiktok": "https://tiktok.com",
     "tiktokEnabled": false
   },
   "auth": {
@@ -321,6 +321,20 @@
           "title": "هل أنت مستعد لتبسيط حياتك؟",
           "desc": "انضم إلى آلاف المستخدمين الذين يستمتعون بأفضل الخدمات عبر الحدود.",
           "button": "تحميل خدمات تونسيسكا ميجا"
+        }
+      }
+    },
+    "service_shipping": {
+      "visible": true,
+      "content": {
+        "en": {
+          "image": "https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=1000"
+        },
+        "sv": {
+          "image": "https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=1000"
+        },
+        "ar": {
+          "image": "https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=1000"
         }
       }
     }

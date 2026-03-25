@@ -56,9 +56,21 @@ import { translations } from "@/translations";
 
 const DEVICE_STYLES = [
   { id: "iphone-15", label: "iPhone (Island)", icon: <PhoneIcon size={14} /> },
-  { id: "iphone-notch", label: "iPhone (Notch)", icon: <Smartphone size={14} /> },
-  { id: "android-centered", label: "Android (Center)", icon: <Smartphone size={14} /> },
-  { id: "android-left", label: "Android (Left)", icon: <Smartphone size={14} /> },
+  {
+    id: "iphone-notch",
+    label: "iPhone (Notch)",
+    icon: <Smartphone size={14} />,
+  },
+  {
+    id: "android-centered",
+    label: "Android (Center)",
+    icon: <Smartphone size={14} />,
+  },
+  {
+    id: "android-left",
+    label: "Android (Left)",
+    icon: <Smartphone size={14} />,
+  },
   { id: "ipad", label: "iPad Pro", icon: <Layout size={14} /> },
   { id: "tablet", label: "Tablet", icon: <Layout size={14} /> },
   { id: "minimal", label: "Minimal", icon: <AppWindow size={14} /> },
@@ -75,7 +87,9 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"general" | "sections" | "pages">("general");
+  const [activeTab, setActiveTab] = useState<"general" | "sections" | "pages">(
+    "general",
+  );
   const [toast, setToast] = useState<{
     show: boolean;
     message: string;
@@ -137,6 +151,53 @@ export default function AdminDashboard() {
     loadData();
   }, []);
 
+  // Helper to get content with defaults from translations
+  const getMergedSectionContent = (sectionId: string) => {
+    const currentContent: any = settings.sections[sectionId]?.content || {};
+    const merged: any = { ...currentContent };
+
+    // Provide defaults from translations for empty segments
+    ["en", "sv", "ar"].forEach((l) => {
+      const trans = (translations as any)[l];
+      if (!merged[l]) {
+        if (sectionId === "gallery") {
+          merged[l] = {
+            headline:
+              l === "ar"
+                ? "اكتشف شكل التطبيق"
+                : l === "sv"
+                  ? "Utforska Appen"
+                  : "Explore the App",
+            description:
+              l === "ar"
+                ? "ألق نظرة على التصميم الأنيق والواجهة السلسة لخدماتنا في التطبيق."
+                : l === "sv"
+                  ? "Ta en titt på den eleganta designen och det smidiga gränssnittet för våra tjänster i appen."
+                  : "Take a look at the elegant design and seamless interface of our services in the app.",
+          };
+        } else if (sectionId.startsWith("service_")) {
+          const serviceId = sectionId.replace("service_", "");
+          const serviceTrans = trans.serviceDetails?.[serviceId];
+          if (serviceTrans) {
+            merged[l] = {
+              title: serviceTrans.title,
+              desc: serviceTrans.desc,
+              cta: serviceTrans.cta,
+              features: serviceTrans.features,
+              image: serviceTrans.image,
+            };
+          }
+        } else {
+          // Generic fallback for other sections
+          if (trans[sectionId]) {
+            merged[l] = trans[sectionId];
+          }
+        }
+      }
+    });
+    return merged;
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -173,6 +234,12 @@ export default function AdminDashboard() {
         if (mock.startsWith("gallery-")) {
           const index = parseInt(mock.split("-")[1], 10);
           handleGalleryChange(index, "image", result.url);
+        } else if (mock.startsWith("section-")) {
+          const parts = mock.split("-"); // section-sectionId-lang-field
+          const sectionId = parts[1];
+          const langId = parts[2];
+          const fieldId = parts[3];
+          handleContentChange(sectionId, langId, fieldId, result.url);
         } else {
           handleMockupChange(mock, "image", result.url);
         }
@@ -198,7 +265,11 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleSettingChange = (section: string, key: string, value: string | boolean) => {
+  const handleSettingChange = (
+    section: string,
+    key: string,
+    value: string | boolean,
+  ) => {
     setSettings({
       ...settings,
       [section]: {
@@ -225,11 +296,7 @@ export default function AdminDashboard() {
     });
   };
 
-  const handleGalleryChange = (
-    index: number,
-    key: string,
-    value: string
-  ) => {
+  const handleGalleryChange = (index: number, key: string, value: string) => {
     const newGallery = [...settings.mockups.gallery];
     newGallery[index] = { ...newGallery[index], [key]: value };
     setSettings({
@@ -248,7 +315,13 @@ export default function AdminDashboard() {
         ...settings.mockups,
         gallery: [
           ...(settings.mockups.gallery || []),
-          { style: "iphone-15", type: "image", image: "", icon: "sparkles", color: "primary" }
+          {
+            style: "iphone-15",
+            type: "image",
+            image: "",
+            icon: "sparkles",
+            color: "primary",
+          },
         ],
       },
     });
@@ -285,17 +358,49 @@ export default function AdminDashboard() {
     field: string,
     value: string,
   ) => {
+    const currentSection = settings.sections[sectionId] || {
+      visible: true,
+      content: {},
+    };
+    const currentLangContent = currentSection.content[lang] || {};
+
+    // If it's a service section and we are changing the image, apply to all languages
+    if (sectionId.startsWith("service_") && field === "image") {
+      const newContent = { ...currentSection.content };
+      ["en", "sv", "ar"].forEach((l) => {
+        newContent[l] = {
+          ...(newContent[l] || {}),
+          image: value,
+        };
+      });
+
+      setSettings({
+        ...settings,
+        sections: {
+          ...settings.sections,
+          [sectionId]: {
+            ...currentSection,
+            content: newContent,
+          },
+        },
+      });
+      return;
+    }
+
     setSettings({
       ...settings,
       sections: {
         ...settings.sections,
         [sectionId]: {
-          ...settings.sections[sectionId],
+          ...currentSection,
           content: {
-            ...settings.sections[sectionId].content,
+            ...currentSection.content,
             [lang]: {
-              ...settings.sections[sectionId].content[lang],
-              [field]: field === "features" ? value.split('\n').filter((s: string) => s.trim() !== '') : value,
+              ...currentLangContent,
+              [field]:
+                field === "features"
+                  ? value.split("\n").filter((s: string) => s.trim() !== "")
+                  : value,
             },
           },
         },
@@ -630,17 +735,31 @@ export default function AdminDashboard() {
                             {t.admin.socialLinks.facebook}
                           </label>
                           <button
-                            onClick={() => handleSettingChange("social", "facebookEnabled", !settings.social.facebookEnabled)}
+                            onClick={() =>
+                              handleSettingChange(
+                                "social",
+                                "facebookEnabled",
+                                !settings.social.facebookEnabled,
+                              )
+                            }
                             className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${settings.social.facebookEnabled ? "bg-primary" : "bg-white/10"}`}
                             title="Toggle Facebook visibility in footer"
                           >
-                            <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.facebookEnabled ? "left-5" : "left-0.5"}`} />
+                            <span
+                              className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.facebookEnabled ? "left-5" : "left-0.5"}`}
+                            />
                           </button>
                         </div>
                         <input
                           type="text"
                           value={settings.social.facebook}
-                          onChange={(e) => handleSettingChange("social", "facebook", e.target.value)}
+                          onChange={(e) =>
+                            handleSettingChange(
+                              "social",
+                              "facebook",
+                              e.target.value,
+                            )
+                          }
                           className={`w-full h-10 bg-black/20 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors ${lang === "ar" ? "text-right" : "text-left"}`}
                           placeholder="https://facebook.com/..."
                         />
@@ -654,17 +773,31 @@ export default function AdminDashboard() {
                             {t.admin.socialLinks.instagram}
                           </label>
                           <button
-                            onClick={() => handleSettingChange("social", "instagramEnabled", !settings.social.instagramEnabled)}
+                            onClick={() =>
+                              handleSettingChange(
+                                "social",
+                                "instagramEnabled",
+                                !settings.social.instagramEnabled,
+                              )
+                            }
                             className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${settings.social.instagramEnabled ? "bg-primary" : "bg-white/10"}`}
                             title="Toggle Instagram visibility in footer"
                           >
-                            <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.instagramEnabled ? "left-5" : "left-0.5"}`} />
+                            <span
+                              className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.instagramEnabled ? "left-5" : "left-0.5"}`}
+                            />
                           </button>
                         </div>
                         <input
                           type="text"
                           value={settings.social.instagram}
-                          onChange={(e) => handleSettingChange("social", "instagram", e.target.value)}
+                          onChange={(e) =>
+                            handleSettingChange(
+                              "social",
+                              "instagram",
+                              e.target.value,
+                            )
+                          }
                           className={`w-full h-10 bg-black/20 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors ${lang === "ar" ? "text-right" : "text-left"}`}
                           placeholder="https://instagram.com/..."
                         />
@@ -678,17 +811,31 @@ export default function AdminDashboard() {
                             YouTube
                           </label>
                           <button
-                            onClick={() => handleSettingChange("social", "youtubeEnabled", !settings.social.youtubeEnabled)}
+                            onClick={() =>
+                              handleSettingChange(
+                                "social",
+                                "youtubeEnabled",
+                                !settings.social.youtubeEnabled,
+                              )
+                            }
                             className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${settings.social.youtubeEnabled ? "bg-primary" : "bg-white/10"}`}
                             title="Toggle YouTube visibility in footer"
                           >
-                            <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.youtubeEnabled ? "left-5" : "left-0.5"}`} />
+                            <span
+                              className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.youtubeEnabled ? "left-5" : "left-0.5"}`}
+                            />
                           </button>
                         </div>
                         <input
                           type="text"
                           value={settings.social.youtube || ""}
-                          onChange={(e) => handleSettingChange("social", "youtube", e.target.value)}
+                          onChange={(e) =>
+                            handleSettingChange(
+                              "social",
+                              "youtube",
+                              e.target.value,
+                            )
+                          }
                           className={`w-full h-10 bg-black/20 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors ${lang === "ar" ? "text-right" : "text-left"}`}
                           placeholder="https://youtube.com/@..."
                         />
@@ -702,17 +849,31 @@ export default function AdminDashboard() {
                             TikTok
                           </label>
                           <button
-                            onClick={() => handleSettingChange("social", "tiktokEnabled", !settings.social.tiktokEnabled)}
+                            onClick={() =>
+                              handleSettingChange(
+                                "social",
+                                "tiktokEnabled",
+                                !settings.social.tiktokEnabled,
+                              )
+                            }
                             className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${settings.social.tiktokEnabled ? "bg-primary" : "bg-white/10"}`}
                             title="Toggle TikTok visibility in footer"
                           >
-                            <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.tiktokEnabled ? "left-5" : "left-0.5"}`} />
+                            <span
+                              className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.tiktokEnabled ? "left-5" : "left-0.5"}`}
+                            />
                           </button>
                         </div>
                         <input
                           type="text"
                           value={settings.social.tiktok || ""}
-                          onChange={(e) => handleSettingChange("social", "tiktok", e.target.value)}
+                          onChange={(e) =>
+                            handleSettingChange(
+                              "social",
+                              "tiktok",
+                              e.target.value,
+                            )
+                          }
                           className={`w-full h-10 bg-black/20 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors ${lang === "ar" ? "text-right" : "text-left"}`}
                           placeholder="https://tiktok.com/@..."
                         />
@@ -757,7 +918,9 @@ export default function AdminDashboard() {
                                 {DEVICE_STYLES.map((s) => (
                                   <button
                                     key={s.id}
-                                    onClick={() => handleMockupChange(mock, "style", s.id)}
+                                    onClick={() =>
+                                      handleMockupChange(mock, "style", s.id)
+                                    }
                                     title={s.label}
                                     className={`p-1.5 rounded-lg transition-all ${
                                       settings.mockups[mock].style === s.id
@@ -837,7 +1000,7 @@ export default function AdminDashboard() {
                                 </div>
                               </div>
                             ) : (
-                               <div>
+                              <div>
                                 <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
                                   Image Path
                                 </label>
@@ -888,14 +1051,16 @@ export default function AdminDashboard() {
                           </h4>
                         </div>
                         <div className="grid grid-cols-1 gap-8 max-w-[200px] mx-auto">
-                          {["heroLeft", "heroCenter", "heroRight"].map((mock) => (
-                            <DevicePreview
-                              key={mock}
-                              config={settings.mockups[mock]}
-                              title={mock.replace("hero", "")}
-                              deviceStyle={settings.mockups[mock].style}
-                            />
-                          ))}
+                          {["heroLeft", "heroCenter", "heroRight"].map(
+                            (mock) => (
+                              <DevicePreview
+                                key={mock}
+                                config={settings.mockups[mock]}
+                                title={mock.replace("hero", "")}
+                                deviceStyle={settings.mockups[mock].style}
+                              />
+                            ),
+                          )}
                         </div>
                         <p className="mt-6 text-[10px] text-gray-500 text-center leading-relaxed">
                           Visualizing all hero mockups with current settings.
@@ -941,7 +1106,9 @@ export default function AdminDashboard() {
                                 {DEVICE_STYLES.map((s) => (
                                   <button
                                     key={s.id}
-                                    onClick={() => handleMockupChange(mock, "style", s.id)}
+                                    onClick={() =>
+                                      handleMockupChange(mock, "style", s.id)
+                                    }
                                     title={s.label}
                                     className={`p-1.5 rounded-lg transition-all ${
                                       settings.mockups[mock].style === s.id
@@ -1021,44 +1188,44 @@ export default function AdminDashboard() {
                                 </div>
                               </div>
                             ) : (
-                                <div>
-                                  <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
-                                    Image Path
-                                  </label>
-                                  <div className="flex gap-2">
+                              <div>
+                                <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
+                                  Image Path
+                                </label>
+                                <div className="flex gap-2">
+                                  <input
+                                    type="text"
+                                    placeholder="/custom-mockup.png"
+                                    value={settings.mockups[mock].image || ""}
+                                    onChange={(e) =>
+                                      handleMockupChange(
+                                        mock,
+                                        "image",
+                                        e.target.value,
+                                      )
+                                    }
+                                    className="flex-1 h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-accent/50 transition-all"
+                                  />
+                                  <label className="cursor-pointer">
                                     <input
-                                      type="text"
-                                      placeholder="/custom-mockup.png"
-                                      value={settings.mockups[mock].image || ""}
-                                      onChange={(e) =>
-                                        handleMockupChange(
-                                          mock,
-                                          "image",
-                                          e.target.value,
-                                        )
-                                      }
-                                      className="flex-1 h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-accent/50 transition-all"
+                                      type="file"
+                                      accept="image/*"
+                                      className="hidden"
+                                      onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) handleImageUpload(mock, file);
+                                      }}
                                     />
-                                    <label className="cursor-pointer">
-                                      <input
-                                        type="file"
-                                        accept="image/*"
-                                        className="hidden"
-                                        onChange={(e) => {
-                                          const file = e.target.files?.[0];
-                                          if (file) handleImageUpload(mock, file);
-                                        }}
-                                      />
-                                      <div className="h-10 w-10 flex items-center justify-center bg-white/5 border border-white/5 rounded-lg hover:bg-white/10 transition-all text-gray-400 hover:text-white">
-                                        {isUploading === mock ? (
-                                          <Loader2 className="w-4 h-4 animate-spin" />
-                                        ) : (
-                                          <Upload className="w-4 h-4" />
-                                        )}
-                                      </div>
-                                    </label>
-                                  </div>
+                                    <div className="h-10 w-10 flex items-center justify-center bg-white/5 border border-white/5 rounded-lg hover:bg-white/10 transition-all text-gray-400 hover:text-white">
+                                      {isUploading === mock ? (
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                      ) : (
+                                        <Upload className="w-4 h-4" />
+                                      )}
+                                    </div>
+                                  </label>
                                 </div>
+                              </div>
                             )}
                           </div>
                         ))}
@@ -1093,10 +1260,12 @@ export default function AdminDashboard() {
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                       <div className="flex flex-col gap-1">
                         <h4 className="text-lg font-semibold">
-                          {t.admin.galleryMockups?.title || "App Screens Gallery"}
+                          {t.admin.galleryMockups?.title ||
+                            "App Screens Gallery"}
                         </h4>
                         <p className="text-xs text-gray-400">
-                          {t.admin.galleryMockups?.desc || "Manage the app screens displayed in the gallery before the footer."}
+                          {t.admin.galleryMockups?.desc ||
+                            "Manage the app screens displayed in the gallery before the footer."}
                         </p>
                       </div>
                       <div className="flex items-center gap-4">
@@ -1108,7 +1277,9 @@ export default function AdminDashboard() {
                             onClick={() => toggleSection("gallery")}
                             className={`relative w-12 h-6 rounded-full transition-colors duration-200 ${settings.sections.gallery?.visible ? "bg-primary" : "bg-white/10"}`}
                           >
-                            <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.sections.gallery?.visible ? "left-7" : "left-1"}`} />
+                            <span
+                              className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.sections.gallery?.visible ? "left-7" : "left-1"}`}
+                            />
                           </button>
                         </div>
                         <button
@@ -1122,84 +1293,102 @@ export default function AdminDashboard() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-start">
-                      {settings.mockups.gallery?.map((mock: any, index: number) => (
-                        <div key={index} className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-sm hover:border-white/20 transition-all relative">
-                          <div className="flex items-center justify-between mb-6">
-                            <div className="flex items-center gap-2 text-sm font-semibold capitalize">
-                              <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(99,102,241,0.5)]"></div>
-                              {t.admin.galleryMockups?.device || "Device"} {index + 1}
-                            </div>
-                            <button
-                              onClick={() => removeGalleryScreen(index)}
-                              className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
-                              title="Delete Screen"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
-
-                          <div className="flex flex-wrap gap-1 p-1 bg-black/40 rounded-xl border border-white/5 mb-6">
-                            {DEVICE_STYLES.map((s) => (
+                      {settings.mockups.gallery?.map(
+                        (mock: any, index: number) => (
+                          <div
+                            key={index}
+                            className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-sm hover:border-white/20 transition-all relative"
+                          >
+                            <div className="flex items-center justify-between mb-6">
+                              <div className="flex items-center gap-2 text-sm font-semibold capitalize">
+                                <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(99,102,241,0.5)]"></div>
+                                {t.admin.galleryMockups?.device || "Device"}{" "}
+                                {index + 1}
+                              </div>
                               <button
-                                key={s.id}
-                                onClick={() => handleGalleryChange(index, "style", s.id)}
-                                title={s.label}
-                                className={`p-1.5 rounded-lg transition-all ${
-                                  mock.style === s.id
-                                    ? "bg-primary text-white"
-                                    : "text-gray-500 hover:text-gray-300"
-                                }`}
+                                onClick={() => removeGalleryScreen(index)}
+                                className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
+                                title="Delete Screen"
                               >
-                                {s.icon}
+                                <Trash2 size={16} />
                               </button>
-                            ))}
-                          </div>
+                            </div>
 
-                          <div>
-                            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">
-                              {t.admin.heroMockups.image}
-                            </label>
-                            <div className="relative group">
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0];
-                                  if (file) handleImageUpload(`gallery-${index}`, file);
-                                }}
-                                className="hidden"
-                                id={`gallery-upload-${index}`}
-                                disabled={isUploading === `gallery-${index}`}
-                              />
-                              <label
-                                htmlFor={`gallery-upload-${index}`}
-                                className="flex flex-col items-center justify-center w-full aspect-9/19 rounded-2xl border-2 border-dashed border-white/10 bg-black/20 hover:bg-black/40 hover:border-primary/50 cursor-pointer transition-all overflow-hidden relative group-hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
-                              >
-                                {mock.image ? (
-                                  <>
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src={mock.image} alt="Preview" className="w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-sm">
-                                      <Upload className="w-6 h-6 text-white" />
-                                    </div>
-                                  </>
-                                ) : (
-                                  <div className="flex flex-col items-center gap-2 text-gray-500 group-hover:text-primary transition-colors">
-                                    {isUploading === `gallery-${index}` ? (
-                                      <Loader2 className="w-6 h-6 animate-spin" />
-                                    ) : (
-                                      <>
-                                        <ImageIcon className="w-8 h-8 opacity-50" />
-                                        <span className="text-xs font-medium">Upload Image</span>
-                                      </>
-                                    )}
-                                  </div>
-                                )}
+                            <div className="flex flex-wrap gap-1 p-1 bg-black/40 rounded-xl border border-white/5 mb-6">
+                              {DEVICE_STYLES.map((s) => (
+                                <button
+                                  key={s.id}
+                                  onClick={() =>
+                                    handleGalleryChange(index, "style", s.id)
+                                  }
+                                  title={s.label}
+                                  className={`p-1.5 rounded-lg transition-all ${
+                                    mock.style === s.id
+                                      ? "bg-primary text-white"
+                                      : "text-gray-500 hover:text-gray-300"
+                                  }`}
+                                >
+                                  {s.icon}
+                                </button>
+                              ))}
+                            </div>
+
+                            <div>
+                              <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">
+                                {t.admin.heroMockups.image}
                               </label>
+                              <div className="relative group">
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file)
+                                      handleImageUpload(
+                                        `gallery-${index}`,
+                                        file,
+                                      );
+                                  }}
+                                  className="hidden"
+                                  id={`gallery-upload-${index}`}
+                                  disabled={isUploading === `gallery-${index}`}
+                                />
+                                <label
+                                  htmlFor={`gallery-upload-${index}`}
+                                  className="flex flex-col items-center justify-center w-full aspect-9/19 rounded-2xl border-2 border-dashed border-white/10 bg-black/20 hover:bg-black/40 hover:border-primary/50 cursor-pointer transition-all overflow-hidden relative group-hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
+                                >
+                                  {mock.image ? (
+                                    <>
+                                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                                      <img
+                                        src={mock.image}
+                                        alt="Preview"
+                                        className="w-full h-full object-cover"
+                                      />
+                                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-sm">
+                                        <Upload className="w-6 h-6 text-white" />
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div className="flex flex-col items-center gap-2 text-gray-500 group-hover:text-primary transition-colors">
+                                      {isUploading === `gallery-${index}` ? (
+                                        <Loader2 className="w-6 h-6 animate-spin" />
+                                      ) : (
+                                        <>
+                                          <ImageIcon className="w-8 h-8 opacity-50" />
+                                          <span className="text-xs font-medium">
+                                            Upload Image
+                                          </span>
+                                        </>
+                                      )}
+                                    </div>
+                                  )}
+                                </label>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ),
+                      )}
                     </div>
                   </section>
 
@@ -1296,7 +1485,9 @@ export default function AdminDashboard() {
                         },
                         {
                           id: "gallery",
-                          title: t.admin.galleryMockups?.title || "App screens Gallery",
+                          title:
+                            t.admin.galleryMockups?.title ||
+                            "App screens Gallery",
                           icon: <Grid className="w-5 h-5" />,
                         },
                       ].map((section) => (
@@ -1369,10 +1560,9 @@ export default function AdminDashboard() {
                               >
                                 <SectionContentEditor
                                   sectionId={section.id}
-                                  content={
-                                    settings.sections[section.id]?.content || settings.sections[section.id]
-                                  }
+                                  content={getMergedSectionContent(section.id)}
                                   onContentChange={handleContentChange}
+                                  onImageUpload={handleImageUpload}
                                   lang={lang}
                                   t={t}
                                 />
@@ -1471,7 +1661,7 @@ export default function AdminDashboard() {
                                               )}
                                             </div>
                                           </div>
-                                        )
+                                        ),
                                       )}
                                     </div>
                                   </div>
@@ -1537,7 +1727,12 @@ export default function AdminDashboard() {
                         {
                           id: "service_divider",
                           isDivider: true,
-                          title: lang === "ar" ? "تفاصيل الخدمات" : lang === "sv" ? "Tjänstdetaljer" : "Service Details",
+                          title:
+                            lang === "ar"
+                              ? "تفاصيل الخدمات"
+                              : lang === "sv"
+                                ? "Tjänstdetaljer"
+                                : "Service Details",
                         },
                         {
                           id: "service_shipping",
@@ -1559,9 +1754,12 @@ export default function AdminDashboard() {
                           title: t.admin.pages_tab.service_containerShipping,
                           icon: <Package className="w-5 h-5 text-blue-400" />,
                         },
-                      ].map((section: any) => (
+                      ].map((section: any) =>
                         section.isDivider ? (
-                          <div key={section.id} className="pt-8 pb-4 border-b border-white/5">
+                          <div
+                            key={section.id}
+                            className="pt-8 pb-4 border-b border-white/5"
+                          >
                             <h5 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 flex items-center gap-2">
                               <span className="w-1 h-1 rounded-full bg-primary" />
                               {section.title}
@@ -1575,7 +1773,9 @@ export default function AdminDashboard() {
                                   {section.icon}
                                 </div>
                                 <div>
-                                  <p className="font-semibold">{section.title}</p>
+                                  <p className="font-semibold">
+                                    {section.title}
+                                  </p>
                                   <div className="flex items-center gap-3 mt-1">
                                     <p className="text-xs text-gray-500">
                                       {settings.sections[section.id]?.visible
@@ -1637,10 +1837,11 @@ export default function AdminDashboard() {
                                 >
                                   <SectionContentEditor
                                     sectionId={section.id}
-                                    content={
-                                      settings.sections[section.id]?.content
-                                    }
+                                    content={getMergedSectionContent(
+                                      section.id,
+                                    )}
                                     onContentChange={handleContentChange}
+                                    onImageUpload={handleImageUpload}
                                     lang={lang}
                                     t={t}
                                   />
@@ -1648,8 +1849,8 @@ export default function AdminDashboard() {
                               )}
                             </AnimatePresence>
                           </div>
-                        )
-                      ))}
+                        ),
+                      )}
                     </div>
                   </div>
                 </motion.div>
@@ -1726,6 +1927,7 @@ function SectionContentEditor({
   sectionId,
   content,
   onContentChange,
+  onImageUpload,
   lang,
   t,
 }: any) {
@@ -1745,19 +1947,51 @@ function SectionContentEditor({
       fields = ["headline", "description"];
       break;
     case "about":
-      fields = ["title", "subtitle", "missionTitle", "missionDesc", "visionTitle", "visionDesc"];
+      fields = [
+        "title",
+        "subtitle",
+        "missionTitle",
+        "missionDesc",
+        "visionTitle",
+        "visionDesc",
+      ];
       break;
     case "services":
       fields = ["title", "subtitle", "allServices"];
       break;
     case "contact":
-      fields = ["title", "subtitle", "formName", "formEmail", "formSubject", "formMessage", "formSubmit", "addressTitle", "addressSweden", "addressTunisia", "emailTitle", "phoneTitle"];
+      fields = [
+        "title",
+        "subtitle",
+        "formName",
+        "formEmail",
+        "formSubject",
+        "formMessage",
+        "formSubmit",
+        "addressTitle",
+        "addressSweden",
+        "addressTunisia",
+        "emailTitle",
+        "phoneTitle",
+      ];
       break;
     case "careers":
-      fields = ["title", "subtitle", "openPositions", "noPositions", "sendResume"];
+      fields = [
+        "title",
+        "subtitle",
+        "openPositions",
+        "noPositions",
+        "sendResume",
+      ];
       break;
     case "press":
-      fields = ["title", "subtitle", "pressReleases", "noReleases", "mediaContact"];
+      fields = [
+        "title",
+        "subtitle",
+        "pressReleases",
+        "noReleases",
+        "mediaContact",
+      ];
       break;
     case "service_shipping":
     case "service_taxi":
@@ -1796,6 +2030,63 @@ function SectionContentEditor({
         </span>
       </div>
 
+      {sectionId.startsWith("service_") && (
+        <div className="space-y-4 mb-8 pt-4 border-t border-white/5">
+          <div className="flex items-center gap-2 mb-2">
+            <ImageIcon className="w-4 h-4 text-primary" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
+              Service Image (Shared across all languages)
+            </span>
+          </div>
+          <div className="space-y-3">
+            <div className="flex gap-4 items-start">
+              <div className="relative group w-48 aspect-video bg-white/5 border border-white/10 rounded-lg overflow-hidden shrink-0">
+                {content?.en?.image ? (
+                  <img
+                    src={content?.en?.image}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-600">
+                    <ImageIcon size={24} />
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file && onImageUpload) {
+                      onImageUpload(`section-${sectionId}-en-image`, file);
+                    }
+                  }}
+                />
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                  <Upload className="w-6 h-6 text-white" />
+                </div>
+              </div>
+              <div className="flex-1 space-y-2">
+                <input
+                  type="text"
+                  value={content?.en?.image || ""}
+                  placeholder="/path/to/image.png"
+                  onChange={(e) =>
+                    onContentChange(sectionId, "en", "image", e.target.value)
+                  }
+                  className="w-full h-10 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-primary/50"
+                />
+                <p className="text-[10px] text-gray-500 italic">
+                  Click to upload or enter image path manually. This image will
+                  be used for all languages.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {["en", "sv", "ar"].map((l) => (
         <div key={l} className="space-y-4 pt-4 border-t border-white/5">
           <div className="flex items-center justify-between">
@@ -1804,32 +2095,103 @@ function SectionContentEditor({
             </span>
           </div>
           <div className="space-y-4">
-            {fields.map((field) => (
-              <div key={field}>
-                <label className="block text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wider">
-                  {getFieldLabel(field)}
-                </label>
-                {field === "desc" || field === "description" || field === "features" ? (
-                  <textarea
-                    value={field === "features" ? (Array.isArray(content?.[l]?.[field]) ? content?.[l]?.[field].join('\n') : (content?.[l]?.[field] || "")) : (content?.[l]?.[field] || "")}
-                    placeholder={field === "features" ? "Feature 1\nFeature 2\nFeature 3" : ""}
-                    onChange={(e) =>
-                      onContentChange(sectionId, l, field, e.target.value)
-                    }
-                    className="w-full h-24 bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-primary/50"
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    value={content?.[l]?.[field] || ""}
-                    onChange={(e) =>
-                      onContentChange(sectionId, l, field, e.target.value)
-                    }
-                    className="w-full h-10 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-primary/50"
-                  />
-                )}
-              </div>
-            ))}
+            {fields
+              .filter(
+                (field) =>
+                  !sectionId.startsWith("service_") || field !== "image",
+              )
+              .map((field) => (
+                <div key={field}>
+                  <label className="block text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wider">
+                    {getFieldLabel(field)}
+                  </label>
+                  {field === "desc" ||
+                  field === "description" ||
+                  field === "features" ? (
+                    <textarea
+                      value={
+                        field === "features"
+                          ? Array.isArray(content?.[l]?.[field])
+                            ? content?.[l]?.[field].join("\n")
+                            : content?.[l]?.[field] || ""
+                          : content?.[l]?.[field] || ""
+                      }
+                      placeholder={
+                        field === "features"
+                          ? "Feature 1\nFeature 2\nFeature 3"
+                          : ""
+                      }
+                      onChange={(e) =>
+                        onContentChange(sectionId, l, field, e.target.value)
+                      }
+                      className="w-full h-24 bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-primary/50"
+                    />
+                  ) : field === "image" ? (
+                    <div className="space-y-3">
+                      <div className="flex gap-4 items-start">
+                        <div className="relative group w-32 aspect-video bg-white/5 border border-white/10 rounded-lg overflow-hidden shrink-0">
+                          {content?.[l]?.[field] ? (
+                            <img
+                              src={content?.[l]?.[field]}
+                              alt="Preview"
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-600">
+                              <ImageIcon size={20} />
+                            </div>
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file && onImageUpload) {
+                                onImageUpload(
+                                  `section-${sectionId}-${l}-${field}`,
+                                  file,
+                                );
+                              }
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                            <Upload className="w-5 h-5 text-white" />
+                          </div>
+                        </div>
+                        <div className="flex-1 space-y-2">
+                          <input
+                            type="text"
+                            value={content?.[l]?.[field] || ""}
+                            placeholder="/path/to/image.png"
+                            onChange={(e) =>
+                              onContentChange(
+                                sectionId,
+                                l,
+                                field,
+                                e.target.value,
+                              )
+                            }
+                            className="w-full h-10 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-primary/50"
+                          />
+                          <p className="text-[10px] text-gray-500 italic">
+                            Click to upload or enter image path manually
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <input
+                      type="text"
+                      value={content?.[l]?.[field] || ""}
+                      onChange={(e) =>
+                        onContentChange(sectionId, l, field, e.target.value)
+                      }
+                      className="w-full h-10 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-primary/50"
+                    />
+                  )}
+                </div>
+              ))}
           </div>
         </div>
       ))}
@@ -1852,10 +2214,14 @@ function DevicePreview({
   // Helper to get icon component
   const getIcon = (iconName: string) => {
     switch (iconName) {
-      case "sparkles": return Sparkles;
-      case "car": return Car;
-      case "map-pin": return MapPin;
-      default: return Package;
+      case "sparkles":
+        return Sparkles;
+      case "car":
+        return Car;
+      case "map-pin":
+        return MapPin;
+      default:
+        return Package;
     }
   };
 
@@ -1868,22 +2234,35 @@ function DevicePreview({
   const renderSensors = () => {
     switch (deviceStyle) {
       case "iphone-15":
-        return <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-10 h-2.5 bg-black rounded-full z-20 border border-white/10" />;
+        return (
+          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-10 h-2.5 bg-black rounded-full z-20 border border-white/10" />
+        );
       case "iphone-notch":
-        return <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-3 bg-black rounded-b-xl z-20" />;
+        return (
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-3 bg-black rounded-b-xl z-20" />
+        );
       case "android-centered":
-        return <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-2 h-2 bg-black rounded-full z-20 ring-1 ring-white/10" />;
+        return (
+          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-2 h-2 bg-black rounded-full z-20 ring-1 ring-white/10" />
+        );
       case "android-left":
-        return <div className="absolute top-1.5 left-4 w-2 h-2 bg-black rounded-full z-20 ring-1 ring-white/10" />;
+        return (
+          <div className="absolute top-1.5 left-4 w-2 h-2 bg-black rounded-full z-20 ring-1 ring-white/10" />
+        );
       case "laptop":
-        return <div className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-black rounded-full z-20" />;
+        return (
+          <div className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-black rounded-full z-20" />
+        );
       default:
         return null;
     }
   };
 
   const renderButtons = () => {
-    const isIphone = deviceStyle === "iphone-15" || deviceStyle === "iphone-notch";
+    const isIphone =
+      deviceStyle === "iphone-15" ||
+      deviceStyle === "iphone-notch" ||
+      deviceStyle === "minimal";
     const isAndroid = deviceStyle.startsWith("android");
     const isTablet = deviceStyle === "ipad" || deviceStyle === "tablet";
 
@@ -1927,8 +2306,16 @@ function DevicePreview({
     return null;
   };
 
-  const rounding = isLaptop ? "rounded-lg" : isTablet ? "rounded-[1.25rem]" : "rounded-[1.5rem]";
-  const innerRounding = isLaptop ? "rounded-md" : isTablet ? "rounded-[1rem]" : "rounded-[1.25rem]";
+  const rounding = isLaptop
+    ? "rounded-lg"
+    : isTablet
+      ? "rounded-[1.25rem]"
+      : "rounded-[1.5rem]";
+  const innerRounding = isLaptop
+    ? "rounded-md"
+    : isTablet
+      ? "rounded-[1rem]"
+      : "rounded-[1.25rem]";
   const bezel = isLaptop ? "border-2" : "border-[4px]";
 
   return (
@@ -1938,51 +2325,66 @@ function DevicePreview({
         <div
           className={`${getAspect()} bg-slate-950 ${rounding} shadow-2xl relative overflow-hidden ring-1 ring-white/10 scale-75 lg:scale-100 transition-transform`}
         >
-        {/* Hardware Bezel Trim */}
-        <div className={`absolute inset-0 ${rounding} ${bezel} border-slate-900 pointer-events-none z-10`} />
-        
-        {/* Sensors */}
-        {renderSensors()}
+          {/* Hardware Bezel Trim */}
+          <div
+            className={`absolute inset-0 ${rounding} ${bezel} border-slate-900 pointer-events-none z-10`}
+          />
 
-        {/* Screen Content */}
-        <div
-          className={`relative w-full h-full bg-linear-to-b from-gray-900 to-black flex items-center justify-center overflow-hidden ${innerRounding} ${config?.type === "image" ? (!isLaptop && !isTablet ? "p-1.5" : "p-0") : isLaptop ? "p-4" : "p-2"}`}
-        >
-          {config?.type === "icon" ? (() => {
-            const Icon = getIcon(config.icon);
-            const bgColor = config.color === "primary" ? "bg-primary" : config.color === "purple" ? "bg-purple-600" : "bg-blue-600";
-            return (
-              <div className="flex flex-col items-center justify-center gap-2">
-                <div
-                  className={`${isLaptop ? "w-10 h-10" : "w-8 h-8"} ${bgColor} rounded-xl flex items-center justify-center shadow-lg transform rotate-12 transition-all`}
-                >
-                  <Icon className={`${isLaptop ? "w-5 h-5" : "w-4 h-4"} text-white`} />
-                </div>
-                {isLaptop && (
-                  <div className="text-center">
-                    <p className="text-white font-bold text-[8px] leading-tight">Tunsiska</p>
-                    <p className="text-gray-400 text-[6px]">Mega Services</p>
+          {/* Sensors */}
+          {renderSensors()}
+
+          {/* Screen Content */}
+          <div
+            className={`relative w-full h-full bg-linear-to-b from-gray-900 to-black flex items-center justify-center overflow-hidden ${innerRounding} ${config?.type === "image" ? (!isLaptop && !isTablet ? "p-1.5" : "p-0") : isLaptop ? "p-4" : "p-2"}`}
+          >
+            {config?.type === "icon" ? (
+              (() => {
+                const Icon = getIcon(config.icon);
+                const bgColor =
+                  config.color === "primary"
+                    ? "bg-primary"
+                    : config.color === "purple"
+                      ? "bg-purple-600"
+                      : "bg-blue-600";
+                return (
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <div
+                      className={`${isLaptop ? "w-10 h-10" : "w-8 h-8"} ${bgColor} rounded-xl flex items-center justify-center shadow-lg transform rotate-12 transition-all`}
+                    >
+                      <Icon
+                        className={`${isLaptop ? "w-5 h-5" : "w-4 h-4"} text-white`}
+                      />
+                    </div>
+                    {isLaptop && (
+                      <div className="text-center">
+                        <p className="text-white font-bold text-[8px] leading-tight">
+                          Tunsiska
+                        </p>
+                        <p className="text-gray-400 text-[6px]">
+                          Mega Services
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()
+            ) : (
+              <div className="w-full h-full relative">
+                {config?.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={config.image}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-white/5 flex items-center justify-center text-[10px] text-gray-500 italic">
+                    Preview
                   </div>
                 )}
               </div>
-            );
-          })() : (
-            <div className="w-full h-full relative">
-              {config?.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={config.image}
-                  alt="Preview"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full bg-white/5 flex items-center justify-center text-[10px] text-gray-500 italic">
-                  Preview
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+            )}
+          </div>
         </div>
       </div>
 

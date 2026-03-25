@@ -67,7 +67,7 @@ export default function HomePage() {
   };
 
   const renderButtons = (style: string) => {
-    const isIphone = style === "iphone-15" || style === "iphone-notch";
+    const isIphone = style === "iphone-15" || style === "iphone-notch" || style === "minimal";
     const isAndroid = style.startsWith("android");
     const isTablet = style === "ipad" || style === "tablet";
 
