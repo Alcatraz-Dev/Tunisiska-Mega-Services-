@@ -503,7 +503,7 @@ export default function AdminDashboard() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className={`w-full h-12 bg-white/5 border border-white/10 rounded-xl ${lang === "ar" ? "pr-12 pl-4" : "pl-12 pr-4"} text-white focus:outline-none focus:border-primary/50 transition-colors`}
-                  placeholder="admin@tunsiska.com"
+                  placeholder="admin@tunisiska.com"
                   required
                 />
               </div>
