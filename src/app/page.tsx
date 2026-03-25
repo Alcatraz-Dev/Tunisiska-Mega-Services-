@@ -51,11 +51,12 @@ export default function HomePage() {
     className = "",
     innerClassName = "",
   }: {
-    style?: any;
+    style?: string;
     children: React.ReactNode;
     className?: string;
     innerClassName?: string;
   }) => {
+    // Laptop Style
     if (style === "laptop") {
       return (
         <div className={`relative w-full aspect-16/10 group ${className}`}>
@@ -71,12 +72,16 @@ export default function HomePage() {
       );
     }
 
-    if (style === "pixel") {
+    // Larger Formats (iPad / Tablet)
+    if (style === "ipad" || style === "tablet") {
+      const isTablet = style === "tablet";
       return (
         <div
-          className={`relative aspect-9/19.5 rounded-[3rem] border-10 border-slate-900 bg-slate-800 shadow-2xl overflow-hidden ${className}`}
+          className={`relative aspect-3/4 ${isTablet ? "rounded-4xl border-12" : "rounded-[2.5rem] border-8"} border-slate-900 bg-slate-800 shadow-2xl overflow-hidden ${className}`}
         >
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 w-3 h-3 bg-black rounded-full z-10" />
+          {!isTablet && (
+            <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-0.5 h-12 bg-slate-700 rounded-full" />
+          )}
           <div className={`w-full h-full relative ${innerClassName}`}>
             {children}
           </div>
@@ -84,24 +89,43 @@ export default function HomePage() {
       );
     }
 
-    if (style === "minimal") {
-      return (
-        <div
-          className={`relative aspect-9/19.5 rounded-3xl border-2 border-white/10 bg-slate-800/50 backdrop-blur-xl shadow-2xl overflow-hidden ${className}`}
-        >
-          <div className={`w-full h-full relative ${innerClassName}`}>
-            {children}
-          </div>
-        </div>
-      );
-    }
+    // Phone Formats
+    const getBezelStyles = () => {
+      switch (style) {
+        case "minimal":
+          return "rounded-3xl border-2 border-white/10 bg-slate-800/50 backdrop-blur-xl shadow-2xl";
+        case "android-centered":
+        case "pixel":
+          return "rounded-[3rem] border-10 border-slate-900 bg-slate-800 shadow-2xl";
+        case "android-left":
+          return "rounded-[2.5rem] border-10 border-slate-900 bg-slate-800 shadow-2xl";
+        case "iphone-notch":
+          return "rounded-[3rem] border-10 border-slate-900 bg-slate-800 shadow-2xl";
+        default: // iphone-15
+          return "rounded-[3.5rem] border-10 border-slate-900 bg-slate-800 shadow-2xl overflow-hidden";
+      }
+    };
+
+    const renderSensors = () => {
+      switch (style) {
+        case "iphone-15":
+          return <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-5 bg-black rounded-full z-20 border border-white/10" />;
+        case "iphone-notch":
+          return <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-20 border-x border-b border-white/5" />;
+        case "android-centered":
+        case "pixel":
+          return <div className="absolute top-4 left-1/2 -translate-x-1/2 w-3 h-3 bg-black rounded-full z-20 ring-1 ring-white/10" />;
+        case "android-left":
+          return <div className="absolute top-4 left-6 w-3 h-3 bg-black rounded-full z-20 ring-1 ring-white/10" />;
+        default:
+          return null;
+      }
+    };
 
     return (
-      <div
-        className={`relative aspect-9/19.5 rounded-[3.5rem] border-10 border-slate-900 bg-slate-800 shadow-2xl overflow-hidden ${className}`}
-      >
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-5 bg-black rounded-full z-10 border border-white/10" />
-        <div className={`w-full h-full relative ${innerClassName}`}>
+      <div className={`relative aspect-9/19.5 ${getBezelStyles()} ${className}`}>
+        {renderSensors()}
+        <div className={`w-full h-full relative overflow-hidden ${innerClassName}`}>
           {children}
         </div>
       </div>
@@ -249,7 +273,7 @@ export default function HomePage() {
                 className="relative z-10"
               >
                 <DeviceMockup
-                  style={settings?.mockups?.style}
+                  style={settings?.mockups?.heroCenter?.style || settings?.mockups?.style}
                   className="w-64 lg:w-72"
                   innerClassName={
                     settings?.mockups?.heroCenter?.type === "image"
@@ -476,8 +500,8 @@ export default function HomePage() {
                 className="absolute z-20 origin-bottom hover:-translate-y-4 transition-transform duration-500"
               >
                 <DeviceMockup
-                  style={settings?.mockups?.style}
-                  className="w-52 md:w-64"
+                  style={settings?.mockups?.ctaCenter?.style || settings?.mockups?.style}
+                  className="w-56 md:w-64 shadow-2xl"
                   innerClassName={
                     settings?.mockups?.ctaCenter?.type === "image"
                       ? ""

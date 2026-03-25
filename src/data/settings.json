@@ -16,32 +16,38 @@
     "heroLeft": {
       "type": "icon",
       "icon": "package",
-      "color": "primary"
+      "color": "primary",
+      "style": "iphone-15"
     },
     "heroCenter": {
       "type": "icon",
       "icon": "sparkles",
-      "color": "primary"
+      "color": "primary",
+      "style": "iphone-15"
     },
     "heroRight": {
       "type": "icon",
       "icon": "car",
-      "color": "purple"
+      "color": "purple",
+      "style": "iphone-15"
     },
     "ctaLeft": {
       "type": "icon",
       "icon": "sparkles",
-      "color": "primary"
+      "color": "primary",
+      "style": "iphone-15"
     },
     "ctaCenter": {
       "type": "icon",
       "icon": "package",
-      "color": "primary"
+      "color": "primary",
+      "style": "iphone-15"
     },
     "ctaRight": {
       "type": "icon",
       "icon": "car",
-      "color": "purple"
+      "color": "purple",
+      "style": "iphone-15"
     }
   },
   "sections": {
