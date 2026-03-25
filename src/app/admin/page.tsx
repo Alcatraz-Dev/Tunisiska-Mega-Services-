@@ -32,6 +32,14 @@ import {
   MapPin,
   Package,
   Share2,
+  Plus,
+  Trash2,
+  BookOpen,
+  Info,
+  Phone,
+  Users,
+  Newspaper,
+  LayoutGrid as Grid,
 } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa6";
 import {
@@ -67,7 +75,7 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"general" | "sections">("general");
+  const [activeTab, setActiveTab] = useState<"general" | "sections" | "pages">("general");
   const [toast, setToast] = useState<{
     show: boolean;
     message: string;
@@ -78,6 +86,7 @@ export default function AdminDashboard() {
     type: "success",
   });
   const [editingSection, setEditingSection] = useState<string | null>(null);
+  const [editingPage, setEditingPage] = useState<string | null>(null);
 
   const showToast = (
     message: string,
@@ -232,6 +241,31 @@ export default function AdminDashboard() {
     });
   };
 
+  const addGalleryScreen = () => {
+    setSettings({
+      ...settings,
+      mockups: {
+        ...settings.mockups,
+        gallery: [
+          ...(settings.mockups.gallery || []),
+          { style: "iphone-15", type: "image", image: "", icon: "sparkles", color: "primary" }
+        ],
+      },
+    });
+  };
+
+  const removeGalleryScreen = (index: number) => {
+    const newGallery = [...settings.mockups.gallery];
+    newGallery.splice(index, 1);
+    setSettings({
+      ...settings,
+      mockups: {
+        ...settings.mockups,
+        gallery: newGallery,
+      },
+    });
+  };
+
   const toggleSection = (sectionId: string) => {
     setSettings({
       ...settings,
@@ -239,7 +273,7 @@ export default function AdminDashboard() {
         ...settings.sections,
         [sectionId]: {
           ...settings.sections[sectionId],
-          visible: !settings.sections[sectionId].visible,
+          visible: !settings.sections[sectionId]?.visible,
         },
       },
     });
@@ -486,6 +520,22 @@ export default function AdminDashboard() {
               />
               <span className="font-semibold text-sm">
                 {t.admin.sidebar?.sections || "Page Sections"}
+              </span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("pages")}
+              className={`px-6 py-3 rounded-full transition-all flex items-center gap-2 border ${
+                activeTab === "pages"
+                  ? "bg-primary border-primary/20 text-white shadow-lg shadow-primary/20"
+                  : "border-transparent text-gray-400 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <BookOpen
+                className={`w-4 h-4 ${activeTab === "pages" ? "text-white" : ""}`}
+              />
+              <span className="font-semibold text-sm">
+                {t.admin.sidebar?.pages || "Pages"}
               </span>
             </button>
           </div>
@@ -1046,17 +1096,46 @@ export default function AdminDashboard() {
                           {t.admin.galleryMockups?.title || "App Screens Gallery"}
                         </h4>
                         <p className="text-xs text-gray-400">
-                          {t.admin.galleryMockups?.desc || "Manage the 7 app screens displayed in the gallery before the footer."}
+                          {t.admin.galleryMockups?.desc || "Manage the app screens displayed in the gallery before the footer."}
                         </p>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
+                          <label className="text-sm font-medium text-gray-200">
+                            Enable Section
+                          </label>
+                          <button
+                            onClick={() => toggleSection("gallery")}
+                            className={`relative w-12 h-6 rounded-full transition-colors duration-200 ${settings.sections.gallery?.visible ? "bg-primary" : "bg-white/10"}`}
+                          >
+                            <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.sections.gallery?.visible ? "left-7" : "left-1"}`} />
+                          </button>
+                        </div>
+                        <button
+                          onClick={addGalleryScreen}
+                          className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors border border-white/10"
+                        >
+                          <Plus size={16} />
+                          Add Screen
+                        </button>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-start">
                       {settings.mockups.gallery?.map((mock: any, index: number) => (
-                        <div key={index} className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-sm hover:border-white/20 transition-all">
-                          <div className="flex items-center gap-2 mb-6 text-sm font-semibold capitalize">
-                            <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(99,102,241,0.5)]"></div>
-                            {t.admin.galleryMockups?.device || "Device"} {index + 1}
+                        <div key={index} className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-sm hover:border-white/20 transition-all relative">
+                          <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-2 text-sm font-semibold capitalize">
+                              <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(99,102,241,0.5)]"></div>
+                              {t.admin.galleryMockups?.device || "Device"} {index + 1}
+                            </div>
+                            <button
+                              onClick={() => removeGalleryScreen(index)}
+                              className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
+                              title="Delete Screen"
+                            >
+                              <Trash2 size={16} />
+                            </button>
                           </div>
 
                           <div className="flex flex-wrap gap-1 p-1 bg-black/40 rounded-xl border border-white/5 mb-6">
@@ -1175,7 +1254,7 @@ export default function AdminDashboard() {
                     </div>
                   </section>
                 </motion.div>
-              ) : (
+              ) : activeTab === "sections" ? (
                 <motion.div
                   key="sections-tab"
                   initial={{ opacity: 0, x: 20 }}
@@ -1214,6 +1293,11 @@ export default function AdminDashboard() {
                           id: "cta",
                           title: t.admin.sections_tab.cta,
                           icon: <CheckCircle2 className="w-5 h-5" />,
+                        },
+                        {
+                          id: "gallery",
+                          title: t.admin.galleryMockups?.title || "App screens Gallery",
+                          icon: <Grid className="w-5 h-5" />,
                         },
                       ].map((section) => (
                         <div key={section.id} className="py-6">
@@ -1286,7 +1370,242 @@ export default function AdminDashboard() {
                                 <SectionContentEditor
                                   sectionId={section.id}
                                   content={
-                                    settings.sections[section.id].content
+                                    settings.sections[section.id]?.content || settings.sections[section.id]
+                                  }
+                                  onContentChange={handleContentChange}
+                                  lang={lang}
+                                  t={t}
+                                />
+                                {section.id === "gallery" && (
+                                  <div className="mt-8 border-t border-white/5 pt-8">
+                                    <div className="flex items-center justify-between mb-6">
+                                      <h5 className="text-sm font-bold uppercase tracking-wider text-gray-400">
+                                        Gallery Screens
+                                      </h5>
+                                      <button
+                                        onClick={addGalleryScreen}
+                                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs font-medium transition-colors border border-white/10"
+                                      >
+                                        <Plus size={14} />
+                                        Add Screen
+                                      </button>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                      {settings.mockups.gallery?.map(
+                                        (mock: any, index: number) => (
+                                          <div
+                                            key={index}
+                                            className="p-4 rounded-xl bg-white/5 border border-white/5 relative"
+                                          >
+                                            <div className="flex items-center justify-between mb-4">
+                                              <span className="text-xs font-semibold text-gray-500">
+                                                Screen {index + 1}
+                                              </span>
+                                              <button
+                                                onClick={() =>
+                                                  removeGalleryScreen(index)
+                                                }
+                                                className="p-1.5 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                                              >
+                                                <Trash2 size={14} />
+                                              </button>
+                                            </div>
+
+                                            <div className="flex flex-wrap gap-1 p-1 bg-black/40 rounded-lg border border-white/5 mb-4">
+                                              {DEVICE_STYLES.map((s) => (
+                                                <button
+                                                  key={s.id}
+                                                  onClick={() =>
+                                                    handleGalleryChange(
+                                                      index,
+                                                      "style",
+                                                      s.id,
+                                                    )
+                                                  }
+                                                  title={s.label}
+                                                  className={`p-1 rounded-md transition-all ${
+                                                    mock.style === s.id
+                                                      ? "bg-primary text-white"
+                                                      : "text-gray-500 hover:text-gray-300"
+                                                  }`}
+                                                >
+                                                  {s.icon}
+                                                </button>
+                                              ))}
+                                            </div>
+
+                                            <div className="relative group aspect-9/19 rounded-xl overflow-hidden bg-black/20 border border-white/5">
+                                              {mock.image ? (
+                                                <img
+                                                  src={mock.image}
+                                                  alt="Preview"
+                                                  className="w-full h-full object-cover"
+                                                />
+                                              ) : (
+                                                <div className="w-full h-full flex flex-col items-center justify-center text-gray-600 gap-2">
+                                                  <Upload size={20} />
+                                                  <span className="text-[10px]">
+                                                    Upload
+                                                  </span>
+                                                </div>
+                                              )}
+                                              <input
+                                                type="file"
+                                                accept="image/*"
+                                                className="absolute inset-0 opacity-0 cursor-pointer"
+                                                onChange={(e) => {
+                                                  const file =
+                                                    e.target.files?.[0];
+                                                  if (file)
+                                                    handleImageUpload(
+                                                      `gallery-${index}`,
+                                                      file,
+                                                    );
+                                                }}
+                                              />
+                                              {isUploading ===
+                                                `gallery-${index}` && (
+                                                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                                                  <Loader2 className="w-6 h-6 animate-spin text-white" />
+                                                </div>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="pages-tab"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <div className="glass-card rounded-4xl p-8">
+                    <div className="flex items-center gap-3 mb-8">
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <BookOpen className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">
+                          {t.admin.pages_tab.title}
+                        </h3>
+                        <p className="text-xs text-gray-400">
+                          {t.admin.pages_tab.desc}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="divide-y divide-white/5">
+                      {[
+                        {
+                          id: "about",
+                          title: t.admin.pages_tab.about,
+                          icon: <Info className="w-5 h-5" />,
+                        },
+                        {
+                          id: "services",
+                          title: t.admin.pages_tab.services,
+                          icon: <Package className="w-5 h-5" />,
+                        },
+                        {
+                          id: "contact",
+                          title: t.admin.pages_tab.contact,
+                          icon: <Phone className="w-5 h-5" />,
+                        },
+                        {
+                          id: "careers",
+                          title: t.admin.pages_tab.careers,
+                          icon: <Users className="w-5 h-5" />,
+                        },
+                        {
+                          id: "press",
+                          title: t.admin.pages_tab.press,
+                          icon: <Newspaper className="w-5 h-5" />,
+                        },
+                      ].map((section) => (
+                        <div key={section.id} className="py-6">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-400">
+                                {section.icon}
+                              </div>
+                              <div>
+                                <p className="font-semibold">{section.title}</p>
+                                <div className="flex items-center gap-3 mt-1">
+                                  <p className="text-xs text-gray-500">
+                                    {settings.sections[section.id]?.visible
+                                      ? t.admin.pages_tab.show
+                                      : t.admin.pages_tab.hide}
+                                  </p>
+                                  <button
+                                    onClick={() =>
+                                      setEditingPage(
+                                        editingPage === section.id
+                                          ? null
+                                          : section.id,
+                                      )
+                                    }
+                                    className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
+                                      editingPage === section.id
+                                        ? "text-primary"
+                                        : "text-gray-400 hover:text-white"
+                                    }`}
+                                  >
+                                    <Edit3 className="w-3 h-3" />
+                                    {editingPage === section.id
+                                      ? t.admin.sectionEditor.closeEditor
+                                      : t.admin.sectionEditor.editContent}
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+
+                            <button
+                              onClick={() => toggleSection(section.id)}
+                              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                                settings.sections[section.id]?.visible
+                                  ? "bg-primary"
+                                  : "bg-white/10"
+                              }`}
+                            >
+                              <span
+                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                                  settings.sections[section.id]?.visible
+                                    ? lang === "ar"
+                                      ? "-translate-x-6"
+                                      : "translate-x-6"
+                                    : lang === "ar"
+                                      ? "-translate-x-1"
+                                      : "translate-x-1"
+                                }`}
+                              />
+                            </button>
+                          </div>
+
+                          <AnimatePresence>
+                            {editingPage === section.id && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="overflow-hidden"
+                              >
+                                <SectionContentEditor
+                                  sectionId={section.id}
+                                  content={
+                                    settings.sections[section.id]?.content
                                   }
                                   onContentChange={handleContentChange}
                                   lang={lang}
@@ -1376,12 +1695,36 @@ function SectionContentEditor({
   lang,
   t,
 }: any) {
-  const fields =
-    sectionId === "hero"
-      ? ["tag", "title1", "title2", "desc"]
-      : sectionId === "features"
-        ? ["title1", "title2", "desc"]
-        : ["title", "desc", "button"]; // cta has title, desc, button
+  let fields: string[] = [];
+
+  switch (sectionId) {
+    case "hero":
+      fields = ["tag", "title1", "title2", "desc"];
+      break;
+    case "features":
+      fields = ["title1", "title2", "desc"];
+      break;
+    case "cta":
+      fields = ["title", "desc", "button"];
+      break;
+    case "about":
+      fields = ["title", "subtitle", "missionTitle", "missionDesc", "visionTitle", "visionDesc"];
+      break;
+    case "services":
+      fields = ["title", "subtitle", "allServices"];
+      break;
+    case "contact":
+      fields = ["title", "subtitle", "formName", "formEmail", "formSubject", "formMessage", "formSubmit", "addressTitle", "addressSweden", "addressTunisia", "emailTitle", "phoneTitle"];
+      break;
+    case "careers":
+      fields = ["title", "subtitle", "openPositions", "noPositions", "sendResume"];
+      break;
+    case "press":
+      fields = ["title", "subtitle", "pressReleases", "noReleases", "mediaContact"];
+      break;
+    default:
+      fields = ["title", "desc"];
+  }
 
   const getFieldLabel = (field: string) => {
     const key = `field${field.charAt(0).toUpperCase() + field.slice(1)}`;
@@ -1493,13 +1836,13 @@ function DevicePreview({
       return (
         <>
           {/* Silent/Action button */}
-          <div className="absolute top-[12%] -left-px w-[3px] h-[4%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
-          {/* Volume Down */}
-          <div className="absolute top-[20%] -left-px w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
+          <div className="absolute top-[12%] -left-[3px] w-[3px] h-[4%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
           {/* Volume Up */}
-          <div className="absolute top-[29%] -left-px w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
+          <div className="absolute top-[20%] -left-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
+          {/* Volume Down */}
+          <div className="absolute top-[29%] -left-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
           {/* Power */}
-          <div className="absolute top-[24%] -right-px w-[3px] h-[12%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
+          <div className="absolute top-[24%] -right-[3px] w-[3px] h-[12%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
         </>
       );
     }
@@ -1508,9 +1851,9 @@ function DevicePreview({
       return (
         <>
           {/* Power */}
-          <div className="absolute top-[18%] -right-px w-[3px] h-[10%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
+          <div className="absolute top-[18%] -right-[3px] w-[3px] h-[10%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
           {/* Volume */}
-          <div className="absolute top-[30%] -right-px w-[3px] h-[6%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
+          <div className="absolute top-[30%] -right-[3px] w-[3px] h-[6%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
         </>
       );
     }
@@ -1519,9 +1862,9 @@ function DevicePreview({
       return (
         <>
           {/* Volume Up */}
-          <div className="absolute top-[10%] -right-px w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
+          <div className="absolute top-[10%] -right-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
           {/* Volume Down */}
-          <div className="absolute top-[20%] -right-px w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
+          <div className="absolute top-[20%] -right-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
         </>
       );
     }
@@ -1529,9 +1872,9 @@ function DevicePreview({
     return null;
   };
 
-  const rounding = isLaptop ? "rounded-lg" : isTablet ? "rounded-[1.25rem]" : "rounded-[1.5rem]";
-  const innerRounding = isLaptop ? "rounded-md" : isTablet ? "rounded-[1rem]" : "rounded-[1.25rem]";
-  const bezel = isLaptop ? "border-2" : "border-[3px]";
+  const rounding = isLaptop ? "rounded-xl" : isTablet ? "rounded-[2.5rem]" : "rounded-[3rem]";
+  const innerRounding = isLaptop ? "rounded-lg" : isTablet ? "rounded-[2rem]" : "rounded-[2.5rem]";
+  const bezel = isLaptop ? "border-4" : "border-[6px]";
 
   return (
     <div className="flex flex-col items-center">
@@ -1548,7 +1891,7 @@ function DevicePreview({
 
         {/* Screen Content */}
         <div
-          className={`relative w-full h-full bg-linear-to-b from-gray-900 to-black flex items-center justify-center overflow-hidden ${innerRounding} ${config?.type === "image" ? "p-0" : isLaptop ? "p-4" : "p-2"}`}
+          className={`relative w-full h-full bg-linear-to-b from-gray-900 to-black flex items-center justify-center overflow-hidden ${innerRounding} ${config?.type === "image" ? (!isLaptop && !isTablet ? "p-1.5" : "p-0") : isLaptop ? "p-4" : "p-2"}`}
         >
           {config?.type === "icon" ? (() => {
             const Icon = getIcon(config.icon);

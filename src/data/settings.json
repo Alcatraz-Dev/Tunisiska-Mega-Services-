@@ -41,7 +41,7 @@
       "type": "image",
       "icon": "sparkles",
       "color": "primary",
-      "style": "android-centered",
+      "style": "iphone-notch",
       "image": "/uploads/1774473517585-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.56.png"
     },
     "ctaCenter": {
@@ -58,21 +58,21 @@
     },
     "gallery": [
       {
-        "style": "iphone-15",
+        "style": "iphone-notch",
         "type": "image",
         "image": "/uploads/1774474595518-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.26.37.png",
         "icon": "sparkles",
         "color": "primary"
       },
       {
-        "style": "laptop",
+        "style": "iphone-notch",
         "type": "image",
         "image": "/uploads/1774474601001-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.27.51.png",
         "icon": "package",
         "color": "purple"
       },
       {
-        "style": "ipad",
+        "style": "iphone-notch",
         "type": "image",
         "image": "/uploads/1774474604413-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.27.52.png",
         "icon": "car",
@@ -86,14 +86,14 @@
         "color": "purple"
       },
       {
-        "style": "android-left",
+        "style": "iphone-notch",
         "type": "image",
         "image": "/uploads/1774474616676-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.07.png",
         "icon": "sparkles",
         "color": "primary"
       },
       {
-        "style": "tablet",
+        "style": "iphone-notch",
         "type": "image",
         "image": "/uploads/1774474619605-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.28.png",
         "icon": "package",
@@ -103,12 +103,164 @@
         "style": "iphone-15",
         "type": "image",
         "image": "",
-        "icon": "car",
+        "icon": "sparkles",
         "color": "primary"
       }
     ]
   },
   "sections": {
+    "gallery": {
+      "visible": true,
+      "content": {}
+    },
+    "about": {
+      "visible": true,
+      "content": {
+        "en": {
+          "title": "About Tunsiska",
+          "subtitle": "Bridging the gap between Sweden and Tunisia.",
+          "missionTitle": "Our Mission",
+          "missionDesc": "To provide seamless, reliable, and high-quality services that connect people and businesses across borders. We believe in simplifying logistics, transport, and daily tasks through innovative technology.",
+          "visionTitle": "Our Vision",
+          "visionDesc": "To become the leading multi-service platform in the Mediterranean and Nordic regions, recognized for our commitment to excellence, customer satisfaction, and sustainable practices."
+        },
+        "sv": {
+          "title": "Om Tunsiska",
+          "subtitle": "Överbryggar klyftan mellan Sverige och Tunisien.",
+          "missionTitle": "Vårt Uppdrag",
+          "missionDesc": "Att tillhandahålla sömlösa, pålitliga och högkvalitativa tjänster som kopplar samman människor och företag över gränserna. Vi tror på att förenkla logistik, transport och dagliga uppgifter genom innovativ teknik.",
+          "visionTitle": "Vår Vision",
+          "visionDesc": "Att bli den ledande plattformen för flera tjänster i Medelhavs- och Nordenregionerna, erkänd för vårt engagemang för excellens, kundnöjdhet och hållbara metoder."
+        },
+        "ar": {
+          "title": "عن Tunsiska",
+          "subtitle": "سد الفجوة بين السويد وتونس.",
+          "missionTitle": "مهمتنا",
+          "missionDesc": "تقديم خدمات سلسة وموثوقة وعالية الجودة تربط الأشخاص والشركات عبر الحدود. نحن نؤمن بتبسيط الخدمات اللوجستية والنقل والمهام اليومية من خلال التكنولوجيا المبتكرة.",
+          "visionTitle": "رؤيتنا",
+          "visionDesc": "أن نصبح المنصة الرائدة متعددة الخدمات في منطقتي البحر الأبيض المتوسط ودول الشمال، والمعترف بها لالتزامنا بالتميز ورضا العملاء والممارسات المستدامة."
+        }
+      }
+    },
+    "services": {
+      "visible": true,
+      "content": {
+        "en": {
+          "title": "Our Services",
+          "subtitle": "Comprehensive solutions tailored to your needs.",
+          "allServices": "Explore all the ways Tunsiska can help you today."
+        },
+        "sv": {
+          "title": "Våra Tjänster",
+          "subtitle": "Omfattande lösningar skräddarsydda efter dina behov.",
+          "allServices": "Utforska alla sätt Tunsiska kan hjälpa dig idag."
+        },
+        "ar": {
+          "title": "خدماتنا",
+          "subtitle": "حلول شاملة مصممة خصيصًا لتلبية احتياجاتك.",
+          "allServices": "اكتشف جميع الطرق التي يمكن لـ Tunsiska مساعدتك بها اليوم."
+        }
+      }
+    },
+    "contact": {
+      "visible": true,
+      "content": {
+        "en": {
+          "title": "Contact Us",
+          "subtitle": "We're here to help. Get in touch with our team.",
+          "formName": "Full Name",
+          "formEmail": "Email Address",
+          "formSubject": "Subject",
+          "formMessage": "Message",
+          "formSubmit": "Send Message",
+          "addressTitle": "Our Offices",
+          "addressSweden": "Stockholm, Sweden",
+          "addressTunisia": "Tunis, Tunisia",
+          "emailTitle": "Email Us",
+          "phoneTitle": "Call Us"
+        },
+        "sv": {
+          "title": "Kontakta Oss",
+          "subtitle": "Vi är här för att hjälpa till. Kom i kontakt med vårt team.",
+          "formName": "Fullständigt Namn",
+          "formEmail": "E-postadress",
+          "formSubject": "Ämne",
+          "formMessage": "Meddelande",
+          "formSubmit": "Skicka Meddelande",
+          "addressTitle": "Våra Kontor",
+          "addressSweden": "Stockholm, Sverige",
+          "addressTunisia": "Tunis, Tunisien",
+          "emailTitle": "Mejla Oss",
+          "phoneTitle": "Ring Oss"
+        },
+        "ar": {
+          "title": "اتصل بنا",
+          "subtitle": "نحن هنا للمساعدة. تواصل مع فريقنا.",
+          "formName": "الاسم الكامل",
+          "formEmail": "البريد الإلكتروني",
+          "formSubject": "الموضوع",
+          "formMessage": "الرسالة",
+          "formSubmit": "إرسال رسالة",
+          "addressTitle": "مكاتبنا",
+          "addressSweden": "ستوكهولم، السويد",
+          "addressTunisia": "تونس، تونس",
+          "emailTitle": "راسلنا عبر البريد الإلكتروني",
+          "phoneTitle": "اتصل بنا"
+        }
+      }
+    },
+    "careers": {
+      "visible": true,
+      "content": {
+        "en": {
+          "title": "Careers at Tunsiska",
+          "subtitle": "Join our team and help us build the future of cross-border services.",
+          "openPositions": "Open Positions",
+          "noPositions": "There are currently no open positions. Please check back later.",
+          "sendResume": "Don't see a fit? Send your resume to careers@tunsiska.com"
+        },
+        "sv": {
+          "title": "Karriär på Tunsiska",
+          "subtitle": "Gå med i vårt team och hjälp oss bygga framtiden för gränsöverskridande tjänster.",
+          "openPositions": "Lediga Tjänster",
+          "noPositions": "Det finns för närvarande inga lediga tjänster. Vänligen kom tillbaka senare.",
+          "sendResume": "Hittar du ingen passande roll? Skicka ditt CV till careers@tunsiska.com"
+        },
+        "ar": {
+          "title": "الوظائف في Tunsiska",
+          "subtitle": "انضم إلى فريقنا وساعدنا في بناء مستقبل الخدمات عبر الحدود.",
+          "openPositions": "الوظائف المتاحة",
+          "noPositions": "لا توجد وظائف شاغرة حاليًا. يرجى التحقق مرة أخرى لاحقًا.",
+          "sendResume": "لا ترى وظيفة مناسبة؟ أرسل سيرتك الذاتية إلى careers@tunsiska.com"
+        }
+      }
+    },
+    "press": {
+      "visible": true,
+      "content": {
+        "en": {
+          "title": "Press & Media",
+          "subtitle": "Latest news, updates, and media resources about Tunsiska Mega Services.",
+          "pressReleases": "Press Releases",
+          "noReleases": "No press releases available at the moment.",
+          "mediaContact": "For media inquiries, please contact press@tunsiska.com"
+        },
+        "sv": {
+          "title": "Press & Media",
+          "subtitle": "Senaste nyheter, uppdateringar och mediaresurser om Tunsiska Mega Services.",
+          "pressReleases": "Pressmeddelanden",
+          "noReleases": "Inga pressmeddelanden tillgängliga för tillfället.",
+          "mediaContact": "För mediaförfrågningar, vänligen kontakta press@tunsiska.com"
+        },
+        "ar": {
+          "title": "الصحافة والإعلام",
+          "subtitle": "أحدث الأخبار والتحديثات والموارد الإعلامية حول Tunsiska Mega Services.",
+          "pressReleases": "البيانات الصحفية",
+          "noReleases": "لا توجد بيانات صحفية متاحة في الوقت الحالي.",
+          "mediaContact": "للاستفسارات الإعلامية، يرجى الاتصال بـ press@tunsiska.com"
+        }
+      }
+    },
     "hero": {
       "visible": true,
       "content": {

@@ -135,7 +135,9 @@ export default function HomePage() {
       <div className={`flex flex-col items-center group relative ${className}`}>
         {renderButtons(style)}
         <div
-          className={`${getAspect()} w-full bg-slate-950 ${rounding} shadow-2xl relative overflow-hidden ring-1 ring-white/20 transition-all duration-500`}
+          className={`${
+            isLaptop ? "aspect-16/10 w-full" : isTablet ? "aspect-3/4 w-full" : "aspect-9/19 w-full"
+          } bg-slate-950 ${rounding} shadow-2xl relative overflow-hidden ring-1 ring-white/10 transition-all duration-500`}
         >
           {/* Hardware Bezel Trim */}
           <div className={`absolute inset-0 ${rounding} ${bezel} border-slate-900/90 pointer-events-none z-10`} />
@@ -145,7 +147,7 @@ export default function HomePage() {
           {renderSensors(style)}
 
           {/* Screen Content */}
-          <div className={`relative w-full h-full overflow-hidden ${innerRounding} ${innerClassName} z-0`}>
+          <div className={`relative w-full h-full overflow-hidden ${innerRounding} ${innerClassName} z-0 ${!isLaptop && !isTablet ? 'p-1.5' : ''}`}>
             {children}
           </div>
         </div>
@@ -592,7 +594,7 @@ export default function HomePage() {
       )}
 
       {/* App Screens Gallery */}
-      {settings?.mockups?.gallery?.filter((g: any) => g.image).length > 0 && (
+      {settings?.sections?.gallery?.visible !== false && settings?.mockups?.gallery?.filter((g: any) => g.image).length > 0 && (
         <section className="relative w-full py-24 overflow-hidden bg-black/50 border-t border-white/5">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.05)_0%,transparent_70%)] pointer-events-none"></div>
 
