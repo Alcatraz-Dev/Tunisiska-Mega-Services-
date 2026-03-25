@@ -1,0 +1,112 @@
+{
+  "links": {
+    "appStore": "https://apps.apple.com/app/tunsiska",
+    "googlePlay": "https://play.google.com/store/apps/details?id=com.tunsiska"
+  },
+  "social": {
+    "facebook": "https://facebook.com/tunsiska",
+    "instagram": "https://instagram.com/tunsiska"
+  },
+  "auth": {
+    "email": "admin@tunisiska.com",
+    "password": "admin123"
+  },
+  "mockups": {
+    "style": "iphone-15",
+    "heroLeft": {
+      "type": "icon",
+      "icon": "package",
+      "color": "primary"
+    },
+    "heroCenter": {
+      "type": "icon",
+      "icon": "sparkles",
+      "color": "primary"
+    },
+    "heroRight": {
+      "type": "icon",
+      "icon": "car",
+      "color": "purple"
+    },
+    "ctaLeft": {
+      "type": "icon",
+      "icon": "sparkles",
+      "color": "primary"
+    },
+    "ctaCenter": {
+      "type": "icon",
+      "icon": "package",
+      "color": "primary"
+    },
+    "ctaRight": {
+      "type": "icon",
+      "icon": "car",
+      "color": "purple"
+    }
+  },
+  "sections": {
+    "hero": {
+      "visible": true,
+      "content": {
+        "en": {
+          "tag": "Now available in Sweden & Tunisia",
+          "title1": "All-in-One Services Between",
+          "title2": "Sweden & Tunisia",
+          "desc": "Shipping, taxi, and cleaning — all in one beautifully designed app. Seamlessly connect across borders with just a few taps."
+        },
+        "sv": {
+          "tag": "Nu tillgänglig i Sverige och Tunisien",
+          "title1": "Allt-i-ett-tjänster mellan",
+          "title2": "Sverige och Tunisien",
+          "desc": "Frakt, taxi och städning — allt i en vackert designad app. Anslut sömlöst över gränserna med bara några få klick."
+        },
+        "ar": {
+          "tag": "متوفر الآن في السويد وتونس",
+          "title1": "خدمات متكاملة بين",
+          "title2": "السويد وتونس",
+          "desc": "الشحن والتاكسي والتنظيف — كل ذلك في تطبيق واحد مصمم بشكل جميل. تواصل بسلاسة عبر الحدود ببضع نقرات فقط."
+        }
+      }
+    },
+    "features": {
+      "visible": true,
+      "content": {
+        "en": {
+          "title1": "Everything you need,",
+          "title2": "one tap away.",
+          "desc": "Experience premium services tailored for the Swedish and Tunisian markets, designed with simplicity and reliability in mind."
+        },
+        "sv": {
+          "title1": "Allt du behöver,",
+          "title2": "bara ett tryck bort.",
+          "desc": "Upplev premiumtjänster skräddarsydda för den svenska och tunisiska marknaden, designade med enkelhet och tillförlitlighet i åtanke."
+        },
+        "ar": {
+          "title1": "كل ما تحتاجه،",
+          "title2": "على بعد نقرة واحدة.",
+          "desc": "جرب خدمات متميزة مصممة خصيصًا للسوقين السويدي والتونسي، ومصممة مع مراعاة البساطة والموثوقية."
+        }
+      }
+    },
+    "cta": {
+      "visible": true,
+      "content": {
+        "en": {
+          "title": "Ready to simplify your life?",
+          "desc": "Join thousands of users experiencing the best cross-border services.",
+          "button": "Download Tunsiska Mega Services"
+        },
+        "sv": {
+          "title": "Redo att förenkla ditt liv?",
+          "desc": "Gå med tusentals användare som upplever de bästa gränsöverskridande tjänsterna.",
+          "button": "Ladda ner Tunsiska Mega Services"
+        },
+        "ar": {
+          "title": "هل أنت مستعد لتبسيط حياتك؟",
+          "desc": "انضم إلى آلاف المستخدمين الذين يستمتعون بأفضل الخدمات عبر الحدود.",
+          "button": "تحميل خدمات تونسيسكا ميجا"
+        }
+      }
+    }
+  }
+}

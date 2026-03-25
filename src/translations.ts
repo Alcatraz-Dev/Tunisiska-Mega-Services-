@@ -1,0 +1,1036 @@
+export const translations = {
+  en: {
+    nav: {
+      home: "Home",
+      services: "Services",
+      about: "About",
+      contact: "Contact",
+      getApp: "Get the App",
+    },
+    modal: {
+      comingSoon: "Coming Soon!",
+      comingSoonDesc:
+        "Our mobile app is currently in development and will be available on the App Store and Google Play soon.",
+      gotIt: "Got it",
+    },
+    hero: {
+      tag: "Now available in Sweden & Tunisia",
+      title1: "All-in-One Services Between",
+      title2: "Sweden & Tunisia",
+      desc: "Shipping, taxi, and cleaning — all in one beautifully designed app. Seamlessly connect across borders with just a few taps.",
+      downloadAppStore: "Download on the",
+      getGooglePlay: "Get it on",
+    },
+    mockup: {
+      location: "Location",
+      city: "Stockholm, SE",
+      whatDoYouNeed: "What do you need?",
+      shipping: "Shipping",
+      cleaning: "Cleaning",
+      taxi: "Taxi",
+      containerShipping: "Container Shipping",
+      activeDelivery: "Active Delivery",
+      inTransit: "In Transit",
+      route: "Stockholm → Tunis",
+      bookingConfirmed: "Booking Confirmed",
+      cleaningScheduled: "Cleaning service scheduled",
+      estimatedArrival: "Estimated Arrival",
+      time: "Today, 14:30",
+    },
+    features: {
+      title1: "Everything you need,",
+      title2: "one tap away.",
+      desc: "Experience premium services tailored for the Swedish and Tunisian markets, designed with simplicity and reliability in mind.",
+      f1Title: "Shipping & Delivery",
+      f1Desc:
+        "Real-time tracking for your packages across borders with secure handling.",
+      f2Title: "Home Cleaning",
+      f2Desc: "Professional, vetted cleaners for your home or office spaces.",
+      f3Title: "Taxi Services",
+      f3Desc: "Reliable rides and transport services within Swedish cities.",
+      f4Title: "Container Shipping",
+      f4Desc: "Full and partial container loads for large shipments.",
+      learnMore: "Learn more",
+    },
+    cta: {
+      title: "Ready to simplify your life?",
+      desc: "Join thousands of users experiencing the best cross-border services.",
+      button: "Download Tunsiska Mega Services",
+    },
+    aboutPage: {
+      title: "About Tunsiska",
+      subtitle: "Bridging the gap between Sweden and Tunisia.",
+      missionTitle: "Our Mission",
+      missionDesc:
+        "To provide seamless, reliable, and high-quality services that connect people and businesses across borders. We believe in simplifying logistics, transport, and daily tasks through innovative technology.",
+      visionTitle: "Our Vision",
+      visionDesc:
+        "To become the leading multi-service platform in the Mediterranean and Nordic regions, recognized for our commitment to excellence, customer satisfaction, and sustainable practices.",
+    },
+    servicesPage: {
+      title: "Our Services",
+      subtitle: "Comprehensive solutions tailored to your needs.",
+      allServices: "Explore all the ways Tunsiska can help you today.",
+    },
+    contactPage: {
+      title: "Contact Us",
+      subtitle: "We're here to help. Get in touch with our team.",
+      formName: "Full Name",
+      formEmail: "Email Address",
+      formSubject: "Subject",
+      formMessage: "Message",
+      formSubmit: "Send Message",
+      addressTitle: "Our Offices",
+      addressSweden: "Stockholm, Sweden",
+      addressTunisia: "Tunis, Tunisia",
+      emailTitle: "Email Us",
+      phoneTitle: "Call Us",
+    },
+    careersPage: {
+      title: "Careers at Tunsiska",
+      subtitle:
+        "Join our team and help us build the future of cross-border services.",
+      openPositions: "Open Positions",
+      noPositions:
+        "There are currently no open positions. Please check back later.",
+      sendResume: "Don't see a fit? Send your resume to careers@tunsiska.com",
+    },
+    pressPage: {
+      title: "Press & Media",
+      subtitle:
+        "Latest news, updates, and media resources about Tunsiska Mega Services.",
+      pressReleases: "Press Releases",
+      noReleases: "No press releases available at the moment.",
+      mediaContact: "For media inquiries, please contact press@tunsiska.com",
+    },
+    footer: {
+      desc: "The premier multi-service platform connecting users with logistics, transport, and home services between Sweden and Tunisia.",
+      company: "Company",
+      aboutUs: "About Us",
+      careers: "Careers",
+      press: "Press",
+      contact: "Contact",
+      services: "Services",
+      shipping: "Shipping",
+      taxi: "Taxi",
+      cleaning: "Cleaning",
+      containerShipping: "Container Shipping",
+      getApp: "Get the App",
+      copyright: "© {year} Tunsiska Mega Services. All rights reserved",
+      privacy: "Privacy Policy",
+      terms: "Terms & Conditions",
+    },
+    serviceDetails: {
+      shipping: {
+        title: "Shipping & Delivery",
+        desc: "Fast, secure, and reliable shipping between Sweden and Tunisia.",
+        features: [
+          "Door-to-door delivery",
+          "Real-time package tracking",
+          "Secure handling of fragile items",
+          "Customs clearance assistance",
+          "Competitive pricing",
+        ],
+        cta: "Book Shipping Now",
+        image:
+          "https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=1000",
+      },
+      taxi: {
+        title: "Taxi Services",
+        desc: "Reliable rides and transport services within Swedish and Tunisian cities.",
+        features: [
+          "On-demand rides",
+          "Scheduled airport transfers",
+          "Professional drivers",
+          "Clean and comfortable vehicles",
+          "Transparent pricing",
+        ],
+        cta: "Book a Ride",
+        image:
+          "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=1000",
+      },
+      cleaning: {
+        title: "Home Cleaning",
+        desc: "Professional, vetted cleaners for your home or office spaces.",
+        features: [
+          "Deep cleaning services",
+          "Regular maintenance cleaning",
+          "Move-in/move-out cleaning",
+          "Eco-friendly products available",
+          "Trusted and vetted professionals",
+        ],
+        cta: "Schedule Cleaning",
+        image:
+          "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=1000",
+      },
+      containerShipping: {
+        title: "Container Shipping",
+        desc: "Reliable and cost-effective container shipping solutions.",
+        features: [
+          "Full Container Load (FCL)",
+          "Less than Container Load (LCL)",
+          "Port-to-port and door-to-door",
+          "Customs clearance",
+          "Secure loading and unloading",
+        ],
+        cta: "Get a Quote",
+        image:
+          "https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=1000",
+      },
+    },
+    privacyPage: {
+      title: "Tunisiska Mega Services Privacy Policy",
+      intro:
+        'This privacy policy applies to the Tunisiska Mega Services app (hereby referred to as "Application") for mobile devices that was created by Haythem Dhahri (hereby referred to as "Service Provider") as a Free service. This service is intended for use "AS IS".',
+      collectionTitle: "Information Collection and Use",
+      collectionDesc:
+        "The Application collects information when you download and use it. This information may include information such as:",
+      collectionItems: [
+        "Your device's Internet Protocol address (e.g. IP address)",
+        "The pages of the Application that you visit, the time and date of your visit, the time spent on those pages",
+        "The time spent on the Application",
+        "The operating system you use on your mobile device",
+      ],
+      collectionLocation:
+        "The Application does not gather precise information about the location of your mobile device.",
+      collectionAI:
+        "The Application does not use Artificial Intelligence (AI) technologies to process your data or provide features.",
+      collectionMarketing:
+        "The Service Provider may use the information you provided to contact you from time to time to provide you with important information, required notices and marketing promotions.",
+      collectionPII:
+        "For a better experience, while using the Application, the Service Provider may require you to provide us with certain personally identifiable information. The information that the Service Provider request will be retained by them and used as described in this privacy policy.",
+      thirdPartyTitle: "Third Party Access",
+      thirdPartyDesc:
+        "Only aggregated, anonymized data is periodically transmitted to external services to aid the Service Provider in improving the Application and their service. The Service Provider may share your information with third parties in the ways that are described in this privacy statement.",
+      thirdPartyLinks:
+        "Please note that the Application utilizes third-party services that have their own Privacy Policy about handling data. Below are the links to the Privacy Policy of the third-party service providers used by the Application:",
+      thirdPartyDisclose:
+        "The Service Provider may disclose User Provided and Automatically Collected Information:",
+      thirdPartyDiscloseItems: [
+        "as required by law, such as to comply with a subpoena, or similar legal process;",
+        "when they believe in good faith that disclosure is necessary to protect their rights, protect your safety or the safety of others, investigate fraud, or respond to a government request;",
+        "with their trusted services providers who work on their behalf, do not have an independent use of the information we disclose to them, and have agreed to adhere to the rules set forth in this privacy statement.",
+      ],
+      optOutTitle: "Opt-Out Rights",
+      optOutDesc:
+        "You can stop all collection of information by the Application easily by uninstalling it. You may use the standard uninstall processes as may be available as part of your mobile device or via the mobile application marketplace or network.",
+      retentionTitle: "Data Retention Policy",
+      retentionDesc:
+        "The Service Provider will retain User Provided data for as long as you use the Application and for a reasonable time thereafter. If you'd like them to delete User Provided Data that you have provided via the Application, please contact them at haythemdh47@gmail.com and they will respond in a reasonable time.",
+      childrenTitle: "Children",
+      childrenDesc1:
+        "The Service Provider does not use the Application to knowingly solicit data from or market to children under the age of 13.",
+      childrenDesc2:
+        "The Application does not address anyone under the age of 13. The Service Provider does not knowingly collect personally identifiable information from children under 13 years of age. In the case the Service Provider discover that a child under 13 has provided personal information, the Service Provider will immediately delete this from their servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact the Service Provider (haythemdh47@gmail.com) so that they will be able to take the necessary actions.",
+      securityTitle: "Security",
+      securityDesc:
+        "The Service Provider is concerned about safeguarding the confidentiality of your information. The Service Provider provides physical, electronic, and procedural safeguards to protect information the Service Provider processes and maintains.",
+      changesTitle: "Changes",
+      changesDesc:
+        "This Privacy Policy may be updated from time to time for any reason. The Service Provider will notify you of any changes to the Privacy Policy by updating this page with the new Privacy Policy. You are advised to consult this Privacy Policy regularly for any changes, as continued use is deemed approval of all changes.",
+      effectiveDate: "This privacy policy is effective as of 2026-03-24",
+      consentTitle: "Your Consent",
+      consentDesc:
+        "By using the Application, you are consenting to the processing of your information as set forth in this Privacy Policy now and as amended by us.",
+      contactTitle: "Contact Us",
+      contactDesc:
+        "If you have any questions regarding privacy while using the Application, or have questions about the practices, please contact the Service Provider via email at haythemdh47@gmail.com.",
+    },
+    termsPage: {
+      title: "Tunisiska Mega Services Terms & Conditions",
+      intro:
+        'These terms and conditions applies to the Tunisiska Mega Services app (hereby referred to as "Application") for mobile devices that was created by Haythem Dhahri (hereby referred to as "Service Provider") as a Free service.',
+      terms1:
+        "Upon downloading or utilizing the Application, you are automatically agreeing to the following terms. It is strongly advised that you thoroughly read and understand these terms prior to using the Application. Unauthorized copying, modifying of the Application, any part of the Application, or our trademarks is strictly prohibited. Any attempts to extract the source code of the Application, translate the Application into other languages, or create derivative versions are not permitted. All trademarks, copyrights, database rights, and other intellectual property rights related to the Application remain the property of the Service Provider.",
+      terms2:
+        "The Service Provider is dedicated to ensuring that the Application is as beneficial and efficient as possible. As such, they reserve the right to modify the Application or charge for their services at any time and for any reason. The Service Provider assures you that any charges for the Application or its services will be clearly communicated to you.",
+      terms3:
+        "The Application stores and processes personal data that you have provided to the Service Provider in order to provide the Service. It is your responsibility to maintain the security of your phone and access to the Application. The Service Provider strongly advise against jailbreaking or rooting your phone, which involves removing software restrictions and limitations imposed by the official operating system of your device. Such actions could expose your phone to malware, viruses, and malicious programs, compromise your phone's security features, and may result in the Application not functioning correctly or at all.",
+      thirdPartyIntro:
+        "Please note that the Application utilizes third-party services that have their own Terms and Conditions. Below are the links to the Terms and Conditions of the third-party service providers used by the Application:",
+      changesTitle: "Changes to These Terms and Conditions",
+      changesDesc:
+        "The Service Provider may periodically update their Terms and Conditions. Therefore, you are advised to review this page regularly for any changes. The Service Provider will notify you of any changes by posting the new Terms and Conditions on this page.",
+      effectiveDate:
+        "These terms and conditions are effective as of 2026-03-24",
+      contactTitle: "Contact Us",
+      contactDesc:
+        "If you have any questions or suggestions about the Terms and Conditions, please do not hesitate to contact the Service Provider at haythemdh47@gmail.com.",
+    },
+    admin: {
+      title: "Admin Dashboard",
+      logout: "Logout",
+      saveChanges: "Save Changes",
+      saving: "Saving...",
+      settingsSaved: "Settings saved successfully",
+      errorSaving: "Error saving settings",
+      storeLinks: {
+        title: "App Store Links",
+        desc: "Manage the links for App Store and Google Play buttons.",
+        appStore: "Apple App Store URL",
+        googlePlay: "Google Play Store URL",
+      },
+      socialLinks: {
+        title: "Social Media Links",
+        desc: "Manage the links for your social media profiles.",
+        facebook: "Facebook Profile URL",
+        instagram: "Instagram Profile URL",
+      },
+      heroMockups: {
+        title: "Hero Mockups",
+        desc: "Customize the mockup displays on the home page.",
+        mockup1: "Left Phone",
+        mockup2: "Center Phone",
+        mockup3: "Right Phone",
+        icon: "Icon",
+        image: "Image",
+        color: "Icon Color",
+      },
+      ctaMockups: {
+        title: "CTA Mockups",
+        desc: "Customize the mockup displays at the bottom of the page.",
+        mockup1: "Left Phone",
+        mockup2: "Center Phone",
+        mockup3: "Right Phone",
+      },
+      adminAuth: {
+        title: "Admin Credentials",
+        desc: "Update your administrative email and password.",
+        email: "Admin Email",
+        password: "New Password (leave blank to keep current)",
+      },
+      sections: {
+        title: "Page Sections",
+        hero: "Hero Section",
+        features: "Features Section",
+        cta: "CTA Section",
+      },
+      login: {
+        title: "Admin Login",
+        desc: "Sign in to manage your landing page",
+        email: "Email Address",
+        password: "Password",
+        button: "Login",
+        error: "Invalid credentials",
+        loading: "Logging in...",
+      },
+      sidebar: {
+        general: "General Settings",
+        sections: "Page Sections",
+      },
+      footer: "Tunsiska Mega Services Administrative Management System v1.0",
+      toasts: {
+        success: "Settings updated successfully!",
+        error: "Failed to update settings. Please try again.",
+      },
+      sections_tab: {
+        title: "Page Sections",
+        desc: "Enable or disable specific sections of your landing page.",
+        hero: "Hero Section",
+        features: "Features Grid",
+        cta: "Download Prompt",
+        show: "Visible",
+        hide: "Hidden",
+      },
+      preview_label: "Live Device Preview",
+      sectionEditor: {
+        editLanguages: "Edit Languages",
+        fieldTag: "Section Tag",
+        fieldTitle: "Headline",
+        fieldTitle1: "Title Line 1",
+        fieldTitle2: "Title Line 2",
+        fieldDesc: "Description Content",
+        fieldButton: "Button Text",
+        closeEditor: "Close Editor",
+        editContent: "Edit Content",
+      },
+    },
+  },
+  sv: {
+    nav: {
+      home: "Hem",
+      services: "Tjänster",
+      about: "Om oss",
+      contact: "Kontakt",
+      getApp: "Hämta appen",
+    },
+    modal: {
+      comingSoon: "Kommer snart!",
+      comingSoonDesc:
+        "Vår mobilapp är för närvarande under utveckling och kommer snart att finnas tillgänglig på App Store och Google Play.",
+      gotIt: "Jag förstår",
+    },
+    hero: {
+      tag: "Nu tillgänglig i Sverige & Tunisien",
+      title1: "Allt-i-ett-tjänster mellan",
+      title2: "Sverige & Tunisien",
+      desc: "Frakt, taxi, städning — allt i en vackert designad app. Anslut sömlöst över gränserna med bara några knapptryck.",
+      downloadAppStore: "Ladda ner på",
+      getGooglePlay: "Hämta på",
+    },
+    mockup: {
+      location: "Plats",
+      city: "Stockholm, SE",
+      whatDoYouNeed: "Vad behöver du?",
+      shipping: "Frakt",
+      cleaning: "Städning",
+      taxi: "Taxi",
+      containerShipping: "Containertransport",
+      activeDelivery: "Aktiv leverans",
+      inTransit: "Under transport",
+      route: "Stockholm → Tunis",
+      bookingConfirmed: "Bokning bekräftad",
+      cleaningScheduled: "Städtjänst inbokad",
+      estimatedArrival: "Beräknad ankomst",
+      time: "Idag, 14:30",
+    },
+    features: {
+      title1: "Allt du behöver,",
+      title2: "ett knapptryck bort.",
+      desc: "Upplev premiumtjänster skräddarsydda för den svenska och tunisiska marknaden, designade med enkelhet och pålitlighet i åtanke.",
+      f1Title: "Frakt & Leverans",
+      f1Desc:
+        "Spårning i realtid för dina paket över gränserna med säker hantering.",
+      f2Title: "Hemstädning",
+      f2Desc: "Professionella, granskade städare för ditt hem eller kontor.",
+      f3Title: "Taxitjänster",
+      f3Desc: "Pålitliga resor och transporttjänster inom svenska städer.",
+      f4Title: "Containertransport",
+      f4Desc: "Hela och delvisa containerlaster för stora försändelser.",
+      learnMore: "Läs mer",
+    },
+    cta: {
+      title: "Redo att förenkla ditt liv?",
+      desc: "Gå med tusentals användare som upplever de bästa gränsöverskridande tjänsterna.",
+      button: "Ladda ner Tunsiska Mega Services",
+    },
+    aboutPage: {
+      title: "Om Tunsiska",
+      subtitle: "Överbryggar klyftan mellan Sverige och Tunisien.",
+      missionTitle: "Vårt Uppdrag",
+      missionDesc:
+        "Att tillhandahålla sömlösa, pålitliga och högkvalitativa tjänster som kopplar samman människor och företag över gränserna. Vi tror på att förenkla logistik, transport och dagliga uppgifter genom innovativ teknik.",
+      visionTitle: "Vår Vision",
+      visionDesc:
+        "Att bli den ledande plattformen för flera tjänster i Medelhavs- och Nordenregionerna, erkänd för vårt engagemang för excellens, kundnöjdhet och hållbara metoder.",
+    },
+    servicesPage: {
+      title: "Våra Tjänster",
+      subtitle: "Omfattande lösningar skräddarsydda efter dina behov.",
+      allServices: "Utforska alla sätt Tunsiska kan hjälpa dig idag.",
+    },
+    contactPage: {
+      title: "Kontakta Oss",
+      subtitle: "Vi är här för att hjälpa till. Kom i kontakt med vårt team.",
+      formName: "Fullständigt Namn",
+      formEmail: "E-postadress",
+      formSubject: "Ämne",
+      formMessage: "Meddelande",
+      formSubmit: "Skicka Meddelande",
+      addressTitle: "Våra Kontor",
+      addressSweden: "Stockholm, Sverige",
+      addressTunisia: "Tunis, Tunisien",
+      emailTitle: "Mejla Oss",
+      phoneTitle: "Ring Oss",
+    },
+    careersPage: {
+      title: "Karriär på Tunsiska",
+      subtitle:
+        "Gå med i vårt team och hjälp oss bygga framtiden för gränsöverskridande tjänster.",
+      openPositions: "Lediga Tjänster",
+      noPositions:
+        "Det finns för närvarande inga lediga tjänster. Vänligen kom tillbaka senare.",
+      sendResume:
+        "Hittar du ingen passande roll? Skicka ditt CV till careers@tunsiska.com",
+    },
+    pressPage: {
+      title: "Press & Media",
+      subtitle:
+        "Senaste nyheter, uppdateringar och mediaresurser om Tunsiska Mega Services.",
+      pressReleases: "Pressmeddelanden",
+      noReleases: "Inga pressmeddelanden tillgängliga för tillfället.",
+      mediaContact:
+        "För mediaförfrågningar, vänligen kontakta press@tunsiska.com",
+    },
+    footer: {
+      desc: "Den främsta plattformen för flera tjänster som kopplar samman användare med logistik, transport och hemtjänster mellan Sverige och Tunisien.",
+      company: "Företag",
+      aboutUs: "Om oss",
+      careers: "Karriär",
+      press: "Press",
+      contact: "Kontakt",
+      services: "Tjänster",
+      shipping: "Frakt",
+      taxi: "Taxi",
+      cleaning: "Städning",
+      containerShipping: "Containertransport",
+      getApp: "Hämta appen",
+      copyright:
+        "© {year} Tunsiska Mega Services. Alla rättigheter förbehållna.",
+      privacy: "Integritetspolicy",
+      terms: "Villkor",
+    },
+    serviceDetails: {
+      shipping: {
+        title: "Frakt & Leverans",
+        desc: "Snabb, säker och pålitlig frakt mellan Sverige och Tunisien.",
+        features: [
+          "Dörr-till-dörr-leverans",
+          "Paketspårning i realtid",
+          "Säker hantering av ömtåliga föremål",
+          "Hjälp med tullklarering",
+          "Konkurrenskraftiga priser",
+        ],
+        cta: "Boka frakt nu",
+        image:
+          "https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=1000",
+      },
+      taxi: {
+        title: "Taxitjänster",
+        desc: "Pålitliga resor och transporttjänster inom svenska och tunisiska städer.",
+        features: [
+          "Resor på begäran",
+          "Schemalagda flygplatstransfer",
+          "Professionella förare",
+          "Rena och bekväma fordon",
+          "Transparent prissättning",
+        ],
+        cta: "Boka en resa",
+        image:
+          "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=1000",
+      },
+      cleaning: {
+        title: "Hemstädning",
+        desc: "Professionella, granskade städare för ditt hem eller kontor.",
+        features: [
+          "Djupstädning",
+          "Regelbunden underhållsstädning",
+          "Flyttstädning",
+          "Miljövänliga produkter tillgängliga",
+          "Pålitliga och granskade proffs",
+        ],
+        cta: "Boka städning",
+        image:
+          "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=1000",
+      },
+      containerShipping: {
+        title: "Containertransport",
+        desc: "Pålitliga och kostnadseffektiva lösningar för containertransport.",
+        features: [
+          "Full Container Load (FCL)",
+          "Less than Container Load (LCL)",
+          "Hamn-till-hamn och dörr-till-dörr",
+          "Tullklarering",
+          "Säker lastning och lossning",
+        ],
+        cta: "Få en offert",
+        image:
+          "https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=1000",
+      },
+    },
+    privacyPage: {
+      title: "Tunisiska Mega Services Integritetspolicy",
+      intro:
+        'Denna integritetspolicy gäller för appen Tunisiska Mega Services (hädanefter kallad "Applikationen") för mobila enheter som skapades av Haythem Dhahri (hädanefter kallad "Tjänsteleverantören") som en gratistjänst. Denna tjänst är avsedd att användas "I BEFINTLIGT SKICK".',
+      collectionTitle: "Insamling och användning av information",
+      collectionDesc:
+        "Applikationen samlar in information när du laddar ner och använder den. Denna information kan inkludera information som:",
+      collectionItems: [
+        "Din enhets IP-adress",
+        "Sidorna i applikationen som du besöker, tid och datum för ditt besök, tiden som spenderas på dessa sidor",
+        "Tiden som spenderas i applikationen",
+        "Operativsystemet du använder på din mobila enhet",
+      ],
+      collectionLocation:
+        "Applikationen samlar inte in exakt information om din mobila enhets plats.",
+      collectionAI:
+        "Applikationen använder inte tekniker för artificiell intelligens (AI) för att bearbeta dina data eller tillhandahålla funktioner.",
+      collectionMarketing:
+        "Tjänsteleverantören kan använda informationen du tillhandahållit för att kontakta dig från tid till annan för att ge dig viktig information, nödvändiga meddelanden och marknadsföringskampanjer.",
+      collectionPII:
+        "För en bättre upplevelse, när du använder applikationen, kan tjänsteleverantören kräva att du förser oss med viss personligt identifierbar information. Informationen som tjänsteleverantören begär kommer att behållas av dem och användas enligt beskrivningen i denna integritetspolicy.",
+      thirdPartyTitle: "Tredjepartsåtkomst",
+      thirdPartyDesc:
+        "Endast aggregerad, anonymiserad data överförs regelbundet till externa tjänster för att hjälpa tjänsteleverantören att förbättra applikationen och deras tjänst. Tjänsteleverantören kan dela din information med tredje part på de sätt som beskrivs i detta integritetsmeddelande.",
+      thirdPartyLinks:
+        "Observera att applikationen använder tredjepartstjänster som har sin egen integritetspolicy om datahantering. Nedan finns länkarna till integritetspolicyn för de tredjepartsleverantörer som används av applikationen:",
+      thirdPartyDisclose:
+        "Tjänsteleverantören kan avslöja användartillhandahållen och automatiskt insamlad information:",
+      thirdPartyDiscloseItems: [
+        "enligt lag, till exempel för att följa en stämning eller liknande juridisk process;",
+        "när de i god tro anser att avslöjande är nödvändigt för att skydda deras rättigheter, skydda din säkerhet eller andras säkerhet, undersöka bedrägeri eller svara på en statlig begäran;",
+        "med deras betrodda tjänsteleverantörer som arbetar för deras räkning, inte har en oberoende användning av informationen vi avslöjar för dem och har gått med på att följa de regler som anges i detta integritetsmeddelande.",
+      ],
+      optOutTitle: "Rättigheter att välja bort",
+      optOutDesc:
+        "Du kan enkelt stoppa all insamling av information från applikationen genom att avinstallera den. Du kan använda standardavinstallationsprocesserna som kan finnas tillgängliga som en del av din mobila enhet eller via mobilapplikationsmarknaden eller nätverket.",
+      retentionTitle: "Policy för datalagring",
+      retentionDesc:
+        "Tjänsteleverantören kommer att behålla användartillhandahållen data så länge du använder applikationen och under rimlig tid därefter. Om du vill att de ska radera användartillhandahållen data som du har tillhandahållit via applikationen, vänligen kontakta dem på haythemdh47@gmail.com så svarar de inom rimlig tid.",
+      childrenTitle: "Barn",
+      childrenDesc1:
+        "Tjänsteleverantören använder inte applikationen för att medvetet begära data från eller marknadsföra till barn under 13 år.",
+      childrenDesc2:
+        "Applikationen riktar sig inte till någon under 13 år. Tjänsteleverantören samlar inte medvetet in personligt identifierbar information från barn under 13 år. Om tjänsteleverantören upptäcker att ett barn under 13 år har lämnat personlig information kommer tjänsteleverantören omedelbart att radera detta från sina servrar. Om du är förälder eller vårdnadshavare och du är medveten om att ditt barn har gett oss personlig information, vänligen kontakta tjänsteleverantören (haythemdh47@gmail.com) så att de kan vidta nödvändiga åtgärder.",
+      securityTitle: "Säkerhet",
+      securityDesc:
+        "Tjänsteleverantören är mån om att skydda sekretessen för din information. Tjänsteleverantören tillhandahåller fysiska, elektroniska och processuella skyddsåtgärder för att skydda information som tjänsteleverantören bearbetar och underhåller.",
+      changesTitle: "Ändringar",
+      changesDesc:
+        "Denna integritetspolicy kan uppdateras från tid till annan av vilken anledning som helst. Tjänsteleverantören kommer att meddela dig om eventuella ändringar av integritetspolicyn genom att uppdatera denna sida med den nya integritetspolicyn. Du rekommenderas att konsultera denna integritetspolicy regelbundet för eventuella ändringar, eftersom fortsatt användning anses vara godkännande av alla ändringar.",
+      effectiveDate: "Denna integritetspolicy gäller från och med 2026-03-24",
+      consentTitle: "Ditt samtycke",
+      consentDesc:
+        "Genom att använda applikationen samtycker du till behandlingen av din information enligt vad som anges i denna integritetspolicy nu och som ändrats av oss.",
+      contactTitle: "Kontakta oss",
+      contactDesc:
+        "Om du har några frågor angående integritet när du använder applikationen, eller har frågor om vår praxis, vänligen kontakta tjänsteleverantören via e-post på haythemdh47@gmail.com.",
+    },
+    termsPage: {
+      title: "Tunisiska Mega Services Villkor",
+      intro:
+        'Dessa villkor gäller för appen Tunisiska Mega Services (hädanefter kallad "Applikationen") för mobila enheter som skapades av Haythem Dhahri (hädanefter kallad "Tjänsteleverantören") som en gratistjänst.',
+      terms1:
+        "När du laddar ner eller använder applikationen godkänner du automatiskt följande villkor. Det rekommenderas starkt att du noggrant läser och förstår dessa villkor innan du använder applikationen. Obehörig kopiering, modifiering av applikationen, någon del av applikationen eller våra varumärken är strängt förbjuden. Alla försök att extrahera källkoden till applikationen, översätta applikationen till andra språk eller skapa härledda versioner är inte tillåtna. Alla varumärken, upphovsrätter, databasrättigheter och andra immateriella rättigheter relaterade till applikationen förblir tjänsteleverantörens egendom.",
+      terms2:
+        "Tjänsteleverantören är dedikerad till att säkerställa att applikationen är så fördelaktig och effektiv som möjligt. Som sådan förbehåller de sig rätten att ändra applikationen eller ta betalt för sina tjänster när som helst och av vilken anledning som helst. Tjänsteleverantören försäkrar dig om att eventuella avgifter för applikationen eller dess tjänster kommer att kommuniceras tydligt till dig.",
+      terms3:
+        "Applikationen lagrar och bearbetar personuppgifter som du har tillhandahållit tjänsteleverantören för att tillhandahålla tjänsten. Det är ditt ansvar att upprätthålla säkerheten för din telefon och tillgången till applikationen. Tjänsteleverantören avråder starkt från att jailbreaka eller roota din telefon, vilket innebär att du tar bort programvarubegränsningar och begränsningar som införts av det officiella operativsystemet för din enhet. Sådana åtgärder kan utsätta din telefon för skadlig programvara, virus och skadliga program, äventyra din telefons säkerhetsfunktioner och kan leda till att applikationen inte fungerar korrekt eller alls.",
+      thirdPartyIntro:
+        "Observera att applikationen använder tredjepartstjänster som har sina egna villkor. Nedan finns länkarna till villkoren för de tredjepartsleverantörer som används av applikationen:",
+      changesTitle: "Ändringar av dessa villkor",
+      changesDesc:
+        "Tjänsteleverantören kan regelbundet uppdatera sina villkor. Därför rekommenderas du att granska denna sida regelbundet för eventuella ändringar. Tjänsteleverantören kommer att meddela dig om eventuella ändringar genom att lägga upp de nya villkoren på denna sida.",
+      effectiveDate: "Dessa villkor gäller från och med 2026-03-24",
+      contactTitle: "Kontakta oss",
+      contactDesc:
+        "Om du har några frågor eller förslag om villkoren, tveka inte att kontakta tjänsteleverantören på haythemdh47@gmail.com.",
+    },
+    admin: {
+      title: "Administrationspanel",
+      logout: "Logga ut",
+      saveChanges: "Spara ändringar",
+      saving: "Sparar...",
+      settingsSaved: "Inställningarna har sparats",
+      errorSaving: "Fel vid sparande av inställningar",
+      storeLinks: {
+        title: "App Store-länkar",
+        desc: "Hantera länkar för App Store och Google Play-knappar.",
+        appStore: "Apple App Store URL",
+        googlePlay: "Google Play Store URL",
+      },
+      socialLinks: {
+        title: "Sociala medier-länkar",
+        desc: "Hantera länkar för dina sociala profiler.",
+        facebook: "Facebook-profil URL",
+        instagram: "Instagram-profil URL",
+      },
+      heroMockups: {
+        title: "Hero-mockups",
+        desc: "Anpassa mockup-visningar på startsidan.",
+        mockup1: "Vänster telefon",
+        mockup2: "Mitten telefon",
+        mockup3: "Höger telefon",
+        icon: "Ikon",
+        image: "Bild",
+        color: "Ikonfärg",
+      },
+      ctaMockups: {
+        title: "CTA-mockups",
+        desc: "Anpassa mockup-visningarna längst ner på sidan.",
+        mockup1: "Vänster telefon",
+        mockup2: "Mitten telefon",
+        mockup3: "Höger telefon",
+      },
+      adminAuth: {
+        title: "Admin-uppgifter",
+        desc: "Uppdatera din administrativa e-post och lösenord.",
+        email: "Admin e-post",
+        password: "Nytt lösenord (lämna tomt för att behålla nuvarande)",
+      },
+      login: {
+        title: "Admin-inloggning",
+        desc: "Logga in för att hantera din landningssida",
+        email: "E-postadress",
+        password: "Lösenord",
+        button: "Logga in",
+        error: "Felaktiga uppgifter",
+        loading: "Loggar in...",
+      },
+      sidebar: {
+        general: "Allmänna inställningar",
+        sections: "Sidssektioner",
+      },
+      footer: "Tunsiska Mega Services Administrativa Ledningssystem v1.0",
+      toasts: {
+        success: "Inställningarna har uppdaterats!",
+        error: "Det gick inte att uppdatera inställningarna. Försök igen.",
+      },
+      sections_tab: {
+        title: "Siddssektioner",
+        desc: "Aktivera eller inaktivera specifika delar av din landningssida.",
+        hero: "Hero-sektion",
+        features: "Funktionsrutnät",
+        cta: "Nedladdningsprompt",
+        show: "Synlig",
+        hide: "Dold",
+      },
+      preview_label: "Live-enhetsförhandsvisning",
+      sectionEditor: {
+        editLanguages: "Redigera språk",
+        fieldTag: "Sektionstagg",
+        fieldTitle: "Rubrik",
+        fieldTitle1: "Titelrad 1",
+        fieldTitle2: "Titelrad 2",
+        fieldDesc: "Beskrivningsinnehåll",
+        fieldButton: "Knapptext",
+        closeEditor: "Stäng redigeraren",
+        editContent: "Redigera innehåll",
+      },
+    },
+  },
+  ar: {
+    nav: {
+      home: "الرئيسية",
+      services: "الخدمات",
+      about: "من نحن",
+      contact: "اتصل بنا",
+      getApp: "احصل على التطبيق",
+    },
+    modal: {
+      comingSoon: "قريباً!",
+      comingSoonDesc:
+        "تطبيقنا للأجهزة المحمولة قيد التطوير حاليًا وسيكون متاحًا على App Store و Google Play قريبًا.",
+      gotIt: "حسناً",
+    },
+    hero: {
+      tag: "متاح الآن في السويد وتونس",
+      title1: "خدمات شاملة بين",
+      title2: "السويد وتونس",
+      desc: "الشحن، سيارات الأجرة، التنظيف — كل ذلك في تطبيق واحد مصمم بشكل جميل. تواصل بسلاسة عبر الحدود ببضع نقرات فقط.",
+      downloadAppStore: "حمل من",
+      getGooglePlay: "احصل عليه من",
+    },
+    mockup: {
+      location: "الموقع",
+      city: "ستوكهولم، السويد",
+      whatDoYouNeed: "ماذا تحتاج؟",
+      shipping: "شحن",
+      cleaning: "تنظيف",
+      taxi: "تاكسي",
+      containerShipping: "شحن الحاويات",
+      activeDelivery: "توصيل نشط",
+      inTransit: "في الطريق",
+      route: "ستوكهولم → تونس",
+      bookingConfirmed: "تم تأكيد الحجز",
+      cleaningScheduled: "تمت جدولة خدمة التنظيف",
+      estimatedArrival: "الوصول المتوقع",
+      time: "اليوم، 14:30",
+    },
+    features: {
+      title1: "كل ما تحتاجه،",
+      title2: "بنقرة واحدة.",
+      desc: "جرب خدمات متميزة مصممة خصيصًا للسوقين السويدي والتونسي، مع التركيز على البساطة والموثوقية.",
+      f1Title: "الشحن والتوصيل",
+      f1Desc: "تتبع في الوقت الفعلي لحزمك عبر الحدود مع معالجة آمنة.",
+      f2Title: "تنظيف المنزل",
+      f2Desc: "عمال نظافة محترفون وموثوقون لمنزلك أو مكتبك.",
+      f3Title: "خدمات التاكسي",
+      f3Desc: "رحلات وخدمات نقل موثوقة داخل المدن السويدية.",
+      f4Title: "شحن الحاويات",
+      f4Desc: "أحمال حاويات كاملة وجزئية للشحنات الكبيرة.",
+      learnMore: "اعرف المزيد",
+    },
+    cta: {
+      title: "هل أنت مستعد لتبسيط حياتك؟",
+      desc: "انضم إلى آلاف المستخدمين الذين يختبرون أفضل الخدمات عبر الحدود.",
+      button: "تحميل Tunsiska Mega Services",
+    },
+    aboutPage: {
+      title: "عن Tunsiska",
+      subtitle: "سد الفجوة بين السويد وتونس.",
+      missionTitle: "مهمتنا",
+      missionDesc:
+        "تقديم خدمات سلسة وموثوقة وعالية الجودة تربط الأشخاص والشركات عبر الحدود. نحن نؤمن بتبسيط الخدمات اللوجستية والنقل والمهام اليومية من خلال التكنولوجيا المبتكرة.",
+      visionTitle: "رؤيتنا",
+      visionDesc:
+        "أن نصبح المنصة الرائدة متعددة الخدمات في منطقتي البحر الأبيض المتوسط ودول الشمال، والمعترف بها لالتزامنا بالتميز ورضا العملاء والممارسات المستدامة.",
+    },
+    servicesPage: {
+      title: "خدماتنا",
+      subtitle: "حلول شاملة مصممة خصيصًا لتلبية احتياجاتك.",
+      allServices: "اكتشف جميع الطرق التي يمكن لـ Tunsiska مساعدتك بها اليوم.",
+    },
+    contactPage: {
+      title: "اتصل بنا",
+      subtitle: "نحن هنا للمساعدة. تواصل مع فريقنا.",
+      formName: "الاسم الكامل",
+      formEmail: "البريد الإلكتروني",
+      formSubject: "الموضوع",
+      formMessage: "الرسالة",
+      formSubmit: "إرسال رسالة",
+      addressTitle: "مكاتبنا",
+      addressSweden: "ستوكهولم، السويد",
+      addressTunisia: "تونس، تونس",
+      emailTitle: "راسلنا عبر البريد الإلكتروني",
+      phoneTitle: "اتصل بنا",
+    },
+    careersPage: {
+      title: "الوظائف في Tunsiska",
+      subtitle: "انضم إلى فريقنا وساعدنا في بناء مستقبل الخدمات عبر الحدود.",
+      openPositions: "الوظائف المتاحة",
+      noPositions: "لا توجد وظائف شاغرة حاليًا. يرجى التحقق مرة أخرى لاحقًا.",
+      sendResume:
+        "لا ترى وظيفة مناسبة؟ أرسل سيرتك الذاتية إلى careers@tunsiska.com",
+    },
+    pressPage: {
+      title: "الصحافة والإعلام",
+      subtitle:
+        "أحدث الأخبار والتحديثات والموارد الإعلامية حول Tunsiska Mega Services.",
+      pressReleases: "البيانات الصحفية",
+      noReleases: "لا توجد بيانات صحفية متاحة في الوقت الحالي.",
+      mediaContact: "للاستفسارات الإعلامية، يرجى الاتصال بـ press@tunsiska.com",
+    },
+    footer: {
+      desc: "المنصة الرائدة متعددة الخدمات التي تربط المستخدمين بخدمات اللوجستيات والنقل والخدمات المنزلية بين السويد وتونس.",
+      company: "الشركة",
+      aboutUs: "من نحن",
+      careers: "الوظائف",
+      press: "الصحافة",
+      contact: "اتصل بنا",
+      services: "الخدمات",
+      shipping: "الشحن",
+      taxi: "التاكسي",
+      cleaning: "التنظيف",
+      containerShipping: "شحن الحاويات",
+      getApp: "احصل على التطبيق",
+      copyright: "© {year} Tunsiska Mega Services. جميع الحقوق محفوظة.",
+      privacy: "سياسة الخصوصية",
+      terms: "الشروط والأحكام",
+    },
+    serviceDetails: {
+      shipping: {
+        title: "الشحن والتوصيل",
+        desc: "شحن سريع وآمن وموثوق بين السويد وتونس.",
+        features: [
+          "توصيل من الباب إلى الباب",
+          "تتبع الطرود في الوقت الفعلي",
+          "التعامل الآمن مع العناصر الهشة",
+          "المساعدة في التخليص الجمركي",
+          "أسعار تنافسية",
+        ],
+        cta: "احجز الشحن الآن",
+        image:
+          "https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=1000",
+      },
+      taxi: {
+        title: "خدمات التاكسي",
+        desc: "رحلات وخدمات نقل موثوقة داخل المدن السويدية والتونسية.",
+        features: [
+          "رحلات عند الطلب",
+          "نقل المطار المجدول",
+          "سائقون محترفون",
+          "سيارات نظيفة ومريحة",
+          "أسعار شفافة",
+        ],
+        cta: "احجز رحلة",
+        image:
+          "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=1000",
+      },
+      cleaning: {
+        title: "تنظيف المنزل",
+        desc: "عمال نظافة محترفون وموثوقون لمنزلك أو مكتبك.",
+        features: [
+          "خدمات التنظيف العميق",
+          "تنظيف الصيانة الدورية",
+          "تنظيف الانتقال للداخل/للخارج",
+          "منتجات صديقة للبيئة متاحة",
+          "محترفون موثوقون ومعتمدون",
+        ],
+        cta: "جدولة التنظيف",
+        image:
+          "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=1000",
+      },
+      containerShipping: {
+        title: "شحن الحاويات",
+        desc: "حلول شحن حاويات موثوقة وفعالة من حيث التكلفة.",
+        features: [
+          "حمولة حاوية كاملة (FCL)",
+          "أقل من حمولة حاوية (LCL)",
+          "من الميناء إلى الميناء ومن الباب إلى الباب",
+          "التخليص الجمركي",
+          "تحميل وتفريغ آمن",
+        ],
+        cta: "احصل على تسعيرة",
+        image:
+          "https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&q=80&w=1000",
+      },
+    },
+    privacyPage: {
+      title: "سياسة خصوصية Tunisiska Mega Services",
+      intro:
+        'تنطبق سياسة الخصوصية هذه على تطبيق Tunisiska Mega Services (المشار إليه هنا باسم "التطبيق") للأجهزة المحمولة الذي أنشأه Haythem Dhahri (المشار إليه هنا باسم "مزود الخدمة") كخدمة مجانية. هذه الخدمة مخصصة للاستخدام "كما هي".',
+      collectionTitle: "جمع المعلومات واستخدامها",
+      collectionDesc:
+        "يجمع التطبيق المعلومات عند تنزيله واستخدامه. قد تتضمن هذه المعلومات معلومات مثل:",
+      collectionItems: [
+        "عنوان بروتوكول الإنترنت لجهازك (مثل عنوان IP)",
+        "صفحات التطبيق التي تزورها، ووقت وتاريخ زيارتك، والوقت الذي تقضيه في تلك الصفحات",
+        "الوقت الذي تقضيه في التطبيق",
+        "نظام التشغيل الذي تستخدمه على جهازك المحمول",
+      ],
+      collectionLocation:
+        "لا يجمع التطبيق معلومات دقيقة حول موقع جهازك المحمول.",
+      collectionAI:
+        "لا يستخدم التطبيق تقنيات الذكاء الاصطناعي (AI) لمعالجة بياناتك أو توفير ميزات.",
+      collectionMarketing:
+        "قد يستخدم مزود الخدمة المعلومات التي قدمتها للاتصال بك من وقت لآخر لتزويدك بمعلومات مهمة وإشعارات مطلوبة وعروض ترويجية تسويقية.",
+      collectionPII:
+        "للحصول على تجربة أفضل، أثناء استخدام التطبيق، قد يطلب منك مزود الخدمة تزويدنا بمعلومات تعريف شخصية معينة. سيتم الاحتفاظ بالمعلومات التي يطلبها مزود الخدمة من قبلهم واستخدامها كما هو موضح في سياسة الخصوصية هذه.",
+      thirdPartyTitle: "وصول الطرف الثالث",
+      thirdPartyDesc:
+        "يتم نقل البيانات المجمعة والمجهولة المصدر فقط بشكل دوري إلى خدمات خارجية لمساعدة مزود الخدمة في تحسين التطبيق وخدمتهم. قد يشارك مزود الخدمة معلوماتك مع أطراف ثالثة بالطرق الموضحة في بيان الخصوصية هذا.",
+      thirdPartyLinks:
+        "يرجى ملاحظة أن التطبيق يستخدم خدمات جهات خارجية لها سياسة خصوصية خاصة بها حول التعامل مع البيانات. فيما يلي روابط سياسة الخصوصية لمزودي خدمات الطرف الثالث الذين يستخدمهم التطبيق:",
+      thirdPartyDisclose:
+        "قد يكشف مزود الخدمة عن المعلومات المقدمة من المستخدم والمجمعة تلقائيًا:",
+      thirdPartyDiscloseItems: [
+        "كما يقتضيه القانون، مثل الامتثال لأمر استدعاء أو إجراء قانوني مماثل؛",
+        "عندما يعتقدون بحسن نية أن الكشف ضروري لحماية حقوقهم، أو حماية سلامتك أو سلامة الآخرين، أو التحقيق في الاحتيال، أو الاستجابة لطلب حكومي؛",
+        "مع مزودي الخدمات الموثوق بهم الذين يعملون نيابة عنهم، والذين ليس لديهم استخدام مستقل للمعلومات التي نكشفها لهم، وقد وافقوا على الالتزام بالقواعد المنصوص عليها في بيان الخصوصية هذا.",
+      ],
+      optOutTitle: "حقوق إلغاء الاشتراك",
+      optOutDesc:
+        "يمكنك إيقاف كل جمع المعلومات بواسطة التطبيق بسهولة عن طريق إلغاء تثبيته. يمكنك استخدام عمليات إلغاء التثبيت القياسية التي قد تكون متاحة كجزء من جهازك المحمول أو عبر سوق تطبيقات الهاتف المحمول أو الشبكة.",
+      retentionTitle: "سياسة الاحتفاظ بالبيانات",
+      retentionDesc:
+        "سيحتفظ مزود الخدمة بالبيانات المقدمة من المستخدم طالما أنك تستخدم التطبيق ولفترة معقولة بعد ذلك. إذا كنت ترغب في أن يقوموا بحذف البيانات المقدمة من المستخدم والتي قدمتها عبر التطبيق، يرجى الاتصال بهم على haythemdh47@gmail.com وسيقومون بالرد في وقت معقول.",
+      childrenTitle: "الأطفال",
+      childrenDesc1:
+        "لا يستخدم مزود الخدمة التطبيق لطلب البيانات عن قصد من الأطفال دون سن 13 عامًا أو التسويق لهم.",
+      childrenDesc2:
+        "لا يخاطب التطبيق أي شخص يقل عمره عن 13 عامًا. لا يجمع مزود الخدمة عن قصد معلومات تعريف شخصية من الأطفال دون سن 13 عامًا. في حالة اكتشاف مزود الخدمة أن طفلاً دون سن 13 عامًا قد قدم معلومات شخصية، سيقوم مزود الخدمة بحذفها على الفور من خوادمهم. إذا كنت والدًا أو وصيًا وكنت على علم بأن طفلك قد زودنا بمعلومات شخصية، يرجى الاتصال بمزود الخدمة (haythemdh47@gmail.com) حتى يتمكنوا من اتخاذ الإجراءات اللازمة.",
+      securityTitle: "الأمان",
+      securityDesc:
+        "يهتم مزود الخدمة بحماية سرية معلوماتك. يوفر مزود الخدمة ضمانات مادية وإلكترونية وإجرائية لحماية المعلومات التي يعالجها مزود الخدمة ويحتفظ بها.",
+      changesTitle: "التغييرات",
+      changesDesc:
+        "قد يتم تحديث سياسة الخصوصية هذه من وقت لآخر لأي سبب من الأسباب. سيقوم مزود الخدمة بإعلامك بأي تغييرات تطرأ على سياسة الخصوصية عن طريق تحديث هذه الصفحة بسياسة الخصوصية الجديدة. يُنصح بالرجوع إلى سياسة الخصوصية هذه بانتظام لمعرفة أي تغييرات، حيث يُعتبر الاستخدام المستمر موافقة على جميع التغييرات.",
+      effectiveDate: "سياسة الخصوصية هذه سارية اعتبارًا من 2026-03-24",
+      consentTitle: "موافقتك",
+      consentDesc:
+        "باستخدام التطبيق، فإنك توافق على معالجة معلوماتك كما هو منصوص عليه في سياسة الخصوصية هذه الآن وكما تم تعديلها من قبلنا.",
+      contactTitle: "اتصل بنا",
+      contactDesc:
+        "إذا كان لديك أي أسئلة بخصوص الخصوصية أثناء استخدام التطبيق، أو لديك أسئلة حول الممارسات، يرجى الاتصال بمزود الخدمة عبر البريد الإلكتروني على haythemdh47@gmail.com.",
+    },
+    termsPage: {
+      title: "شروط وأحكام Tunisiska Mega Services",
+      intro:
+        'تنطبق هذه الشروط والأحكام على تطبيق Tunisiska Mega Services (المشار إليه هنا باسم "التطبيق") للأجهزة المحمولة الذي أنشأه Haythem Dhahri (المشار إليه هنا باسم "مزود الخدمة") كخدمة مجانية.',
+      terms1:
+        "عند تنزيل التطبيق أو استخدامه، فإنك توافق تلقائيًا على الشروط التالية. يُنصح بشدة بقراءة هذه الشروط وفهمها جيدًا قبل استخدام التطبيق. يُحظر تمامًا النسخ غير المصرح به أو تعديل التطبيق أو أي جزء من التطبيق أو علاماتنا التجارية. لا يُسمح بأي محاولات لاستخراج الكود المصدري للتطبيق أو ترجمة التطبيق إلى لغات أخرى أو إنشاء إصدارات مشتقة. تظل جميع العلامات التجارية وحقوق النشر وحقوق قواعد البيانات وحقوق الملكية الفكرية الأخرى المتعلقة بالتطبيق ملكًا لمزود الخدمة.",
+      terms2:
+        "يكرس مزود الخدمة جهوده لضمان أن يكون التطبيق مفيدًا وفعالًا قدر الإمكان. على هذا النحو، فإنهم يحتفظون بالحق في تعديل التطبيق أو فرض رسوم على خدماتهم في أي وقت ولأي سبب. يؤكد لك مزود الخدمة أنه سيتم إبلاغك بوضوح بأي رسوم للتطبيق أو خدماته.",
+      terms3:
+        "يقوم التطبيق بتخزين ومعالجة البيانات الشخصية التي قدمتها لمزود الخدمة من أجل توفير الخدمة. تقع على عاتقك مسؤولية الحفاظ على أمان هاتفك والوصول إلى التطبيق. ينصح مزود الخدمة بشدة بعدم كسر حماية هاتفك أو عمل روت له، والذي يتضمن إزالة قيود البرامج والقيود التي يفرضها نظام التشغيل الرسمي لجهازك. قد تعرض مثل هذه الإجراءات هاتفك للبرامج الضارة والفيروسات والبرامج الخبيثة، وتعرض ميزات أمان هاتفك للخطر، وقد تؤدي إلى عدم عمل التطبيق بشكل صحيح أو على الإطلاق.",
+      thirdPartyIntro:
+        "يرجى ملاحظة أن التطبيق يستخدم خدمات جهات خارجية لها شروطها وأحكامها الخاصة. فيما يلي روابط الشروط والأحكام لمزودي خدمات الطرف الثالث الذين يستخدمهم التطبيق:",
+      changesTitle: "تغييرات على هذه الشروط والأحكام",
+      changesDesc:
+        "قد يقوم مزود الخدمة بتحديث الشروط والأحكام الخاصة به بشكل دوري. لذلك، يُنصح بمراجعة هذه الصفحة بانتظام لمعرفة أي تغييرات. سيقوم مزود الخدمة بإعلامك بأي تغييرات عن طريق نشر الشروط والأحكام الجديدة على هذه الصفحة.",
+      effectiveDate: "هذه الشروط والأحكام سارية اعتبارًا من 2026-03-24",
+      contactTitle: "اتصل بنا",
+      contactDesc:
+        "إذا كان لديك أي أسئلة أو اقتراحات حول الشروط والأحكام، فلا تتردد في الاتصال بمزود الخدمة على haythemdh47@gmail.com.",
+    },
+    admin: {
+      title: "لوحة التحكم",
+      logout: "تسجيل الخروج",
+      saveChanges: "حفظ التغييرات",
+      saving: "جاري الحفظ...",
+      settingsSaved: "تم حفظ الإعدادات بنجاح",
+      errorSaving: "خطأ في حفظ الإعدادات",
+      storeLinks: {
+        title: "روابط المتاجر",
+        desc: "إدارة روابط أزرار App Store و Google Play.",
+        appStore: "رابط Apple App Store",
+        googlePlay: "رابط Google Play Store",
+      },
+      socialLinks: {
+        title: "روابط التواصل الاجتماعي",
+        desc: "إدارة روابط ملفاتك الشخصية على وسائل التواصل الاجتماعي.",
+        facebook: "رابط فيسبوك",
+        instagram: "رابط إنستغرام",
+      },
+      heroMockups: {
+        title: "نماذج الواجهة",
+        desc: "تخصيص عرض النماذج على الصفحة الرئيسية.",
+        mockup1: "الهاتف الأيسر",
+        mockup2: "الهاتف المركزي",
+        mockup3: "الهاتف الأيمن",
+        icon: "أيقونة",
+        image: "صورة",
+        color: "لون الأيقونة",
+      },
+      ctaMockups: {
+        title: "نماذج CTA",
+        desc: "تخصيص عرض المحاكاة في أسفل الصفحة.",
+        mockup1: "الهاتف الأيسر",
+        mockup2: "الهاتف الأوسط",
+        mockup3: "الهاتف الأيمن",
+      },
+      adminAuth: {
+        title: "بيانات المسؤول",
+        desc: "تحديث البريد الإلكتروني وكلمة المرور الخاصة بالمسؤول.",
+        email: "البريد الإلكتروني",
+        password: "كلمة مرور جديدة (اتركها فارغة للاحتفاظ بالحالية)",
+      },
+      sections: {
+        title: "أقسام الصفحة",
+        hero: "قسم الهيرو",
+        features: "قسم المميزات",
+        cta: "قسم التحميل",
+      },
+      login: {
+        title: "دخول المسؤول",
+        desc: "سجل الدخول لإدارة صفحتك الرئيسية",
+        email: "البريد الإلكتروني",
+        password: "كلمة المرور",
+        button: "دخول",
+        error: "بيانات غير صحيحة",
+        loading: "جاري الدخول...",
+      },
+      sidebar: {
+        general: "الإعدادات العامة",
+        sections: "أقسام الصفحة",
+      },
+      footer: "نظام الإدارة الإداري لخدمات تونسيسكا ميجا v1.0",
+      toasts: {
+        success: "تم تحديث الإعدادات بنجاح!",
+        error: "فشل تحديث الإعدادات. يرجى المحاولة مرة أخرى.",
+      },
+      sections_tab: {
+        title: "أقسام الصفحة",
+        desc: "تمكين أو تعطيل أقسام معينة من صفحتك الرئيسية.",
+        hero: "قسم البطولة (Hero)",
+        features: "شبكة الميزات",
+        cta: "مطالبة التنزيل",
+        show: "مرئي",
+        hide: "مخفي",
+      },
+      preview_label: "معاينة الجهاز المباشرة",
+      sectionEditor: {
+        editLanguages: "تعديل اللغات",
+        fieldTag: "علامة القسم",
+        fieldTitle: "العنوان الرئيسي",
+        fieldTitle1: "عنوان السطر 1",
+        fieldTitle2: "عنوان السطر 2",
+        fieldDesc: "محتوى الوصف",
+        fieldButton: "نص الزر",
+        closeEditor: "إغلاق المحرر",
+        editContent: "تعديل المحتوى",
+      },
+    },
+  },
+};
