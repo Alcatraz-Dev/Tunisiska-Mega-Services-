@@ -44,6 +44,10 @@ export default function HomePage() {
   const heroContent = getSectionContent("hero", t.hero);
   const featuresContent = getSectionContent("features", t.features);
   const ctaContent = getSectionContent("cta", t.cta);
+  const galleryContent = getSectionContent("gallery", {
+    headline: lang === "ar" ? "اكتشف شكل التطبيق" : lang === "sv" ? "Utforska Appen" : "Explore the App",
+    description: lang === "ar" ? "ألق نظرة على التصميم الأنيق والواجهة السلسة لخدماتنا في التطبيق." : lang === "sv" ? "Ta en titt på den eleganta designen och det smidiga gränssnittet för våra tjänster i appen." : "Take a look at the elegant design and seamless interface of our services in the app."
+  });
 
   const renderSensors = (style: string) => {
     switch (style) {
@@ -605,11 +609,7 @@ export default function HomePage() {
               viewport={{ once: true }}
               className="text-3xl md:text-5xl font-bold tracking-tight mb-6"
             >
-              {lang === "ar"
-                ? "اكتشف شكل التطبيق"
-                : lang === "sv"
-                ? "Utforska Appen"
-                : "Explore the App"}
+              {galleryContent.headline}
             </motion.h2>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -618,11 +618,7 @@ export default function HomePage() {
               transition={{ delay: 0.1 }}
               className="text-gray-400 text-lg mx-auto"
             >
-              {lang === "ar"
-                ? "ألق نظرة على التصميم الأنيق والواجهة السلسة لخدماتنا في التطبيق."
-                : lang === "sv"
-                ? "Ta en titt på den eleganta designen och det smidiga gränssnittet för våra tjänster i appen."
-                : "Take a look at the elegant design and seamless interface of our services in the app."}
+              {galleryContent.description}
             </motion.p>
           </div>
 

@@ -295,7 +295,7 @@ export default function AdminDashboard() {
             ...settings.sections[sectionId].content,
             [lang]: {
               ...settings.sections[sectionId].content[lang],
-              [field]: value,
+              [field]: field === "features" ? value.split('\n').filter((s: string) => s.trim() !== '') : value,
             },
           },
         },
@@ -1534,87 +1534,121 @@ export default function AdminDashboard() {
                           title: t.admin.pages_tab.press,
                           icon: <Newspaper className="w-5 h-5" />,
                         },
-                      ].map((section) => (
-                        <div key={section.id} className="py-6">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-400">
-                                {section.icon}
-                              </div>
-                              <div>
-                                <p className="font-semibold">{section.title}</p>
-                                <div className="flex items-center gap-3 mt-1">
-                                  <p className="text-xs text-gray-500">
-                                    {settings.sections[section.id]?.visible
-                                      ? t.admin.pages_tab.show
-                                      : t.admin.pages_tab.hide}
-                                  </p>
-                                  <button
-                                    onClick={() =>
-                                      setEditingPage(
+                        {
+                          id: "service_divider",
+                          isDivider: true,
+                          title: lang === "ar" ? "تفاصيل الخدمات" : lang === "sv" ? "Tjänstdetaljer" : "Service Details",
+                        },
+                        {
+                          id: "service_shipping",
+                          title: t.admin.pages_tab.service_shipping,
+                          icon: <Package className="w-5 h-5 text-primary" />,
+                        },
+                        {
+                          id: "service_taxi",
+                          title: t.admin.pages_tab.service_taxi,
+                          icon: <Car className="w-5 h-5 text-purple-400" />,
+                        },
+                        {
+                          id: "service_cleaning",
+                          title: t.admin.pages_tab.service_cleaning,
+                          icon: <Sparkles className="w-5 h-5 text-accent" />,
+                        },
+                        {
+                          id: "service_containerShipping",
+                          title: t.admin.pages_tab.service_containerShipping,
+                          icon: <Package className="w-5 h-5 text-blue-400" />,
+                        },
+                      ].map((section: any) => (
+                        section.isDivider ? (
+                          <div key={section.id} className="pt-8 pb-4 border-b border-white/5">
+                            <h5 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 flex items-center gap-2">
+                              <span className="w-1 h-1 rounded-full bg-primary" />
+                              {section.title}
+                            </h5>
+                          </div>
+                        ) : (
+                          <div key={section.id} className="py-6">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-400">
+                                  {section.icon}
+                                </div>
+                                <div>
+                                  <p className="font-semibold">{section.title}</p>
+                                  <div className="flex items-center gap-3 mt-1">
+                                    <p className="text-xs text-gray-500">
+                                      {settings.sections[section.id]?.visible
+                                        ? t.admin.pages_tab.show
+                                        : t.admin.pages_tab.hide}
+                                    </p>
+                                    <button
+                                      onClick={() =>
+                                        setEditingPage(
+                                          editingPage === section.id
+                                            ? null
+                                            : section.id,
+                                        )
+                                      }
+                                      className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
                                         editingPage === section.id
-                                          ? null
-                                          : section.id,
-                                      )
-                                    }
-                                    className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
-                                      editingPage === section.id
-                                        ? "text-primary"
-                                        : "text-gray-400 hover:text-white"
-                                    }`}
-                                  >
-                                    <Edit3 className="w-3 h-3" />
-                                    {editingPage === section.id
-                                      ? t.admin.sectionEditor.closeEditor
-                                      : t.admin.sectionEditor.editContent}
-                                  </button>
+                                          ? "text-primary"
+                                          : "text-gray-400 hover:text-white"
+                                      }`}
+                                    >
+                                      <Edit3 className="w-3 h-3" />
+                                      {editingPage === section.id
+                                        ? t.admin.sectionEditor.closeEditor
+                                        : t.admin.sectionEditor.editContent}
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
+
+                              <button
+                                onClick={() => toggleSection(section.id)}
+                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                                  settings.sections[section.id]?.visible
+                                    ? "bg-primary"
+                                    : "bg-white/10"
+                                }`}
+                              >
+                                <span
+                                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                                    settings.sections[section.id]?.visible
+                                      ? lang === "ar"
+                                        ? "-translate-x-6"
+                                        : "translate-x-6"
+                                      : lang === "ar"
+                                        ? "-translate-x-1"
+                                        : "translate-x-1"
+                                  }`}
+                                />
+                              </button>
                             </div>
 
-                            <button
-                              onClick={() => toggleSection(section.id)}
-                              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                                settings.sections[section.id]?.visible
-                                  ? "bg-primary"
-                                  : "bg-white/10"
-                              }`}
-                            >
-                              <span
-                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                  settings.sections[section.id]?.visible
-                                    ? lang === "ar"
-                                      ? "-translate-x-6"
-                                      : "translate-x-6"
-                                    : lang === "ar"
-                                      ? "-translate-x-1"
-                                      : "translate-x-1"
-                                }`}
-                              />
-                            </button>
+                            <AnimatePresence>
+                              {editingPage === section.id && (
+                                <motion.div
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{ opacity: 1, height: "auto" }}
+                                  exit={{ opacity: 0, height: 0 }}
+                                  className="overflow-hidden"
+                                >
+                                  <SectionContentEditor
+                                    sectionId={section.id}
+                                    content={
+                                      settings.sections[section.id]?.content
+                                    }
+                                    onContentChange={handleContentChange}
+                                    lang={lang}
+                                    t={t}
+                                  />
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
                           </div>
-
-                          <AnimatePresence>
-                            {editingPage === section.id && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                className="overflow-hidden"
-                              >
-                                <SectionContentEditor
-                                  sectionId={section.id}
-                                  content={
-                                    settings.sections[section.id]?.content
-                                  }
-                                  onContentChange={handleContentChange}
-                                  lang={lang}
-                                  t={t}
-                                />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
+                        )
                       ))}
                     </div>
                   </div>
@@ -1707,6 +1741,9 @@ function SectionContentEditor({
     case "cta":
       fields = ["title", "desc", "button"];
       break;
+    case "gallery":
+      fields = ["headline", "description"];
+      break;
     case "about":
       fields = ["title", "subtitle", "missionTitle", "missionDesc", "visionTitle", "visionDesc"];
       break;
@@ -1722,15 +1759,32 @@ function SectionContentEditor({
     case "press":
       fields = ["title", "subtitle", "pressReleases", "noReleases", "mediaContact"];
       break;
+    case "service_shipping":
+    case "service_taxi":
+    case "service_cleaning":
+    case "service_containerShipping":
+      fields = ["title", "desc", "cta", "features", "image"];
+      break;
     default:
       fields = ["title", "desc"];
   }
 
   const getFieldLabel = (field: string) => {
     const key = `field${field.charAt(0).toUpperCase() + field.slice(1)}`;
-    return (
-      t.admin.sectionEditor[key as keyof typeof t.admin.sectionEditor] || field
-    );
+    switch (key) {
+      case "fieldImage":
+        return t.admin.sectionEditor.fieldImage;
+      case "fieldHeadline":
+        return t.admin.sectionEditor.fieldHeadline;
+      case "fieldDescription":
+        return t.admin.sectionEditor.fieldDescription;
+      case "fieldFeatures":
+        return t.admin.sectionEditor.fieldFeatures;
+      case "fieldCta":
+        return t.admin.sectionEditor.fieldCta;
+      default:
+        return field.charAt(0).toUpperCase() + field.slice(1);
+    }
   };
 
   return (
@@ -1755,9 +1809,10 @@ function SectionContentEditor({
                 <label className="block text-[10px] font-bold text-gray-500 mb-1.5 uppercase tracking-wider">
                   {getFieldLabel(field)}
                 </label>
-                {field === "desc" ? (
+                {field === "desc" || field === "description" || field === "features" ? (
                   <textarea
-                    value={content?.[l]?.[field] || ""}
+                    value={field === "features" ? (Array.isArray(content?.[l]?.[field]) ? content?.[l]?.[field].join('\n') : (content?.[l]?.[field] || "")) : (content?.[l]?.[field] || "")}
+                    placeholder={field === "features" ? "Feature 1\nFeature 2\nFeature 3" : ""}
                     onChange={(e) =>
                       onContentChange(sectionId, l, field, e.target.value)
                     }
@@ -1872,9 +1927,9 @@ function DevicePreview({
     return null;
   };
 
-  const rounding = isLaptop ? "rounded-xl" : isTablet ? "rounded-[2.5rem]" : "rounded-[3rem]";
-  const innerRounding = isLaptop ? "rounded-lg" : isTablet ? "rounded-[2rem]" : "rounded-[2.5rem]";
-  const bezel = isLaptop ? "border-4" : "border-[6px]";
+  const rounding = isLaptop ? "rounded-lg" : isTablet ? "rounded-[1.25rem]" : "rounded-[1.5rem]";
+  const innerRounding = isLaptop ? "rounded-md" : isTablet ? "rounded-[1rem]" : "rounded-[1.25rem]";
+  const bezel = isLaptop ? "border-2" : "border-[4px]";
 
   return (
     <div className="flex flex-col items-center">

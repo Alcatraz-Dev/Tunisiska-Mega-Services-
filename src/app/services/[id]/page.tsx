@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { translations } from '@/translations';
 import { useLanguage } from '@/context/LanguageContext';
+import { useSettings } from '@/context/SettingsContext';
 import { redirect } from 'next/navigation';
 import { use } from 'react';
 
@@ -12,14 +13,27 @@ const VALID_SERVICES = ['shipping', 'taxi', 'cleaning', 'containerShipping'];
 export default function ServiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { lang } = useLanguage();
+  const { settings } = useSettings();
   const t = translations[lang];
 
   if (!VALID_SERVICES.includes(id)) {
     redirect('/services');
   }
 
+  // Check if content exists in settings first, else fallback to translations
+  const sectionId = `service_${id}`;
+  const settingsContent = settings.sections[sectionId]?.content?.[lang];
+  
   const serviceKey = id as keyof typeof t.serviceDetails;
-  const service = t.serviceDetails[serviceKey];
+  const translationService = t.serviceDetails[serviceKey];
+
+  const service = {
+    title: settingsContent?.title || translationService.title,
+    desc: settingsContent?.desc || translationService.desc,
+    features: settingsContent?.features || translationService.features,
+    cta: settingsContent?.cta || translationService.cta,
+    image: settingsContent?.image || translationService.image,
+  };
 
   const openAppModal = () => window.dispatchEvent(new CustomEvent('open-app-modal'));
 
