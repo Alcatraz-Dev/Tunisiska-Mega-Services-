@@ -293,6 +293,11 @@ export const translations = {
         mockup2: "Center Phone",
         mockup3: "Right Phone",
       },
+      galleryMockups: {
+        title: "App Screens Gallery",
+        desc: "Manage the 7 app screens displayed in the gallery before the footer. Tip: Alternate device frames for a better visual rhythm.",
+        device: "Device",
+      },
       adminAuth: {
         title: "Admin Credentials",
         desc: "Update your administrative email and password.",
@@ -642,6 +647,11 @@ export const translations = {
         mockup2: "Mitten telefon",
         mockup3: "Höger telefon",
       },
+      galleryMockups: {
+        title: "App-skärmar Galleri",
+        desc: "Hantera de 7 app-skärmarna som visas i galleriet före sidfoten.",
+        device: "Enhet",
+      },
       adminAuth: {
         title: "Admin-uppgifter",
         desc: "Uppdatera din administrativa e-post och lösenord.",
@@ -979,6 +989,11 @@ export const translations = {
         mockup1: "الهاتف الأيسر",
         mockup2: "الهاتف الأوسط",
         mockup3: "الهاتف الأيمن",
+      },
+      galleryMockups: {
+        title: "معرض شاشات التطبيق",
+        desc: "إدارة 7 شاشات تطبيق معروضة في المعرض قبل الفوتر.",
+        device: "جهاز",
       },
       adminAuth: {
         title: "بيانات المسؤول",

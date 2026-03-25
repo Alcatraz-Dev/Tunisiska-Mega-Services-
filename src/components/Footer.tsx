@@ -5,7 +5,7 @@ import { Globe, Share2, Share } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useSettings } from "@/context/SettingsContext";
 import { translations } from "@/translations";
-import { FaInstagram } from "react-icons/fa6";
+import { FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa6";
 import { SlSocialFacebook } from "react-icons/sl";
 export default function Footer() {
   const { lang } = useLanguage();
@@ -31,25 +31,49 @@ export default function Footer() {
             <p className="text-sm text-gray-400 max-w-xs mb-6 leading-relaxed">
               {t.footer.desc}
             </p>
-            <div className="flex gap-4">
-              {settings?.social?.instagram && (
+            <div className="flex gap-3 flex-wrap">
+              {settings?.social?.instagramEnabled && settings?.social?.instagram && (
                 <a
                   href={settings.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors"
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-linear-to-br hover:from-purple-600 hover:to-pink-500 hover:text-white transition-all duration-300 group"
+                  aria-label="Instagram"
                 >
-                  <FaInstagram className="w-5 h-5 text-gray-300" />
+                  <FaInstagram className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
                 </a>
               )}
-              {settings?.social?.facebook && (
+              {settings?.social?.facebookEnabled && settings?.social?.facebook && (
                 <a
                   href={settings.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors"
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 group"
+                  aria-label="Facebook"
                 >
-                  <SlSocialFacebook className="w-5 h-5 text-gray-300" />
+                  <SlSocialFacebook className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
+                </a>
+              )}
+              {settings?.social?.youtubeEnabled && settings?.social?.youtube && (
+                <a
+                  href={settings.social.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-300 group"
+                  aria-label="YouTube"
+                >
+                  <FaYoutube className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
+                </a>
+              )}
+              {settings?.social?.tiktokEnabled && settings?.social?.tiktok && (
+                <a
+                  href={settings.social.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-black hover:ring-1 hover:ring-white/20 transition-all duration-300 group"
+                  aria-label="TikTok"
+                >
+                  <FaTiktok className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
                 </a>
               )}
             </div>

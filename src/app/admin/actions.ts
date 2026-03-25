@@ -125,3 +125,35 @@ export async function updateAuth(settings: any) {
     return { success: false, error: 'Failed to update credentials' };
   }
 }
+export async function uploadFile(formData: FormData) {
+  const cookieStore = await cookies();
+  const session = cookieStore.get('admin_session');
+  
+  if (!session || session.value !== 'true') {
+    return { success: false, error: 'Unauthorized' };
+  }
+
+  const file = formData.get('file') as File;
+  if (!file) {
+    return { success: false, error: 'No file uploaded' };
+  }
+
+  try {
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+    const uploadDir = path.join(process.cwd(), 'public/uploads');
+
+    const { mkdir } = require('fs/promises');
+    await mkdir(uploadDir, { recursive: true });
+
+    const filePath = path.join(uploadDir, filename);
+    await writeFile(filePath, buffer);
+
+    return { success: true, url: `/uploads/${filename}` };
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    return { success: false, error: 'Failed to upload file' };
+  }
+}

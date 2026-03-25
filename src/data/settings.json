@@ -5,7 +5,13 @@
   },
   "social": {
     "facebook": "https://facebook.com/tunsiska",
-    "instagram": "https://instagram.com/tunsiska"
+    "facebookEnabled": true,
+    "instagram": "https://instagram.com/tunsiska",
+    "instagramEnabled": true,
+    "youtube": "",
+    "youtubeEnabled": false,
+    "tiktok": "",
+    "tiktokEnabled": false
   },
   "auth": {
     "email": "admin@tunisiska.com",
@@ -23,32 +29,84 @@
       "type": "icon",
       "icon": "sparkles",
       "color": "primary",
-      "style": "iphone-15"
+      "style": "ipad"
     },
     "heroRight": {
       "type": "icon",
       "icon": "car",
       "color": "purple",
-      "style": "iphone-15"
+      "style": "android-left"
     },
     "ctaLeft": {
-      "type": "icon",
+      "type": "image",
       "icon": "sparkles",
       "color": "primary",
-      "style": "iphone-15"
+      "style": "android-centered",
+      "image": "/uploads/1774473517585-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.56.png"
     },
     "ctaCenter": {
       "type": "icon",
       "icon": "package",
       "color": "primary",
-      "style": "iphone-15"
+      "style": "ipad"
     },
     "ctaRight": {
       "type": "icon",
       "icon": "car",
       "color": "purple",
       "style": "iphone-15"
-    }
+    },
+    "gallery": [
+      {
+        "style": "iphone-15",
+        "type": "image",
+        "image": "/uploads/1774474595518-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.26.37.png",
+        "icon": "sparkles",
+        "color": "primary"
+      },
+      {
+        "style": "laptop",
+        "type": "image",
+        "image": "/uploads/1774474601001-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.27.51.png",
+        "icon": "package",
+        "color": "purple"
+      },
+      {
+        "style": "ipad",
+        "type": "image",
+        "image": "/uploads/1774474604413-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.27.52.png",
+        "icon": "car",
+        "color": "primary"
+      },
+      {
+        "style": "iphone-notch",
+        "type": "image",
+        "image": "/uploads/1774474610391-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_21_at_16.26.49.png",
+        "icon": "map-pin",
+        "color": "purple"
+      },
+      {
+        "style": "android-left",
+        "type": "image",
+        "image": "/uploads/1774474616676-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.07.png",
+        "icon": "sparkles",
+        "color": "primary"
+      },
+      {
+        "style": "tablet",
+        "type": "image",
+        "image": "/uploads/1774474619605-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.28.png",
+        "icon": "package",
+        "color": "purple"
+      },
+      {
+        "style": "iphone-15",
+        "type": "image",
+        "image": "",
+        "icon": "car",
+        "color": "primary"
+      }
+    ]
   },
   "sections": {
     "hero": {

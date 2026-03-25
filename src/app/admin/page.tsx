@@ -26,18 +26,36 @@ import {
   Smartphone as PhoneIcon,
   Laptop,
   Check,
+  Upload,
+  Sparkles,
+  Car,
+  MapPin,
+  Package,
+  Share2,
 } from "lucide-react";
-import { FaFacebookF, FaInstagram } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa6";
 import {
   getAdminSettings,
   saveSettings,
   login,
   logout,
   updateAuth,
+  uploadFile,
 } from "./actions";
 import { useSettings } from "@/context/SettingsContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/translations";
+
+const DEVICE_STYLES = [
+  { id: "iphone-15", label: "iPhone (Island)", icon: <PhoneIcon size={14} /> },
+  { id: "iphone-notch", label: "iPhone (Notch)", icon: <Smartphone size={14} /> },
+  { id: "android-centered", label: "Android (Center)", icon: <Smartphone size={14} /> },
+  { id: "android-left", label: "Android (Left)", icon: <Smartphone size={14} /> },
+  { id: "ipad", label: "iPad Pro", icon: <Layout size={14} /> },
+  { id: "tablet", label: "Tablet", icon: <Layout size={14} /> },
+  { id: "minimal", label: "Minimal", icon: <AppWindow size={14} /> },
+  { id: "laptop", label: "Laptop", icon: <Laptop size={14} /> },
+];
 
 export default function AdminDashboard() {
   const { refreshSettings } = useSettings();
@@ -133,7 +151,45 @@ export default function AdminDashboard() {
     setSettings(null);
   };
 
-  const handleSettingChange = (section: string, key: string, value: string) => {
+  const [isUploading, setIsUploading] = useState<string | null>(null);
+
+  const handleImageUpload = async (mock: string, file: File) => {
+    setIsUploading(mock);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const result = await uploadFile(formData);
+      if (result.success && result.url) {
+        if (mock.startsWith("gallery-")) {
+          const index = parseInt(mock.split("-")[1], 10);
+          handleGalleryChange(index, "image", result.url);
+        } else {
+          handleMockupChange(mock, "image", result.url);
+        }
+        setToast({
+          show: true,
+          message:
+            lang === "ar"
+              ? "تم رفع الصورة بنجاح"
+              : "Image uploaded successfully",
+          type: "success",
+        });
+      } else {
+        setToast({
+          show: true,
+          message: result.error || "Upload failed",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      setToast({ show: true, message: "Upload failed", type: "error" });
+    } finally {
+      setIsUploading(null);
+    }
+  };
+
+  const handleSettingChange = (section: string, key: string, value: string | boolean) => {
     setSettings({
       ...settings,
       [section]: {
@@ -156,6 +212,22 @@ export default function AdminDashboard() {
           ...settings.mockups[mockupKey],
           [propKey]: value,
         },
+      },
+    });
+  };
+
+  const handleGalleryChange = (
+    index: number,
+    key: string,
+    value: string
+  ) => {
+    const newGallery = [...settings.mockups.gallery];
+    newGallery[index] = { ...newGallery[index], [key]: value };
+    setSettings({
+      ...settings,
+      mockups: {
+        ...settings.mockups,
+        gallery: newGallery,
       },
     });
   };
@@ -383,53 +455,43 @@ export default function AdminDashboard() {
           </div>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
-          <div className="space-y-2">
+        <div className="flex flex-col gap-10">
+          {/* Top Navigation Tabs */}
+          <div className="flex flex-wrap items-center gap-3 p-1.5 glass border border-white/5 rounded-4xl w-fit">
             <button
               onClick={() => setActiveTab("general")}
-              className={`w-full p-4 rounded-2xl transition-all flex items-center gap-3 border ${
+              className={`px-6 py-3 rounded-full transition-all flex items-center gap-2 border ${
                 activeTab === "general"
-                  ? "bg-white/5 border-white/10 text-primary"
-                  : "border-transparent text-gray-400 hover:bg-white/5"
+                  ? "bg-primary border-primary/20 text-white shadow-lg shadow-primary/20"
+                  : "border-transparent text-gray-400 hover:text-white hover:bg-white/5"
               }`}
             >
               <Settings
-                className={`w-5 h-5 ${activeTab === "general" ? "text-primary" : ""}`}
+                className={`w-4 h-4 ${activeTab === "general" ? "text-white" : ""}`}
               />
-              <span className="font-medium">
+              <span className="font-semibold text-sm">
                 {t.admin.sidebar?.general || "General Settings"}
               </span>
-              {activeTab === "general" && (
-                <ChevronRight
-                  className={`w-4 h-4 ml-auto ${lang === "ar" ? "rotate-180" : ""}`}
-                />
-              )}
             </button>
             <button
               onClick={() => setActiveTab("sections")}
-              className={`w-full p-4 rounded-2xl transition-all flex items-center gap-3 border ${
+              className={`px-6 py-3 rounded-full transition-all flex items-center gap-2 border ${
                 activeTab === "sections"
-                  ? "bg-white/5 border-white/10 text-primary"
-                  : "border-transparent text-gray-400 hover:bg-white/5"
+                  ? "bg-primary border-primary/20 text-white shadow-lg shadow-primary/20"
+                  : "border-transparent text-gray-400 hover:text-white hover:bg-white/5"
               }`}
             >
               <Layout
-                className={`w-5 h-5 ${activeTab === "sections" ? "text-primary" : ""}`}
+                className={`w-4 h-4 ${activeTab === "sections" ? "text-white" : ""}`}
               />
-              <span className="font-medium">
+              <span className="font-semibold text-sm">
                 {t.admin.sidebar?.sections || "Page Sections"}
               </span>
-              {activeTab === "sections" && (
-                <ChevronRight
-                  className={`w-4 h-4 ml-auto ${lang === "ar" ? "rotate-180" : ""}`}
-                />
-              )}
             </button>
           </div>
 
-          {/* Main Content */}
-          <div className="md:col-span-2 lg:col-span-3 space-y-8">
+          {/* Main Content - Full Width */}
+          <div className="w-full space-y-12">
             <AnimatePresence mode="wait">
               {activeTab === "general" ? (
                 <motion.div
@@ -497,7 +559,7 @@ export default function AdminDashboard() {
                   <section className="glass-card rounded-4xl p-8">
                     <div className="flex items-center gap-3 mb-8">
                       <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400">
-                        <FaFacebookF size={20} />
+                        <Share2 size={20} />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold">
@@ -509,49 +571,100 @@ export default function AdminDashboard() {
                       </div>
                     </div>
 
-                    <div className="space-y-6">
-                      <div>
-                        <label className="text-sm font-medium text-gray-400 mb-3 flex items-center gap-2">
-                          <FaFacebookF
-                            size={14}
-                            className={lang === "ar" ? "ml-1" : "mr-1"}
-                          />{" "}
-                          {t.admin.socialLinks.facebook}
-                        </label>
+                    <div className="space-y-5">
+                      {/* Facebook */}
+                      <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <label className="text-sm font-medium flex items-center gap-2">
+                            <FaFacebookF size={14} className="text-blue-400" />
+                            {t.admin.socialLinks.facebook}
+                          </label>
+                          <button
+                            onClick={() => handleSettingChange("social", "facebookEnabled", !settings.social.facebookEnabled)}
+                            className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${settings.social.facebookEnabled ? "bg-primary" : "bg-white/10"}`}
+                            title="Toggle Facebook visibility in footer"
+                          >
+                            <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.facebookEnabled ? "left-5" : "left-0.5"}`} />
+                          </button>
+                        </div>
                         <input
                           type="text"
                           value={settings.social.facebook}
-                          onChange={(e) =>
-                            handleSettingChange(
-                              "social",
-                              "facebook",
-                              e.target.value,
-                            )
-                          }
-                          className={`w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-primary/50 transition-colors ${lang === "ar" ? "text-right" : "text-left"}`}
+                          onChange={(e) => handleSettingChange("social", "facebook", e.target.value)}
+                          className={`w-full h-10 bg-black/20 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors ${lang === "ar" ? "text-right" : "text-left"}`}
                           placeholder="https://facebook.com/..."
                         />
                       </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-400 mb-3 flex items-center gap-2">
-                          <FaInstagram
-                            size={14}
-                            className={lang === "ar" ? "ml-1" : "mr-1"}
-                          />{" "}
-                          {t.admin.socialLinks.instagram}
-                        </label>
+
+                      {/* Instagram */}
+                      <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <label className="text-sm font-medium flex items-center gap-2">
+                            <FaInstagram size={14} className="text-pink-400" />
+                            {t.admin.socialLinks.instagram}
+                          </label>
+                          <button
+                            onClick={() => handleSettingChange("social", "instagramEnabled", !settings.social.instagramEnabled)}
+                            className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${settings.social.instagramEnabled ? "bg-primary" : "bg-white/10"}`}
+                            title="Toggle Instagram visibility in footer"
+                          >
+                            <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.instagramEnabled ? "left-5" : "left-0.5"}`} />
+                          </button>
+                        </div>
                         <input
                           type="text"
                           value={settings.social.instagram}
-                          onChange={(e) =>
-                            handleSettingChange(
-                              "social",
-                              "instagram",
-                              e.target.value,
-                            )
-                          }
-                          className={`w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-primary/50 transition-colors ${lang === "ar" ? "text-right" : "text-left"}`}
+                          onChange={(e) => handleSettingChange("social", "instagram", e.target.value)}
+                          className={`w-full h-10 bg-black/20 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors ${lang === "ar" ? "text-right" : "text-left"}`}
                           placeholder="https://instagram.com/..."
+                        />
+                      </div>
+
+                      {/* YouTube */}
+                      <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <label className="text-sm font-medium flex items-center gap-2">
+                            <FaYoutube size={14} className="text-red-500" />
+                            YouTube
+                          </label>
+                          <button
+                            onClick={() => handleSettingChange("social", "youtubeEnabled", !settings.social.youtubeEnabled)}
+                            className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${settings.social.youtubeEnabled ? "bg-primary" : "bg-white/10"}`}
+                            title="Toggle YouTube visibility in footer"
+                          >
+                            <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.youtubeEnabled ? "left-5" : "left-0.5"}`} />
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          value={settings.social.youtube || ""}
+                          onChange={(e) => handleSettingChange("social", "youtube", e.target.value)}
+                          className={`w-full h-10 bg-black/20 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors ${lang === "ar" ? "text-right" : "text-left"}`}
+                          placeholder="https://youtube.com/@..."
+                        />
+                      </div>
+
+                      {/* TikTok */}
+                      <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <label className="text-sm font-medium flex items-center gap-2">
+                            <FaTiktok size={14} className="text-gray-200" />
+                            TikTok
+                          </label>
+                          <button
+                            onClick={() => handleSettingChange("social", "tiktokEnabled", !settings.social.tiktokEnabled)}
+                            className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${settings.social.tiktokEnabled ? "bg-primary" : "bg-white/10"}`}
+                            title="Toggle TikTok visibility in footer"
+                          >
+                            <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.social.tiktokEnabled ? "left-5" : "left-0.5"}`} />
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          value={settings.social.tiktok || ""}
+                          onChange={(e) => handleSettingChange("social", "tiktok", e.target.value)}
+                          className={`w-full h-10 bg-black/20 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors ${lang === "ar" ? "text-right" : "text-left"}`}
+                          placeholder="https://tiktok.com/@..."
                         />
                       </div>
                     </div>
@@ -560,64 +673,13 @@ export default function AdminDashboard() {
                   {/* Hero Mockups & Preview */}
                   <section className="glass-card rounded-4xl p-8">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
-                          <AppWindow className="w-5 h-5 text-purple-400" />
-                        </div>
-                        <div>
-                          <h4 className="text-lg font-semibold">
-                            {t.admin.heroMockups.title}
-                          </h4>
-                          <p className="text-xs text-gray-400">
-                            {t.admin.heroMockups.desc}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Style Selector */}
-                      <div className="mb-10 p-4 rounded-2xl bg-white/5 border border-white/10">
-                        <label className="block text-[10px] font-bold text-gray-400 mb-3 uppercase tracking-widest px-2">
-                          Device Style
-                        </label>
-                        <div className="grid grid-cols-4 gap-2">
-                          {[
-                            {
-                              id: "iphone-15",
-                              label: "iPhone",
-                              icon: <PhoneIcon className="w-4 h-4" />,
-                            },
-                            {
-                              id: "pixel",
-                              label: "Pixel",
-                              icon: <Smartphone className="w-4 h-4" />,
-                            },
-                            {
-                              id: "minimal",
-                              label: "Minimal",
-                              icon: <Layout className="w-4 h-4" />,
-                            },
-                            {
-                              id: "laptop",
-                              label: "Laptop",
-                              icon: <Laptop className="w-4 h-4" />,
-                            },
-                          ].map((style) => (
-                            <button
-                              key={style.id}
-                              onClick={() => handleMockupStyleChange(style.id)}
-                              className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-all border ${
-                                settings.mockups.style === style.id
-                                  ? "bg-primary/20 border-primary/40 text-primary"
-                                  : "bg-black/20 border-white/5 text-gray-500 hover:text-gray-300"
-                              }`}
-                            >
-                              {style.icon}
-                              <span className="text-[10px] font-bold">
-                                {style.label}
-                              </span>
-                            </button>
-                          ))}
-                        </div>
+                      <div className="flex flex-col gap-1">
+                        <h4 className="text-lg font-semibold">
+                          {t.admin.heroMockups.title}
+                        </h4>
+                        <p className="text-xs text-gray-400">
+                          {t.admin.heroMockups.desc}
+                        </p>
                       </div>
                     </div>
 
@@ -639,6 +701,24 @@ export default function AdminDashboard() {
                                       : "mockup3"
                                 ] || mock.replace("hero", "")}
                               </span>
+
+                              {/* Per-Mockup Device Style Selection */}
+                              <div className="flex flex-wrap gap-1 p-1 bg-black/40 rounded-xl border border-white/5">
+                                {DEVICE_STYLES.map((s) => (
+                                  <button
+                                    key={s.id}
+                                    onClick={() => handleMockupChange(mock, "style", s.id)}
+                                    title={s.label}
+                                    className={`p-1.5 rounded-lg transition-all ${
+                                      settings.mockups[mock].style === s.id
+                                        ? "bg-primary text-white"
+                                        : "text-gray-500 hover:text-gray-300"
+                                    }`}
+                                  >
+                                    {s.icon}
+                                  </button>
+                                ))}
+                              </div>
                               <div className="flex bg-linear-to-b from-black/40 to-black/20 p-1 rounded-lg border border-white/5">
                                 {["icon", "image"].map((type) => (
                                   <button
@@ -707,23 +787,43 @@ export default function AdminDashboard() {
                                 </div>
                               </div>
                             ) : (
-                              <div>
+                               <div>
                                 <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
                                   Image Path
                                 </label>
-                                <input
-                                  type="text"
-                                  placeholder="/custom-mockup.png"
-                                  value={settings.mockups[mock].image || ""}
-                                  onChange={(e) =>
-                                    handleMockupChange(
-                                      mock,
-                                      "image",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-primary/50 transition-all"
-                                />
+                                <div className="flex gap-2">
+                                  <input
+                                    type="text"
+                                    placeholder="/custom-mockup.png"
+                                    value={settings.mockups[mock].image || ""}
+                                    onChange={(e) =>
+                                      handleMockupChange(
+                                        mock,
+                                        "image",
+                                        e.target.value,
+                                      )
+                                    }
+                                    className="flex-1 h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-primary/50 transition-all"
+                                  />
+                                  <label className="cursor-pointer">
+                                    <input
+                                      type="file"
+                                      accept="image/*"
+                                      className="hidden"
+                                      onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) handleImageUpload(mock, file);
+                                      }}
+                                    />
+                                    <div className="h-10 w-10 flex items-center justify-center bg-white/5 border border-white/5 rounded-lg hover:bg-white/10 transition-all text-gray-400 hover:text-white">
+                                      {isUploading === mock ? (
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                      ) : (
+                                        <Upload className="w-4 h-4" />
+                                      )}
+                                    </div>
+                                  </label>
+                                </div>
                               </div>
                             )}
                           </div>
@@ -738,18 +838,17 @@ export default function AdminDashboard() {
                           </h4>
                         </div>
                         <div className="grid grid-cols-1 gap-8 max-w-[200px] mx-auto">
-                          <DevicePreview
-                            config={settings.mockups.heroCenter}
-                            title="Mockup Preview"
-                            deviceStyle={settings.mockups.style}
-                          />
+                          {["heroLeft", "heroCenter", "heroRight"].map((mock) => (
+                            <DevicePreview
+                              key={mock}
+                              config={settings.mockups[mock]}
+                              title={mock.replace("hero", "")}
+                              deviceStyle={settings.mockups[mock].style}
+                            />
+                          ))}
                         </div>
                         <p className="mt-6 text-[10px] text-gray-500 text-center leading-relaxed">
-                          Visualizing{" "}
-                          <span className="text-primary font-bold uppercase">
-                            {settings.mockups.style || "iphone-15"}
-                          </span>{" "}
-                          frame with current settings.
+                          Visualizing all hero mockups with current settings.
                         </p>
                       </div>
                     </div>
@@ -771,7 +870,7 @@ export default function AdminDashboard() {
                       </div>
                     </div>
 
-                    <div className="grid lg:grid-cols-2 gap-8 items-start">
+                    <div className="grid lg:grid-cols-2 gap-8 items-start mt-8">
                       <div className="space-y-8">
                         {["ctaLeft", "ctaCenter", "ctaRight"].map((mock) => (
                           <div
@@ -781,14 +880,29 @@ export default function AdminDashboard() {
                             <div className="flex items-center justify-between mb-6">
                               <span className="text-sm font-semibold capitalize flex items-center gap-2">
                                 <div className="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_rgba(245,158,11,0.5)]"></div>
-                                {t.admin.ctaMockups[
-                                  mock === "ctaLeft"
-                                    ? "mockup1"
-                                    : mock === "ctaCenter"
-                                      ? "mockup2"
-                                      : "mockup3"
-                                ] || mock.replace("cta", "")}
+                                {mock === "ctaLeft"
+                                  ? "Mockup 1 (Left)"
+                                  : mock === "ctaCenter"
+                                    ? "Mockup 2 (Center)"
+                                    : "Mockup 3 (Right)"}
                               </span>
+                              {/* Per-Mockup Device Style Selection */}
+                              <div className="flex flex-wrap gap-1 p-1 bg-black/40 rounded-xl border border-white/5">
+                                {DEVICE_STYLES.map((s) => (
+                                  <button
+                                    key={s.id}
+                                    onClick={() => handleMockupChange(mock, "style", s.id)}
+                                    title={s.label}
+                                    className={`p-1.5 rounded-lg transition-all ${
+                                      settings.mockups[mock].style === s.id
+                                        ? "bg-primary text-white"
+                                        : "text-gray-500 hover:text-gray-300"
+                                    }`}
+                                  >
+                                    {s.icon}
+                                  </button>
+                                ))}
+                              </div>
                               <div className="flex bg-linear-to-b from-black/40 to-black/20 p-1 rounded-lg border border-white/5">
                                 {["icon", "image"].map((type) => (
                                   <button
@@ -802,13 +916,9 @@ export default function AdminDashboard() {
                                         : "text-gray-500 hover:text-gray-400"
                                     }`}
                                   >
-                                    {t.admin.ctaMockups[
-                                      type as keyof typeof t.admin.ctaMockups
-                                    ] ||
-                                      type ||
-                                      (type === "image"
-                                        ? t.admin.heroMockups.image
-                                        : t.admin.heroMockups.icon)}
+                                    {t.admin.heroMockups[
+                                      type as keyof typeof t.admin.heroMockups
+                                    ] || type}
                                   </button>
                                 ))}
                               </div>
@@ -861,24 +971,44 @@ export default function AdminDashboard() {
                                 </div>
                               </div>
                             ) : (
-                              <div>
-                                <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
-                                  Image Path
-                                </label>
-                                <input
-                                  type="text"
-                                  placeholder="/custom-mockup.png"
-                                  value={settings.mockups[mock].image || ""}
-                                  onChange={(e) =>
-                                    handleMockupChange(
-                                      mock,
-                                      "image",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-accent/50 transition-all"
-                                />
-                              </div>
+                                <div>
+                                  <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
+                                    Image Path
+                                  </label>
+                                  <div className="flex gap-2">
+                                    <input
+                                      type="text"
+                                      placeholder="/custom-mockup.png"
+                                      value={settings.mockups[mock].image || ""}
+                                      onChange={(e) =>
+                                        handleMockupChange(
+                                          mock,
+                                          "image",
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="flex-1 h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-accent/50 transition-all"
+                                    />
+                                    <label className="cursor-pointer">
+                                      <input
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={(e) => {
+                                          const file = e.target.files?.[0];
+                                          if (file) handleImageUpload(mock, file);
+                                        }}
+                                      />
+                                      <div className="h-10 w-10 flex items-center justify-center bg-white/5 border border-white/5 rounded-lg hover:bg-white/10 transition-all text-gray-400 hover:text-white">
+                                        {isUploading === mock ? (
+                                          <Loader2 className="w-4 h-4 animate-spin" />
+                                        ) : (
+                                          <Upload className="w-4 h-4" />
+                                        )}
+                                      </div>
+                                    </label>
+                                  </div>
+                                </div>
                             )}
                           </div>
                         ))}
@@ -892,20 +1022,105 @@ export default function AdminDashboard() {
                           </h4>
                         </div>
                         <div className="grid grid-cols-1 gap-8 max-w-[200px] mx-auto">
-                          <DevicePreview
-                            config={settings.mockups.ctaCenter}
-                            title="Mockup Preview"
-                            deviceStyle={settings.mockups.style}
-                          />
+                          {["ctaLeft", "ctaCenter", "ctaRight"].map((mock) => (
+                            <DevicePreview
+                              key={mock}
+                              config={settings.mockups[mock]}
+                              title={mock.replace("cta", "")}
+                              deviceStyle={settings.mockups[mock].style}
+                            />
+                          ))}
                         </div>
                         <p className="mt-6 text-[10px] text-gray-500 text-center leading-relaxed">
-                          Visualizing{" "}
-                          <span className="text-accent font-bold uppercase">
-                            {settings.mockups.style || "iphone-15"}
-                          </span>{" "}
-                          frame with current settings.
+                          Visualizing all CTA mockups with current settings.
                         </p>
                       </div>
+                    </div>
+                  </section>
+
+                  {/* Gallery Mockups */}
+                  <section className="glass-card rounded-4xl p-8">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                      <div className="flex flex-col gap-1">
+                        <h4 className="text-lg font-semibold">
+                          {t.admin.galleryMockups?.title || "App Screens Gallery"}
+                        </h4>
+                        <p className="text-xs text-gray-400">
+                          {t.admin.galleryMockups?.desc || "Manage the 7 app screens displayed in the gallery before the footer."}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-start">
+                      {settings.mockups.gallery?.map((mock: any, index: number) => (
+                        <div key={index} className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-sm hover:border-white/20 transition-all">
+                          <div className="flex items-center gap-2 mb-6 text-sm font-semibold capitalize">
+                            <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(99,102,241,0.5)]"></div>
+                            {t.admin.galleryMockups?.device || "Device"} {index + 1}
+                          </div>
+
+                          <div className="flex flex-wrap gap-1 p-1 bg-black/40 rounded-xl border border-white/5 mb-6">
+                            {DEVICE_STYLES.map((s) => (
+                              <button
+                                key={s.id}
+                                onClick={() => handleGalleryChange(index, "style", s.id)}
+                                title={s.label}
+                                className={`p-1.5 rounded-lg transition-all ${
+                                  mock.style === s.id
+                                    ? "bg-primary text-white"
+                                    : "text-gray-500 hover:text-gray-300"
+                                }`}
+                              >
+                                {s.icon}
+                              </button>
+                            ))}
+                          </div>
+
+                          <div>
+                            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">
+                              {t.admin.heroMockups.image}
+                            </label>
+                            <div className="relative group">
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) handleImageUpload(`gallery-${index}`, file);
+                                }}
+                                className="hidden"
+                                id={`gallery-upload-${index}`}
+                                disabled={isUploading === `gallery-${index}`}
+                              />
+                              <label
+                                htmlFor={`gallery-upload-${index}`}
+                                className="flex flex-col items-center justify-center w-full aspect-9/19 rounded-2xl border-2 border-dashed border-white/10 bg-black/20 hover:bg-black/40 hover:border-primary/50 cursor-pointer transition-all overflow-hidden relative group-hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
+                              >
+                                {mock.image ? (
+                                  <>
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img src={mock.image} alt="Preview" className="w-full h-full object-cover" />
+                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-sm">
+                                      <Upload className="w-6 h-6 text-white" />
+                                    </div>
+                                  </>
+                                ) : (
+                                  <div className="flex flex-col items-center gap-2 text-gray-500 group-hover:text-primary transition-colors">
+                                    {isUploading === `gallery-${index}` ? (
+                                      <Loader2 className="w-6 h-6 animate-spin" />
+                                    ) : (
+                                      <>
+                                        <ImageIcon className="w-8 h-8 opacity-50" />
+                                        <span className="text-xs font-medium">Upload Image</span>
+                                      </>
+                                    )}
+                                  </div>
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </section>
 
@@ -1234,58 +1449,126 @@ function DevicePreview({
   deviceStyle?: string;
 }) {
   const isLaptop = deviceStyle === "laptop";
+  const isTablet = deviceStyle === "ipad" || deviceStyle === "tablet";
+
+  // Helper to get icon component
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case "sparkles": return Sparkles;
+      case "car": return Car;
+      case "map-pin": return MapPin;
+      default: return Package;
+    }
+  };
+
+  const getAspect = () => {
+    if (isLaptop) return "aspect-16/10 w-44";
+    if (isTablet) return "aspect-3/4 w-32";
+    return "aspect-9/19 w-28";
+  };
+
+  const renderSensors = () => {
+    switch (deviceStyle) {
+      case "iphone-15":
+        return <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-10 h-2.5 bg-black rounded-full z-20 border border-white/10" />;
+      case "iphone-notch":
+        return <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-3 bg-black rounded-b-xl z-20" />;
+      case "android-centered":
+        return <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-2 h-2 bg-black rounded-full z-20 ring-1 ring-white/10" />;
+      case "android-left":
+        return <div className="absolute top-1.5 left-4 w-2 h-2 bg-black rounded-full z-20 ring-1 ring-white/10" />;
+      case "laptop":
+        return <div className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-black rounded-full z-20" />;
+      default:
+        return null;
+    }
+  };
+
+  const renderButtons = () => {
+    const isIphone = deviceStyle === "iphone-15" || deviceStyle === "iphone-notch";
+    const isAndroid = deviceStyle.startsWith("android");
+    const isTablet = deviceStyle === "ipad" || deviceStyle === "tablet";
+
+    if (isIphone) {
+      return (
+        <>
+          {/* Silent/Action button */}
+          <div className="absolute top-[12%] -left-px w-[3px] h-[4%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
+          {/* Volume Down */}
+          <div className="absolute top-[20%] -left-px w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
+          {/* Volume Up */}
+          <div className="absolute top-[29%] -left-px w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
+          {/* Power */}
+          <div className="absolute top-[24%] -right-px w-[3px] h-[12%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
+        </>
+      );
+    }
+
+    if (isAndroid) {
+      return (
+        <>
+          {/* Power */}
+          <div className="absolute top-[18%] -right-px w-[3px] h-[10%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
+          {/* Volume */}
+          <div className="absolute top-[30%] -right-px w-[3px] h-[6%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
+        </>
+      );
+    }
+
+    if (isTablet) {
+      return (
+        <>
+          {/* Volume Up */}
+          <div className="absolute top-[10%] -right-px w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
+          {/* Volume Down */}
+          <div className="absolute top-[20%] -right-px w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
+        </>
+      );
+    }
+
+    return null;
+  };
+
+  const rounding = isLaptop ? "rounded-lg" : isTablet ? "rounded-[1.25rem]" : "rounded-[1.5rem]";
+  const innerRounding = isLaptop ? "rounded-md" : isTablet ? "rounded-[1rem]" : "rounded-[1.25rem]";
+  const bezel = isLaptop ? "border-2" : "border-[3px]";
 
   return (
-    <div className="flex flex-col items-center gap-3">
-      <div
-        className={`relative w-full ${isLaptop ? "aspect-16/10" : "aspect-9/19"} bg-black rounded-lg border-2 border-white/10 overflow-hidden shadow-2xl transition-all duration-500`}
-      >
-        {/* Device Markers */}
-        {deviceStyle === "iphone-15" && (
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-20 border border-white/20" />
-        )}
-        {deviceStyle === "pixel" && (
-          <div className="absolute top-3 left-1/2 -translate-x-1/2 w-3 h-3 bg-black rounded-full z-20 border border-white/20" />
-        )}
-        {deviceStyle === "minimal" && (
-          <div className="absolute top-0 inset-x-0 h-1 bg-primary/20 z-20" />
-        )}
-
+    <div className="flex flex-col items-center">
+      <div className="relative">
+        {renderButtons()}
         <div
-          className={`absolute inset-0 bg-linear-to-b from-gray-900 to-black flex items-center justify-center ${isLaptop ? "p-8" : "p-4"}`}
+          className={`${getAspect()} bg-slate-950 ${rounding} shadow-2xl relative overflow-hidden ring-1 ring-white/10 scale-75 lg:scale-100 transition-transform`}
         >
-          {config?.type === "icon" ? (
-            <div
-              className={`${isLaptop ? "w-24 h-24" : "w-16 h-16"} rounded-2xl flex items-center justify-center shadow-lg transform rotate-12 transition-all ${
-                config.color === "primary"
-                  ? "bg-primary"
-                  : config.color === "purple"
-                    ? "bg-purple-600"
-                    : "bg-blue-600"
-              }`}
-            >
-              {config.icon === "package" && (
+        {/* Hardware Bezel Trim */}
+        <div className={`absolute inset-0 ${rounding} ${bezel} border-slate-900 pointer-events-none z-10`} />
+        
+        {/* Sensors */}
+        {renderSensors()}
+
+        {/* Screen Content */}
+        <div
+          className={`relative w-full h-full bg-linear-to-b from-gray-900 to-black flex items-center justify-center overflow-hidden ${innerRounding} ${config?.type === "image" ? "p-0" : isLaptop ? "p-4" : "p-2"}`}
+        >
+          {config?.type === "icon" ? (() => {
+            const Icon = getIcon(config.icon);
+            const bgColor = config.color === "primary" ? "bg-primary" : config.color === "purple" ? "bg-purple-600" : "bg-blue-600";
+            return (
+              <div className="flex flex-col items-center justify-center gap-2">
                 <div
-                  className={`${isLaptop ? "w-12 h-12" : "w-8 h-8"} border-2 border-white rounded-md`}
-                />
-              )}
-              {config.icon === "sparkles" && (
-                <div
-                  className={`${isLaptop ? "w-12 h-12" : "w-8 h-8"} rounded-full bg-white/20 blur-sm`}
-                />
-              )}
-              {config.icon === "car" && (
-                <div
-                  className={`${isLaptop ? "w-12 h-4" : "w-8 h-2"} bg-white rounded-full`}
-                />
-              )}
-              {config.icon === "map-pin" && (
-                <div
-                  className={`${isLaptop ? "w-8 h-8" : "w-4 h-4"} rounded-full border-2 border-white`}
-                />
-              )}
-            </div>
-          ) : (
+                  className={`${isLaptop ? "w-10 h-10" : "w-8 h-8"} ${bgColor} rounded-xl flex items-center justify-center shadow-lg transform rotate-12 transition-all`}
+                >
+                  <Icon className={`${isLaptop ? "w-5 h-5" : "w-4 h-4"} text-white`} />
+                </div>
+                {isLaptop && (
+                  <div className="text-center">
+                    <p className="text-white font-bold text-[8px] leading-tight">Tunsiska</p>
+                    <p className="text-gray-400 text-[6px]">Mega Services</p>
+                  </div>
+                )}
+              </div>
+            );
+          })() : (
             <div className="w-full h-full relative">
               {config?.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -1296,20 +1579,22 @@ function DevicePreview({
                 />
               ) : (
                 <div className="w-full h-full bg-white/5 flex items-center justify-center text-[10px] text-gray-500 italic">
-                  No image
+                  Preview
                 </div>
               )}
             </div>
           )}
         </div>
+        </div>
       </div>
 
-      {/* Laptop Base */}
       {isLaptop && (
-        <div className="w-[120%] h-2 bg-gray-800 rounded-b-xl -mt-0.5 border-t border-white/10" />
+        <div className="w-[115%] h-3 bg-slate-800 rounded-b-xl -mt-0.5 border-t border-white/10 relative flex flex-col items-center shadow-lg">
+          <div className="w-10 h-0.5 bg-black/20 rounded-full mt-0.5" />
+        </div>
       )}
 
-      <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+      <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-4">
         {title}
       </span>
     </div>
