@@ -11,6 +11,9 @@ export const translations = {
       comingSoon: "Coming Soon!",
       comingSoonDesc:
         "Our mobile app is currently in development and will be available on the App Store and Google Play soon.",
+      downloadTitle: "Download Our App",
+      downloadDesc:
+        "Experience the best cross-border services directly from your smartphone.",
       gotIt: "Got it",
     },
     hero: {
@@ -20,6 +23,8 @@ export const translations = {
       desc: "Shipping, taxi, and cleaning — all in one beautifully designed app. Seamlessly connect across borders with just a few taps.",
       downloadAppStore: "Download on the",
       getGooglePlay: "Get it on",
+      appStore: "App Store",
+      googlePlay: "Google Play",
     },
     mockup: {
       location: "Location",
@@ -93,7 +98,7 @@ export const translations = {
       openPositions: "Open Positions",
       noPositions:
         "There are currently no open positions. Please check back later.",
-      sendResume: "Don't see a fit? Send your resume to careers@tunsiska.com",
+      sendResume: "Don't see a fit? Send your resume to [EMAIL_ADDRESS]",
     },
     pressPage: {
       title: "Press & Media",
@@ -101,7 +106,7 @@ export const translations = {
         "Latest news, updates, and media resources about Tunsiska Mega Services.",
       pressReleases: "Press Releases",
       noReleases: "No press releases available at the moment.",
-      mediaContact: "For media inquiries, please contact press@tunsiska.com",
+      mediaContact: "For media inquiries, please contact [EMAIL_ADDRESS]",
     },
     footer: {
       desc: "The premier multi-service platform connecting users with logistics, transport, and home services between Sweden and Tunisia.",
@@ -268,7 +273,9 @@ export const translations = {
         title: "App Store Links",
         desc: "Manage the links for App Store and Google Play buttons.",
         appStore: "Apple App Store URL",
+        appStoreEnabled: "Enable App Store link",
         googlePlay: "Google Play Store URL",
+        googlePlayEnabled: "Enable Google Play link",
       },
       socialLinks: {
         title: "Social Media Links",
@@ -407,6 +414,9 @@ export const translations = {
       comingSoon: "Kommer snart!",
       comingSoonDesc:
         "Vår mobilapp är för närvarande under utveckling och kommer snart att finnas tillgänglig på App Store och Google Play.",
+      downloadTitle: "Ladda ner vår app",
+      downloadDesc:
+        "Upplev de bästa gränsöverskridande tjänsterna direkt från din smartphone.",
       gotIt: "Jag förstår",
     },
     hero: {
@@ -414,8 +424,10 @@ export const translations = {
       title1: "Allt-i-ett-tjänster mellan",
       title2: "Sverige & Tunisien",
       desc: "Frakt, taxi, städning — allt i en vackert designad app. Anslut sömlöst över gränserna med bara några knapptryck.",
-      downloadAppStore: "Ladda ner på",
-      getGooglePlay: "Hämta på",
+      downloadAppStore: "Ladda ner från",
+      getGooglePlay: "Ladda ner på",
+      appStore: "App Store",
+      googlePlay: "Google Play",
     },
     mockup: {
       location: "Plats",
@@ -490,7 +502,7 @@ export const translations = {
       noPositions:
         "Det finns för närvarande inga lediga tjänster. Vänligen kom tillbaka senare.",
       sendResume:
-        "Hittar du ingen passande roll? Skicka ditt CV till careers@tunsiska.com",
+        "Hittar du ingen passande roll? Skicka ditt CV till [EMAIL_ADDRESS]",
     },
     pressPage: {
       title: "Press & Media",
@@ -666,7 +678,9 @@ export const translations = {
         title: "App Store-länkar",
         desc: "Hantera länkar för App Store och Google Play-knappar.",
         appStore: "Apple App Store URL",
+        appStoreEnabled: "Aktivera App Store-länk",
         googlePlay: "Google Play Store URL",
+        googlePlayEnabled: "Aktivera Google Play-länk",
       },
       socialLinks: {
         title: "Sociala medier-länkar",
@@ -805,6 +819,9 @@ export const translations = {
       comingSoon: "قريباً!",
       comingSoonDesc:
         "تطبيقنا للأجهزة المحمولة قيد التطوير حاليًا وسيكون متاحًا على App Store و Google Play قريبًا.",
+      downloadTitle: "تحميل تطبيقنا",
+      downloadDesc:
+        "استمتع بأفضل الخدمات عبر الحدود مباشرة من هاتفك الذكي.",
       gotIt: "حسناً",
     },
     hero: {
@@ -814,6 +831,8 @@ export const translations = {
       desc: "الشحن، سيارات الأجرة، التنظيف — كل ذلك في تطبيق واحد مصمم بشكل جميل. تواصل بسلاسة عبر الحدود ببضع نقرات فقط.",
       downloadAppStore: "حمل من",
       getGooglePlay: "احصل عليه من",
+      appStore: "App Store",
+      googlePlay: "Google Play",
     },
     mockup: {
       location: "الموقع",
@@ -884,8 +903,7 @@ export const translations = {
       subtitle: "انضم إلى فريقنا وساعدنا في بناء مستقبل الخدمات عبر الحدود.",
       openPositions: "الوظائف المتاحة",
       noPositions: "لا توجد وظائف شاغرة حاليًا. يرجى التحقق مرة أخرى لاحقًا.",
-      sendResume:
-        "لا ترى وظيفة مناسبة؟ أرسل سيرتك الذاتية إلى careers@tunsiska.com",
+      sendResume: "لا ترى وظيفة مناسبة؟ أرسل سيرتك الذاتية إلى [EMAIL_ADDRESS]",
     },
     pressPage: {
       title: "الصحافة والإعلام",
@@ -1059,7 +1077,9 @@ export const translations = {
         title: "روابط المتاجر",
         desc: "إدارة روابط أزرار App Store و Google Play.",
         appStore: "رابط Apple App Store",
+        appStoreEnabled: "تفعيل رابط App Store",
         googlePlay: "رابط Google Play Store",
+        googlePlayEnabled: "تفعيل رابط Google Play",
       },
       socialLinks: {
         title: "روابط التواصل الاجتماعي",

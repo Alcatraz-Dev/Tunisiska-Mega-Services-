@@ -187,6 +187,21 @@ export default function AdminDashboard() {
               image: serviceTrans.image,
             };
           }
+        } else if (sectionId === "careers") {
+          const transKey = "careersPage";
+          if (trans[transKey]) {
+            merged[l] = trans[transKey];
+          }
+        } else if (sectionId === "press") {
+          const transKey = "pressPage";
+          if (trans[transKey]) {
+            merged[l] = trans[transKey];
+          }
+        } else if (sectionId === "contact") {
+          const transKey = "contactPage";
+          if (trans[transKey]) {
+            merged[l] = trans[transKey];
+          }
         } else {
           // Generic fallback for other sections
           if (trans[sectionId]) {
@@ -304,6 +319,111 @@ export default function AdminDashboard() {
       mockups: {
         ...settings.mockups,
         gallery: newGallery,
+      },
+    });
+  };
+
+  const handleListItemChange = (
+    sectionId: string,
+    listKey: string,
+    index: number,
+    field: string,
+    value: string,
+  ) => {
+    const newList = [...(settings.sections[sectionId][listKey] || [])];
+    newList[index] = { ...newList[index], [field]: value };
+    setSettings({
+      ...settings,
+      sections: {
+        ...settings.sections,
+        [sectionId]: {
+          ...settings.sections[sectionId],
+          [listKey]: newList,
+        },
+      },
+    });
+  };
+
+  const handleListItemLanguageChange = (
+    sectionId: string,
+    listKey: string,
+    index: number,
+    field: string,
+    lang: string,
+    value: string,
+  ) => {
+    const newList = [...(settings.sections[sectionId][listKey] || [])];
+    newList[index] = {
+      ...newList[index],
+      [field]: {
+        ...(newList[index][field] || {}),
+        [lang]: value,
+      },
+    };
+    setSettings({
+      ...settings,
+      sections: {
+        ...settings.sections,
+        [sectionId]: {
+          ...settings.sections[sectionId],
+          [listKey]: newList,
+        },
+      },
+    });
+  };
+
+  const addListItem = (sectionId: string, listKey: string) => {
+    const newList = [...(settings.sections[sectionId][listKey] || [])];
+    const newItem =
+      sectionId === "careers"
+        ? {
+            id: Date.now().toString(),
+            title: { en: "New Position", sv: "Ny tjänst", ar: "وظيفة جديدة" },
+            department: { en: "Engineering", sv: "Teknik", ar: "الهندسة" },
+            location: { en: "Remote", sv: "Distans", ar: "عن بعد" },
+            type: { en: "Full-time", sv: "Heltid", ar: "دوام كامل" },
+            link: "#",
+          }
+        : {
+            id: Date.now().toString(),
+            date: new Date().toISOString().split("T")[0],
+            title: {
+              en: "New Press Release",
+              sv: "Nytt pressmeddelande",
+              ar: "بيان صحفي جديد",
+            },
+            excerpt: {
+              en: "Summary...",
+              sv: "Sammanfattning...",
+              ar: "مقتطف...",
+            },
+            link: "#",
+          };
+
+    newList.push(newItem);
+    setSettings({
+      ...settings,
+      sections: {
+        ...settings.sections,
+        [sectionId]: {
+          ...settings.sections[sectionId],
+          [listKey]: newList,
+        },
+      },
+    });
+  };
+
+  const removeListItem = (sectionId: string, listKey: string, index: number) => {
+    const newList = [...(settings.sections[sectionId][listKey] || [])];
+    newList.splice(index, 1);
+    setSettings({
+      ...settings,
+      sections: {
+        ...settings.sections,
+        [sectionId]: {
+          ...settings.sections[sectionId],
+          [listKey]: newList,
+        },
       },
     });
   };
@@ -673,10 +793,27 @@ export default function AdminDashboard() {
                     </div>
 
                     <div className="space-y-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-400 mb-3">
-                          {t.admin.storeLinks.appStore}
-                        </label>
+                      <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <label className="text-sm font-medium text-gray-400">
+                            {t.admin.storeLinks.appStore}
+                          </label>
+                          <button
+                            onClick={() =>
+                              handleSettingChange(
+                                "links",
+                                "appStoreEnabled",
+                                !settings.links.appStoreEnabled,
+                              )
+                            }
+                            className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${settings.links.appStoreEnabled ? "bg-primary" : "bg-white/10"}`}
+                            title={t.admin.storeLinks.appStoreEnabled}
+                          >
+                            <span
+                              className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.links.appStoreEnabled ? (lang === "ar" ? "right-5" : "left-5") : (lang === "ar" ? "right-0.5" : "left-0.5")}`}
+                            />
+                          </button>
+                        </div>
                         <input
                           type="text"
                           value={settings.links.appStore}
@@ -690,10 +827,28 @@ export default function AdminDashboard() {
                           className={`w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-primary/50 transition-colors ${lang === "ar" ? "text-right" : "text-left"}`}
                         />
                       </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-400 mb-3">
-                          {t.admin.storeLinks.googlePlay}
-                        </label>
+
+                      <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <label className="text-sm font-medium text-gray-400">
+                            {t.admin.storeLinks.googlePlay}
+                          </label>
+                          <button
+                            onClick={() =>
+                              handleSettingChange(
+                                "links",
+                                "googlePlayEnabled",
+                                !settings.links.googlePlayEnabled,
+                              )
+                            }
+                            className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${settings.links.googlePlayEnabled ? "bg-primary" : "bg-white/10"}`}
+                            title={t.admin.storeLinks.googlePlayEnabled}
+                          >
+                            <span
+                              className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.links.googlePlayEnabled ? (lang === "ar" ? "right-5" : "left-5") : (lang === "ar" ? "right-0.5" : "left-0.5")}`}
+                            />
+                          </button>
+                        </div>
                         <input
                           type="text"
                           value={settings.links.googlePlay}
@@ -1840,8 +1995,15 @@ export default function AdminDashboard() {
                                     content={getMergedSectionContent(
                                       section.id,
                                     )}
+                                    sectionData={settings.sections[section.id]}
                                     onContentChange={handleContentChange}
                                     onImageUpload={handleImageUpload}
+                                    onListItemChange={handleListItemChange}
+                                    onListItemLanguageChange={
+                                      handleListItemLanguageChange
+                                    }
+                                    onAddListItem={addListItem}
+                                    onRemoveListItem={removeListItem}
                                     lang={lang}
                                     t={t}
                                   />
@@ -1926,8 +2088,13 @@ export default function AdminDashboard() {
 function SectionContentEditor({
   sectionId,
   content,
+  sectionData,
   onContentChange,
   onImageUpload,
+  onListItemChange,
+  onListItemLanguageChange,
+  onAddListItem,
+  onRemoveListItem,
   lang,
   t,
 }: any) {
@@ -2195,6 +2362,248 @@ function SectionContentEditor({
           </div>
         </div>
       ))}
+
+      {/* Specialized List Editors */}
+      {sectionId === "careers" && (
+        <div className="pt-8 border-t border-white/10 space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Users className="w-4 h-4 text-primary" />
+              <span className="text-xs font-bold uppercase tracking-widest text-white">
+                Manage Positions
+              </span>
+            </div>
+            <button
+              onClick={() => onAddListItem("careers", "positions")}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/20 text-primary text-xs font-bold hover:bg-primary/30 transition-colors"
+            >
+              <Plus size={14} />
+              Add Position
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {(sectionData?.positions || []).map((job: any, index: number) => (
+              <div
+                key={job.id}
+                className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-4"
+              >
+                <div className="flex items-start justify-between">
+                  <span className="text-[10px] font-bold text-gray-600">
+                    POSITION #{index + 1}
+                  </span>
+                  <button
+                    onClick={() =>
+                      onRemoveListItem("careers", "positions", index)
+                    }
+                    className="text-gray-500 hover:text-red-500 transition-colors"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  {["en", "sv", "ar"].map((l) => (
+                    <div key={l} className="space-y-2">
+                      <label className="text-[10px] font-bold text-gray-500 uppercase">
+                        Title ({l})
+                      </label>
+                      <input
+                        type="text"
+                        value={job.title[l] || ""}
+                        onChange={(e) =>
+                          onListItemLanguageChange(
+                            "careers",
+                            "positions",
+                            index,
+                            "title",
+                            l,
+                            e.target.value,
+                          )
+                        }
+                        className="w-full h-9 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-primary/50"
+                      />
+                    </div>
+                  ))}
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-gray-500 uppercase">
+                      Application Link
+                    </label>
+                    <input
+                      type="text"
+                      value={job.link || ""}
+                      onChange={(e) =>
+                        onListItemChange(
+                          "careers",
+                          "positions",
+                          index,
+                          "link",
+                          e.target.value,
+                        )
+                      }
+                      className="w-full h-9 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-primary/50"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4">
+                  {["department", "location", "type"].map((field) => (
+                    <div key={field} className="space-y-2">
+                      <label className="text-[10px] font-bold text-gray-500 uppercase">
+                        {field} (EN)
+                      </label>
+                      <input
+                        type="text"
+                        value={job[field]?.en || ""}
+                        onChange={(e) =>
+                          onListItemLanguageChange(
+                            "careers",
+                            "positions",
+                            index,
+                            field,
+                            "en",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full h-9 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-primary/50"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {sectionId === "press" && (
+        <div className="pt-8 border-t border-white/10 space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Newspaper className="w-4 h-4 text-primary" />
+              <span className="text-xs font-bold uppercase tracking-widest text-white">
+                Manage Press Releases
+              </span>
+            </div>
+            <button
+              onClick={() => onAddListItem("press", "pressList")}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/20 text-primary text-xs font-bold hover:bg-primary/30 transition-colors"
+            >
+              <Plus size={14} />
+              Add Release
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {(sectionData?.pressList || []).map((item: any, index: number) => (
+              <div
+                key={item.id}
+                className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-4"
+              >
+                <div className="flex items-start justify-between">
+                  <span className="text-[10px] font-bold text-gray-600">
+                    RELEASE #{index + 1}
+                  </span>
+                  <button
+                    onClick={() =>
+                      onRemoveListItem("press", "pressList", index)
+                    }
+                    className="text-gray-500 hover:text-red-500 transition-colors"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-gray-500 uppercase">
+                      Date
+                    </label>
+                    <input
+                      type="date"
+                      value={item.date || ""}
+                      onChange={(e) =>
+                        onListItemChange(
+                          "press",
+                          "pressList",
+                          index,
+                          "date",
+                          e.target.value,
+                        )
+                      }
+                      className="w-full h-9 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-primary/50"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-gray-500 uppercase">
+                      Link
+                    </label>
+                    <input
+                      type="text"
+                      value={item.link || ""}
+                      onChange={(e) =>
+                        onListItemChange(
+                          "press",
+                          "pressList",
+                          index,
+                          "link",
+                          e.target.value,
+                        )
+                      }
+                      className="w-full h-9 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-primary/50"
+                    />
+                  </div>
+                </div>
+
+                {["en", "sv", "ar"].map((l) => (
+                  <div key={l} className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-gray-500 uppercase">
+                        Title ({l})
+                      </label>
+                      <input
+                        type="text"
+                        value={item.title[l] || ""}
+                        onChange={(e) =>
+                          onListItemLanguageChange(
+                            "press",
+                            "pressList",
+                            index,
+                            "title",
+                            l,
+                            e.target.value,
+                          )
+                        }
+                        className="w-full h-9 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-primary/50"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-gray-500 uppercase">
+                        Excerpt ({l})
+                      </label>
+                      <input
+                        type="text"
+                        value={item.excerpt[l] || ""}
+                        onChange={(e) =>
+                          onListItemLanguageChange(
+                            "press",
+                            "pressList",
+                            index,
+                            "excerpt",
+                            l,
+                            e.target.value,
+                          )
+                        }
+                        className="w-full h-9 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-primary/50"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

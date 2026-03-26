@@ -1,7 +1,9 @@
 {
   "links": {
     "appStore": "https://apps.apple.com/app/tunsiska",
-    "googlePlay": "https://play.google.com/store/apps/details?id=com.tunsiska"
+    "appStoreEnabled": false,
+    "googlePlay": "https://play.google.com/store/apps/details?id=com.tunsiska",
+    "googlePlayEnabled": true
   },
   "social": {
     "facebook": "https://facebook.com/tunsiska",
@@ -211,32 +213,75 @@
     },
     "careers": {
       "visible": true,
+      "positions": [
+        {
+          "id": "1",
+          "title": {
+            "en": "Senior React Developer",
+            "sv": "Senior React-utvecklare",
+            "ar": "مطور رياكت متقدم"
+          },
+          "department": {
+            "en": "Engineering",
+            "sv": "Teknik",
+            "ar": "الهندسة"
+          },
+          "location": {
+            "en": "Remote / Stockholm",
+            "sv": "Distans / Stockholm",
+            "ar": "عن بعد / ستوكهولم"
+          },
+          "type": {
+            "en": "Full-time",
+            "sv": "Heltid",
+            "ar": "دوام كامل"
+          },
+          "link": "https://linkedin.com/company/tunsiska"
+        }
+      ],
       "content": {
         "en": {
           "title": "Careers at Tunsiska",
           "subtitle": "Join our team and help us build the future of cross-border services.",
           "openPositions": "Open Positions",
           "noPositions": "There are currently no open positions. Please check back later.",
-          "sendResume": "Don't see a fit? Send your resume to careers@tunsiska.com"
+          "sendResume": "Don't see a fit? Send your resume to [EMAIL_ADDRESS]"
         },
         "sv": {
           "title": "Karriär på Tunsiska",
           "subtitle": "Gå med i vårt team och hjälp oss bygga framtiden för gränsöverskridande tjänster.",
           "openPositions": "Lediga Tjänster",
           "noPositions": "Det finns för närvarande inga lediga tjänster. Vänligen kom tillbaka senare.",
-          "sendResume": "Hittar du ingen passande roll? Skicka ditt CV till careers@tunsiska.com"
+          "sendResume": "Hittar du ingen passande roll? Skicka ditt CV till [EMAIL_ADDRESS]"
         },
         "ar": {
           "title": "الوظائف في Tunsiska",
           "subtitle": "انضم إلى فريقنا وساعدنا في بناء مستقبل الخدمات عبر الحدود.",
           "openPositions": "الوظائف المتاحة",
           "noPositions": "لا توجد وظائف شاغرة حاليًا. يرجى التحقق مرة أخرى لاحقًا.",
-          "sendResume": "لا ترى وظيفة مناسبة؟ أرسل سيرتك الذاتية إلى careers@tunsiska.com"
+          "sendResume": "لا ترى وظيفة مناسبة؟ أرسل سيرتك الذاتية إلى [EMAIL_ADDRESS]"
         }
       }
     },
     "press": {
       "visible": true,
+      "pressList": [
+        {
+          "id": "1",
+          "date": "2026-03-20",
+          "title": {
+            "en": "Tunsiska Mega Services Expands to Tunis",
+            "sv": "Tunsiska Mega Services expanderar till Tunis",
+            "ar": "تونسيسكا ميجا سيرفيسز تتوسع في تونس"
+          },
+          "excerpt": {
+            "en": "We are excited to announce our official launch in the capital city of Tunisia.",
+            "sv": "Vi är glada att meddela vår officiella lansering i Tunis huvudstad.",
+            "ar": "يسعدنا أن نعلن عن إطلاقنا الرسمي في العاصمة التونسية."
+          },
+          "link": "https://tunsiska.com/news/expansion"
+        }
+      ],
       "content": {
         "en": {
           "title": "Press & Media",
@@ -337,6 +382,15 @@
           "image": "https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=1000"
         }
       }
+    },
+    "service_taxi": {
+      "visible": true
+    },
+    "service_cleaning": {
+      "visible": true
+    },
+    "service_containerShipping": {
+      "visible": true
     }
   }
 }

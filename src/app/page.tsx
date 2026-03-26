@@ -22,14 +22,19 @@ export default function HomePage() {
   const t = translations[lang];
   const isRtl = lang === "ar";
 
-  const openAppModal = () =>
-    window.dispatchEvent(new CustomEvent("open-app-modal"));
+  const openAppModal = (comingSoon = false) =>
+    window.dispatchEvent(new CustomEvent("open-app-modal", { detail: { comingSoon } }));
 
   const handleDownload = (type: "appStore" | "googlePlay") => {
-    if (settings?.links?.[type]) {
-      window.open(settings.links[type], "_blank");
+    const link = settings?.links?.[type];
+    const isEnabled = type === "appStore" 
+      ? settings?.links?.appStoreEnabled !== false 
+      : settings?.links?.googlePlayEnabled !== false;
+
+    if (link && isEnabled) {
+      window.open(link, "_blank");
     } else {
-      openAppModal();
+      openAppModal(true);
     }
   };
 
@@ -263,7 +268,7 @@ export default function HomePage() {
                     <div className="text-[10px] uppercase tracking-wider opacity-80">
                       {t.hero.downloadAppStore}
                     </div>
-                    <div className="text-sm leading-tight">App Store</div>
+                    <div className="text-sm leading-tight">{t.hero.appStore}</div>
                   </div>
                 </button>
 
@@ -281,7 +286,7 @@ export default function HomePage() {
                     <div className="text-[10px] uppercase tracking-wider opacity-80">
                       {t.hero.getGooglePlay}
                     </div>
-                    <div className="text-sm leading-tight">Google Play</div>
+                    <div className="text-sm leading-tight">{t.hero.googlePlay}</div>
                   </div>
                 </button>
               </div>
@@ -491,7 +496,7 @@ export default function HomePage() {
               {ctaContent.desc}
             </p>
             <button
-              onClick={openAppModal}
+              onClick={() => openAppModal()}
               className="px-8 py-4 mb-20 rounded-full bg-white text-black font-semibold hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 text-lg shadow-[0_0_40px_rgba(99,102,241,0.3)]"
             >
               {ctaContent.button}

@@ -3,8 +3,8 @@
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --color-primary: #6366F1;
-  --color-primary-hover: #4F46E5;
+  --color-primary: #0298f5;
+  --color-primary-hover: #0086d9;
   --color-accent: #F97316;
   --color-background-dark: #0B0F19;
 }
