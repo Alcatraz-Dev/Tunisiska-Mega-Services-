@@ -103,14 +103,14 @@ const DEVICE_STYLES = [
     icon: <Smartphone size={14} className="text-rose-400" />,
   },
   {
-    id: "/devices/Android Phone/Samsung S24 Ultra/Samsung S24 Ultra Titanium Black.png",
-    label: "S24 Ultra (Black)",
+    id: "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Black.png",
+    label: "Pixel 8 Pro (Black)",
     category: "android",
     icon: <Smartphone size={14} />,
   },
   {
-    id: "/devices/Android Phone/Samsung S24 Ultra/Samsung S24 Ultra Titanium Yellow.png",
-    label: "S24 Ultra (Yellow)",
+    id: "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Silver.png",
+    label: "Pixel 8 Pro (Silver)",
     category: "android",
     icon: <Smartphone size={14} />,
   },
@@ -129,8 +129,8 @@ const DEVICE_STYLES = [
     icon: <Layout size={14} />,
   },
   {
-    id: "/devices/Android Tablet/Samsung Tab S9/Samsung Tab S9 Ultra.png",
-    label: "Galaxy Tab S9 Ultra",
+    id: "/devices/Android Tablet/Samsung Galaxy Tab S11 Ultra/Samsung Galaxy Tab S11 Ultra.png",
+    label: "Galaxy Tab S11 Ultra",
     category: "tablet",
     icon: <Layout size={14} />,
   },
@@ -2826,60 +2826,78 @@ function DevicePreview({
   const device = DEVICE_STYLES.find((s) => s.id === currentDeviceStyle);
   const deviceLabel = device?.label || currentDeviceStyle;
 
-  // Modern device frames from public/devices are high quality
-  // Bezels are thin, so we need precise padding
-  const isLap =
-    currentDeviceStyle.toLowerCase().includes("laptop") ||
-    currentDeviceStyle.toLowerCase().includes("macbook");
-  const isTab =
-    currentDeviceStyle.toLowerCase().includes("tablet") ||
-    currentDeviceStyle.toLowerCase().includes("ipad");
-  const isS24 = currentDeviceStyle.includes("S24");
-  const isUltra =
-    currentDeviceStyle.includes("Ultra") || currentDeviceStyle.includes("Max");
-  const isPixel = currentDeviceStyle.includes("Pixel");
+  // ── Pixel-exact bezel measurements ──────────────────────────────────────
+  // Derived by scanning actual PNG alpha channels to locate the transparent screen hole.
+  // Format: [left%, top%, right%, bottom%]  (used to set inline padding)
+  const BEZEL_MAP: Record<string, [number, number, number, number]> = {
+    // iOS phones
+    "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png":     [6.58, 8.18, 6.64, 3.29],
+    "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png":    [6.58, 8.18, 6.64, 3.29],
+    "/devices/iOS/16 Pro/16 Pro - Black Titanium.png":             [6.58, 8.18, 6.64, 3.29],
+    "/devices/iOS/16/16 - Ultramarine.png":                        [6.58, 8.18, 6.64, 3.29],
+    "/devices/iOS/15 Pro Max/15 Pro Max - Natural Titanium.png":   [6.64, 8.11, 6.85, 3.37],
+    // Android phones
+    "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png":    [10.1, 8.71, 10.15, 4.31],
+    "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png": [10.1, 8.71, 10.15, 4.31],
+    "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Hazel.png":       [10.1, 8.71, 10.15, 4.31],
+    "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Black.png":   [11.29, 8.87, 11.35, 5.58],
+    "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Silver.png":  [11.29, 8.87, 11.35, 5.58],
+    "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Blue.png":    [11.29, 8.87, 11.35, 5.58],
+    "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Obsidian.png":     [10.1, 8.71, 10.15, 4.31],
+    "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Hazel.png":        [10.1, 8.71, 10.15, 4.31],
+    "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Rose Quartz.png":  [10.1, 8.71, 10.15, 4.31],
+    "/devices/Android Phone/Pixel 8/Pixel 8 - Hazel.png":          [11.29, 8.87, 11.35, 5.58],
+    // Tablets - iPadOS
+    "/devices/iPadOS/iPad Pro/M4 & M5/13/iPad Pro 13 M4 & M5 - Portrait - Silver.png": [4.42, 3.39, 4.46, 3.42],
+    "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png": [4.45, 3.41, 4.49, 3.44],
+    // Tablets - Android
+    "/devices/Android Tablet/Samsung Galaxy Tab S11 Ultra/Samsung Galaxy Tab S11 Ultra.png": [5.95, 10.19, 5.98, 8.85],
+    "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Hazel.png":    [6.36, 9.39, 6.39, 9.43],
+    "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Porcelain.png":[6.36, 9.39, 6.39, 9.43],
+    // Laptops
+    "/devices/MacBook/MacBook Pro 16.png": [10.18, 13.18, 10.21, 10.98],
+    "/devices/MacBook/MacBook Air 15.png": [9.78,  12.94, 9.8,  10.62],
+    "/devices/Windows Laptop/Dell/2024 XPS 16 Platinum.png": [11.0, 8.14, 11.02, 8.27],
+  };
 
-  // Refined paddings for "What You See Is What You Get"
-  // These are calculated to match the inner screen area of the frames in public/devices/
-  let hPadding = "px-[3.2%]";
-  let vPadding = "pt-[2.8%] pb-[3%] text-center";
-  let rounding = "rounded-[1.2rem]";
+  const bezel = BEZEL_MAP[currentDeviceStyle] ?? [6.58, 8.18, 6.64, 3.29]; // default iPhone 16 Pro Max
+  const [l, t, r, b] = bezel;
 
-  if (isLap) {
-    hPadding = "px-[6.2%]";
-    vPadding = "pt-[4.5%] pb-[10.5%]";
-    rounding = "rounded-[0.25rem]";
-  } else if (isTab) {
-    hPadding = "px-[4.5%]";
-    vPadding = "pt-[4.5%] pb-[4.5%]";
-    rounding = "rounded-[1.4rem]";
-  } else if (isS24) {
-    hPadding = "px-[3%]";
-    vPadding = "pt-[2.5%] pb-[2.8%]";
-    rounding = "rounded-[1rem]";
-  } else if (isPixel) {
-    hPadding = "px-[3.5%]";
-    vPadding = "pt-[2.8%] pb-[3.2%]";
-    rounding = "rounded-[1.1rem]";
-  } else if (isUltra) {
-    hPadding = "px-[2.8%]";
-    vPadding = "pt-[2.2%] pb-[2.5%]";
-    rounding = "rounded-[1.3rem]";
-  }
+  // Rounding: match the corner curve of each device category
+  const isLap = currentDeviceStyle.toLowerCase().includes("macbook") || currentDeviceStyle.toLowerCase().includes("laptop") || currentDeviceStyle.toLowerCase().includes("dell");
+  const isTab = currentDeviceStyle.toLowerCase().includes("ipad") || currentDeviceStyle.toLowerCase().includes("tablet");
+  const isPixel8 = currentDeviceStyle.includes("Pixel 8");
+  let rounding = "4%"; // default iOS phones
+  if (isLap) rounding = "0.4%";
+  else if (isTab) rounding = "2.5%";
+  else if (isPixel8) rounding = "4%";
+  else if (currentDeviceStyle.includes("Pixel")) rounding = "4.5%";
+
+  // Encode URL with proper segment-level encoding (handles & and spaces)
+  const frameSrc = currentDeviceStyle.split('/').map(segment => encodeURIComponent(segment)).join('/');
+
+  const paddingStyle = {
+    paddingLeft: `${l}%`,
+    paddingRight: `${r}%`,
+    paddingTop: `${t}%`,
+    paddingBottom: `${b}%`,
+  };
 
   return (
     <div className="flex flex-col items-center">
       <div className="relative w-full drop-shadow-2xl group transition-all duration-500 hover:scale-[1.02]">
         <img
-          src={encodeURI(currentDeviceStyle)}
+          src={frameSrc}
           alt="Device Frame"
           className="w-full h-auto block relative z-20 pointer-events-none drop-shadow-lg"
         />
         <div
-          className={`absolute inset-0 flex items-center justify-center ${hPadding} ${vPadding} z-10`}
+          className="absolute inset-0 z-10"
+          style={paddingStyle}
         >
           <div
-            className={`w-full h-full overflow-hidden ${rounding} bg-slate-950 flex flex-col items-center justify-center relative shadow-inner`}
+            className="w-full h-full overflow-hidden bg-slate-950 flex flex-col items-center justify-center relative shadow-inner"
+            style={{ borderRadius: rounding }}
           >
             {config?.type === "image" && config?.image ? (
               <img
