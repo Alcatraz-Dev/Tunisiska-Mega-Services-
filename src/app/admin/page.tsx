@@ -1678,23 +1678,45 @@ export default function AdminDashboard() {
                             {/* Device & Upload Controls */}
                             <div className="flex flex-col gap-4">
                               <div className="flex flex-col gap-2">
-                                <label className="text-xs font-medium text-gray-400 uppercase tracking-wider">Device Model</label>
-                                <select 
-                                  value={mock.style} 
-                                  onChange={(e) => handleGalleryChange(index, "style", e.target.value)}
+                                <label className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                  Device Model
+                                </label>
+                                <select
+                                  value={mock.style}
+                                  onChange={(e) =>
+                                    handleGalleryChange(
+                                      index,
+                                      "style",
+                                      e.target.value,
+                                    )
+                                  }
                                   className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-gray-200 outline-none focus:border-primary transition-colors appearance-none"
                                 >
-                                  {['ios', 'android', 'tablet', 'laptop'].map(cat => {
-                                    const devCat = DEVICE_STYLES.filter(s => s.category === cat);
-                                    if (devCat.length === 0) return null;
-                                    return (
-                                      <optgroup key={cat} label={cat.toUpperCase()} className="bg-slate-900 text-gray-400 font-semibold p-2">
-                                        {devCat.map(s => (
-                                          <option key={s.id} value={s.id} className="text-gray-200">{s.label}</option>
-                                        ))}
-                                      </optgroup>
-                                    );
-                                  })}
+                                  {["ios", "android", "tablet", "laptop"].map(
+                                    (cat) => {
+                                      const devCat = DEVICE_STYLES.filter(
+                                        (s) => s.category === cat,
+                                      );
+                                      if (devCat.length === 0) return null;
+                                      return (
+                                        <optgroup
+                                          key={cat}
+                                          label={cat.toUpperCase()}
+                                          className="bg-slate-900 text-gray-400 font-semibold p-2"
+                                        >
+                                          {devCat.map((s) => (
+                                            <option
+                                              key={s.id}
+                                              value={s.id}
+                                              className="text-gray-200"
+                                            >
+                                              {s.label}
+                                            </option>
+                                          ))}
+                                        </optgroup>
+                                      );
+                                    },
+                                  )}
                                 </select>
                               </div>
 
@@ -1708,11 +1730,17 @@ export default function AdminDashboard() {
                                     accept="image/*"
                                     onChange={(e) => {
                                       const file = e.target.files?.[0];
-                                      if (file) handleImageUpload(`gallery-${index}`, file);
+                                      if (file)
+                                        handleImageUpload(
+                                          `gallery-${index}`,
+                                          file,
+                                        );
                                     }}
                                     className="hidden"
                                     id={`gallery-upload-${index}`}
-                                    disabled={isUploading === `gallery-${index}`}
+                                    disabled={
+                                      isUploading === `gallery-${index}`
+                                    }
                                   />
                                   <label
                                     htmlFor={`gallery-upload-${index}`}
@@ -1723,7 +1751,9 @@ export default function AdminDashboard() {
                                     ) : (
                                       <div className="flex items-center gap-2 text-gray-300 group-hover:text-primary transition-colors text-sm font-medium">
                                         <Upload className="w-4 h-4" />
-                                        {mock.image ? "Change Image" : "Upload Image"}
+                                        {mock.image
+                                          ? "Change Image"
+                                          : "Upload Image"}
                                       </div>
                                     )}
                                   </label>
@@ -1946,18 +1976,42 @@ export default function AdminDashboard() {
                                             </div>
 
                                             <div className="flex flex-col gap-2 mb-4">
-                                              <select 
-                                                value={mock.style} 
-                                                onChange={(e) => handleGalleryChange(index, "style", e.target.value)}
+                                              <select
+                                                value={mock.style}
+                                                onChange={(e) =>
+                                                  handleGalleryChange(
+                                                    index,
+                                                    "style",
+                                                    e.target.value,
+                                                  )
+                                                }
                                                 className="w-full bg-black/40 border border-white/5 rounded-lg px-2 py-1.5 text-xs text-gray-300 outline-none focus:border-primary transition-colors appearance-none"
                                               >
-                                                {['ios', 'android', 'tablet', 'laptop'].map(cat => {
-                                                  const devCat = DEVICE_STYLES.filter(s => s.category === cat);
-                                                  if (devCat.length === 0) return null;
+                                                {[
+                                                  "ios",
+                                                  "android",
+                                                  "tablet",
+                                                  "laptop",
+                                                ].map((cat) => {
+                                                  const devCat =
+                                                    DEVICE_STYLES.filter(
+                                                      (s) => s.category === cat,
+                                                    );
+                                                  if (devCat.length === 0)
+                                                    return null;
                                                   return (
-                                                    <optgroup key={cat} label={cat.toUpperCase()} className="bg-slate-900 border-none">
-                                                      {devCat.map(s => (
-                                                        <option key={s.id} value={s.id}>{s.label}</option>
+                                                    <optgroup
+                                                      key={cat}
+                                                      label={cat.toUpperCase()}
+                                                      className="bg-slate-900 border-none"
+                                                    >
+                                                      {devCat.map((s) => (
+                                                        <option
+                                                          key={s.id}
+                                                          value={s.id}
+                                                        >
+                                                          {s.label}
+                                                        </option>
                                                       ))}
                                                     </optgroup>
                                                   );
@@ -2831,50 +2885,98 @@ function DevicePreview({
   // Format: [left%, top%, right%, bottom%]  (used to set inline padding)
   const BEZEL_MAP: Record<string, [number, number, number, number]> = {
     // iOS phones
-    "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png":     [6.58, 8.18, 6.64, 3.29],
-    "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png":    [6.58, 8.18, 6.64, 3.29],
-    "/devices/iOS/16 Pro/16 Pro - Black Titanium.png":             [6.58, 8.18, 6.64, 3.29],
-    "/devices/iOS/16/16 - Ultramarine.png":                        [6.58, 8.18, 6.64, 3.29],
-    "/devices/iOS/15 Pro Max/15 Pro Max - Natural Titanium.png":   [6.64, 8.11, 6.85, 3.37],
+    "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png": [
+      7.5, 5.5, 7.5, 4.5,
+    ],
+    "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png": [
+      7.5, 5.5, 7.5, 4.5,
+    ],
+    "/devices/iOS/16 Pro/16 Pro - Black Titanium.png": [7.5, 5.5, 7.5, 4.5],
+    "/devices/iOS/16/16 - Ultramarine.png": [7.5, 5.5, 7.5, 4.5],
+    "/devices/iOS/15 Pro Max/15 Pro Max - Natural Titanium.png": [
+      7.5, 5.5, 7.5, 4.5,
+    ],
     // Android phones
-    "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png":    [10.1, 8.71, 10.15, 4.31],
-    "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png": [10.1, 8.71, 10.15, 4.31],
-    "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Hazel.png":       [10.1, 8.71, 10.15, 4.31],
-    "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Black.png":   [11.29, 8.87, 11.35, 5.58],
-    "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Silver.png":  [11.29, 8.87, 11.35, 5.58],
-    "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Blue.png":    [11.29, 8.87, 11.35, 5.58],
-    "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Obsidian.png":     [10.1, 8.71, 10.15, 4.31],
-    "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Hazel.png":        [10.1, 8.71, 10.15, 4.31],
-    "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Rose Quartz.png":  [10.1, 8.71, 10.15, 4.31],
-    "/devices/Android Phone/Pixel 8/Pixel 8 - Hazel.png":          [11.29, 8.87, 11.35, 5.58],
+    "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png": [
+      10.5, 6.0, 10.5, 5.0,
+    ],
+    "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png": [
+      10.5, 6.0, 10.5, 5.0,
+    ],
+    "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Hazel.png": [
+      10.5, 6.0, 10.5, 5.0,
+    ],
+    "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Black.png": [
+      11.5, 7.0, 11.5, 6.0,
+    ],
+    "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Silver.png": [
+      11.5, 7.0, 11.5, 6.0,
+    ],
+    "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Blue.png": [
+      11.5, 7.0, 11.5, 6.0,
+    ],
+    "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Obsidian.png": [
+      10.5, 6.0, 10.5, 5.0,
+    ],
+    "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Hazel.png": [
+      10.5, 6.0, 10.5, 5.0,
+    ],
+    "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Rose Quartz.png": [
+      10.5, 6.0, 10.5, 5.0,
+    ],
+    "/devices/Android Phone/Pixel 8/Pixel 8 - Hazel.png": [
+      11.5, 7.0, 11.5, 6.0,
+    ],
     // Tablets - iPadOS
-    "/devices/iPadOS/iPad Pro/M4 & M5/13/iPad Pro 13 M4 & M5 - Portrait - Silver.png": [4.42, 3.39, 4.46, 3.42],
-    "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png": [4.45, 3.41, 4.49, 3.44],
+    "/devices/iPadOS/iPad Pro/M4 & M5/13/iPad Pro 13 M4 & M5 - Portrait - Silver.png":
+      [4.42, 3.39, 4.46, 3.42],
+    "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png":
+      [4.45, 3.41, 4.49, 3.44],
     // Tablets - Android
-    "/devices/Android Tablet/Samsung Galaxy Tab S11 Ultra/Samsung Galaxy Tab S11 Ultra.png": [5.95, 10.19, 5.98, 8.85],
-    "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Hazel.png":    [6.36, 9.39, 6.39, 9.43],
-    "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Porcelain.png":[6.36, 9.39, 6.39, 9.43],
+    "/devices/Android Tablet/Samsung Galaxy Tab S11 Ultra/Samsung Galaxy Tab S11 Ultra.png":
+      [5.95, 8.85, 5.98, 8.85],
+    "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Hazel.png": [
+      6.36, 9.41, 6.39, 9.43,
+    ],
+    "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Porcelain.png": [
+      6.36, 9.41, 6.39, 9.43,
+    ],
     // Laptops
-    "/devices/MacBook/MacBook Pro 16.png": [10.18, 13.18, 10.21, 10.98],
-    "/devices/MacBook/MacBook Air 15.png": [9.78,  12.94, 9.8,  10.62],
-    "/devices/Windows Laptop/Dell/2024 XPS 16 Platinum.png": [11.0, 8.14, 11.02, 8.27],
+    "/devices/MacBook/MacBook Pro 16.png": [10.2, 11.0, 10.2, 11.0],
+    "/devices/MacBook/MacBook Air 15.png": [9.8, 10.6, 9.8, 10.6],
+    "/devices/Windows Laptop/Dell/2024 XPS 16 Platinum.png": [
+      11.0, 8.3, 11.0, 8.3,
+    ],
   };
 
-  const bezel = BEZEL_MAP[currentDeviceStyle] ?? [6.58, 8.18, 6.64, 3.29]; // default iPhone 16 Pro Max
+  const bezel = BEZEL_MAP[currentDeviceStyle] ?? [7.5, 5.0, 7.5, 5.0]; // default iPhone 16 Pro Max
   const [l, t, r, b] = bezel;
 
-  // Rounding: match the corner curve of each device category
-  const isLap = currentDeviceStyle.toLowerCase().includes("macbook") || currentDeviceStyle.toLowerCase().includes("laptop") || currentDeviceStyle.toLowerCase().includes("dell");
-  const isTab = currentDeviceStyle.toLowerCase().includes("ipad") || currentDeviceStyle.toLowerCase().includes("tablet");
-  const isPixel8 = currentDeviceStyle.includes("Pixel 8");
-  let rounding = "4%"; // default iOS phones
-  if (isLap) rounding = "0.4%";
-  else if (isTab) rounding = "2.5%";
-  else if (isPixel8) rounding = "4%";
-  else if (currentDeviceStyle.includes("Pixel")) rounding = "4.5%";
+  let rounding = "8%";
+  if (
+    (currentDeviceStyle || "").toLowerCase().includes("laptop") ||
+    (currentDeviceStyle || "").toLowerCase().includes("macbook")
+  ) {
+    rounding = "0.4%";
+  } else if (
+    (currentDeviceStyle || "").toLowerCase().includes("ipad") ||
+    (currentDeviceStyle || "").toLowerCase().includes("tablet")
+  ) {
+    rounding = "5%";
+  } else if ((currentDeviceStyle || "").toLowerCase().includes("pixel")) {
+    rounding = "8%";
+  } else if (
+    (currentDeviceStyle || "").toLowerCase().includes("iphone") ||
+    (currentDeviceStyle || "").toLowerCase().includes("ios")
+  ) {
+    rounding = "8%";
+  }
 
   // Encode URL with proper segment-level encoding (handles & and spaces)
-  const frameSrc = currentDeviceStyle.split('/').map(segment => encodeURIComponent(segment)).join('/');
+  const frameSrc = currentDeviceStyle
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
 
   const paddingStyle = {
     paddingLeft: `${l}%`,
@@ -2892,31 +2994,30 @@ function DevicePreview({
           className="w-full h-auto block relative z-20 pointer-events-none drop-shadow-lg"
         />
         <div
-          className="absolute inset-0 z-10"
-          style={paddingStyle}
+          className="absolute inset-0 z-10 overflow-hidden select-none touch-none"
+          style={{ ...paddingStyle, borderRadius: rounding }}
         >
           <div
-            className="w-full h-full overflow-hidden bg-slate-950 flex flex-col items-center justify-center relative shadow-inner"
+            className="w-full h-full relative overflow-hidden flex flex-col items-center justify-center bg-slate-950/20 backdrop-blur-sm"
             style={{ borderRadius: rounding }}
           >
-            {config?.type === "image" && config?.image ? (
-              <img
-                src={config.image}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                style={{ objectPosition: "top center" }}
-                alt="Mockup Content"
-              />
-            ) : (
-              <div className="flex flex-col items-center p-4">
-                <div
-                  className={`w-10 h-10 ${config?.color === "purple" ? "bg-linear-to-br from-purple-500 to-indigo-600" : config?.color === "accent" ? "bg-linear-to-br from-amber-400 to-orange-600" : "bg-linear-to-br from-primary to-indigo-600"} rounded-2xl flex items-center justify-center mb-3 shadow-[0_8px_20px_rgba(0,0,0,0.3)] border border-white/20`}
-                >
-                  <Icon size={18} className="text-white drop-shadow-md" />
+            <div className="relative z-10 w-full h-full translate-y-[1mm] overflow-hidden">
+              {config?.type === "image" && config?.image ? (
+                <img
+                  src={config.image}
+                  alt="Preview"
+                  className="w-full h-full object-cover object-top"
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center h-full">
+                  <div className="w-10 h-10 rounded-2xl bg-primary flex items-center justify-center mb-3 shadow-[0_10px_20px_rgba(0,0,0,0.3)] ring-2 ring-white/10">
+                    <Icon size={18} className="text-white drop-shadow-md" />
+                  </div>
+                  <div className="w-16 h-2 bg-white/10 rounded-full mb-1.5" />
+                  <div className="w-10 h-1.5 bg-white/5 rounded-full" />
                 </div>
-                <div className="w-16 h-2 bg-white/10 rounded-full mb-1.5" />
-                <div className="w-10 h-1.5 bg-white/5 rounded-full" />
-              </div>
-            )}
+              )}
+            </div>
 
             {/* Subtle gloss effect overlay */}
             <div className="absolute inset-0 bg-linear-to-tr from-white/5 via-transparent to-transparent pointer-events-none z-30" />

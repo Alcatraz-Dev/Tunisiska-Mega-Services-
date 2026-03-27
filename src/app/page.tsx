@@ -23,13 +23,16 @@ export default function HomePage() {
   const isRtl = lang === "ar";
 
   const openAppModal = (comingSoon = false) =>
-    window.dispatchEvent(new CustomEvent("open-app-modal", { detail: { comingSoon } }));
+    window.dispatchEvent(
+      new CustomEvent("open-app-modal", { detail: { comingSoon } }),
+    );
 
   const handleDownload = (type: "appStore" | "googlePlay") => {
     const link = settings?.links?.[type];
-    const isEnabled = type === "appStore" 
-      ? settings?.links?.appStoreEnabled !== false 
-      : settings?.links?.googlePlayEnabled !== false;
+    const isEnabled =
+      type === "appStore"
+        ? settings?.links?.appStoreEnabled !== false
+        : settings?.links?.googlePlayEnabled !== false;
 
     if (link && isEnabled) {
       window.open(link, "_blank");
@@ -50,11 +53,19 @@ export default function HomePage() {
   const featuresContent = getSectionContent("features", t.features);
   const ctaContent = getSectionContent("cta", t.cta);
   const galleryContent = getSectionContent("gallery", {
-    headline: lang === "ar" ? "اكتشف شكل التطبيق" : lang === "sv" ? "Utforska Appen" : "Explore the App",
-    description: lang === "ar" ? "ألق نظرة على التصميم الأنيق والواجهة السلسة لخدماتنا في التطبيق." : lang === "sv" ? "Ta en titt på den eleganta designen och det smidiga gränssnittet för våra tjänster i appen." : "Take a look at the elegant design and seamless interface of our services in the app."
+    headline:
+      lang === "ar"
+        ? "اكتشف شكل التطبيق"
+        : lang === "sv"
+          ? "Utforska Appen"
+          : "Explore the App",
+    description:
+      lang === "ar"
+        ? "ألق نظرة على التصميم الأنيق والواجهة السلسة لخدماتنا في التطبيق."
+        : lang === "sv"
+          ? "Ta en titt på den eleganta designen och det smidiga gränssnittet för våra tjänster i appen."
+          : "Take a look at the elegant design and seamless interface of our services in the app.",
   });
-
-
 
   const DeviceMockup = ({
     style = "iphone-15",
@@ -68,57 +79,101 @@ export default function HomePage() {
     innerClassName?: string;
   }) => {
     const isImageMockup = style && style.startsWith("/devices/");
-    const currentStyle = isImageMockup ? style : "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png";
+    const currentStyle = isImageMockup
+      ? style
+      : "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png";
 
     // ── Pixel-exact bezel measurements (shared with admin DevicePreview) ────
     // Derived by scanning PNG alpha channels to locate the transparent screen hole.
     // Format: [left%, top%, right%, bottom%]
     const BEZEL_MAP: Record<string, [number, number, number, number]> = {
       // iOS phones
-      "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png":     [6.58, 8.18, 6.64, 3.29],
-      "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png":    [6.58, 8.18, 6.64, 3.29],
-      "/devices/iOS/16 Pro/16 Pro - Black Titanium.png":             [6.58, 8.18, 6.64, 3.29],
-      "/devices/iOS/16/16 - Ultramarine.png":                        [6.58, 8.18, 6.64, 3.29],
-      "/devices/iOS/15 Pro Max/15 Pro Max - Natural Titanium.png":   [6.64, 8.11, 6.85, 3.37],
+      "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png": [
+        7.5, 5.5, 7.5, 4.5,
+      ],
+      "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png": [
+        7.5, 5.5, 7.5, 4.5,
+      ],
+      "/devices/iOS/16 Pro/16 Pro - Black Titanium.png": [7.5, 5.5, 7.5, 4.5],
+      "/devices/iOS/16/16 - Ultramarine.png": [7.5, 5.5, 7.5, 4.5],
+      "/devices/iOS/15 Pro Max/15 Pro Max - Natural Titanium.png": [
+        7.5, 5.5, 7.5, 4.5,
+      ],
       // Android phones
-      "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png":    [10.1, 8.71, 10.15, 4.31],
-      "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png": [10.1, 8.71, 10.15, 4.31],
-      "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Hazel.png":       [10.1, 8.71, 10.15, 4.31],
-      "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Black.png":   [11.29, 8.87, 11.35, 5.58],
-      "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Silver.png":  [11.29, 8.87, 11.35, 5.58],
-      "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Blue.png":    [11.29, 8.87, 11.35, 5.58],
-      "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Obsidian.png":     [10.1, 8.71, 10.15, 4.31],
-      "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Hazel.png":        [10.1, 8.71, 10.15, 4.31],
-      "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Rose Quartz.png":  [10.1, 8.71, 10.15, 4.31],
-      "/devices/Android Phone/Pixel 8/Pixel 8 - Hazel.png":          [11.29, 8.87, 11.35, 5.58],
+      "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png": [
+        10.5, 6.0, 10.5, 5.0,
+      ],
+      "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png": [
+        10.5, 6.0, 10.5, 5.0,
+      ],
+      "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Hazel.png": [
+        10.5, 6.0, 10.5, 5.0,
+      ],
+      "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Black.png": [
+        11.5, 7.0, 11.5, 6.0,
+      ],
+      "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Silver.png": [
+        11.5, 7.0, 11.5, 6.0,
+      ],
+      "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Blue.png": [
+        11.5, 7.0, 11.5, 6.0,
+      ],
+      "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Obsidian.png": [
+        10.5, 6.0, 10.5, 5.0,
+      ],
+      "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Hazel.png": [
+        10.5, 6.0, 10.5, 5.0,
+      ],
+      "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Rose Quartz.png": [
+        10.5, 6.0, 10.5, 5.0,
+      ],
+      "/devices/Android Phone/Pixel 8/Pixel 8 - Hazel.png": [
+        11.5, 7.0, 11.5, 6.0,
+      ],
       // Tablets - iPadOS
-      "/devices/iPadOS/iPad Pro/M4 & M5/13/iPad Pro 13 M4 & M5 - Portrait - Silver.png": [4.42, 3.39, 4.46, 3.42],
-      "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png": [4.45, 3.41, 4.49, 3.44],
+      "/devices/iPadOS/iPad Pro/M4 & M5/13/iPad Pro 13 M4 & M5 - Portrait - Silver.png":
+        [4.42, 3.39, 4.46, 3.42],
+      "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png":
+        [4.45, 3.41, 4.49, 3.44],
       // Tablets - Android
-      "/devices/Android Tablet/Samsung Galaxy Tab S11 Ultra/Samsung Galaxy Tab S11 Ultra.png": [5.95, 10.19, 5.98, 8.85],
-      "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Hazel.png":    [6.36, 9.39, 6.39, 9.43],
-      "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Porcelain.png":[6.36, 9.39, 6.39, 9.43],
+      "/devices/Android Tablet/Samsung Galaxy Tab S11 Ultra/Samsung Galaxy Tab S11 Ultra.png":
+        [5.95, 8.85, 5.98, 8.85],
+      "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Hazel.png": [
+        6.36, 9.41, 6.39, 9.43,
+      ],
+      "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Porcelain.png": [
+        6.36, 9.41, 6.39, 9.43,
+      ],
       // Laptops
-      "/devices/MacBook/MacBook Pro 16.png": [10.18, 13.18, 10.21, 10.98],
-      "/devices/MacBook/MacBook Air 15.png": [9.78,  12.94, 9.8,  10.62],
-      "/devices/Windows Laptop/Dell/2024 XPS 16 Platinum.png": [11.0, 8.14, 11.02, 8.27],
+      "/devices/MacBook/MacBook Pro 16.png": [10.2, 11.0, 10.2, 11.0],
+      "/devices/MacBook/MacBook Air 15.png": [9.8, 10.6, 9.8, 10.6],
+      "/devices/Windows Laptop/Dell/2024 XPS 16 Platinum.png": [
+        11.0, 8.3, 11.0, 8.3,
+      ],
     };
 
-    const bezel = BEZEL_MAP[currentStyle] ?? [6.58, 8.18, 6.64, 3.29];
+    const bezel = BEZEL_MAP[currentStyle] ?? [7.5, 5.0, 7.5, 5.0];
     const [l, t, r, b] = bezel;
 
+    // Helper to check if currentStyle includes a keyword (case-insensitive)
+    const isStyle = (keyword: string) =>
+      currentStyle.toLowerCase().includes(keyword.toLowerCase());
+
     // Corner rounding matching each device category's physical curve
-    const isLapStyle = currentStyle.toLowerCase().includes("macbook") || currentStyle.toLowerCase().includes("laptop") || currentStyle.toLowerCase().includes("dell");
-    const isTabStyle = currentStyle.toLowerCase().includes("ipad") || currentStyle.toLowerCase().includes("tablet");
-    const isPixel8Style = currentStyle.includes("Pixel 8");
-    let rounding = "4%";
+    const isLapStyle =
+      isStyle("macbook") || isStyle("laptop") || isStyle("dell");
+    const isTabStyle = isStyle("ipad") || isStyle("tablet");
+    let rounding = "9%";
     if (isLapStyle) rounding = "0.4%";
-    else if (isTabStyle) rounding = "2.5%";
-    else if (isPixel8Style) rounding = "4%";
-    else if (currentStyle.includes("Pixel")) rounding = "4.5%";
+    else if (isTabStyle) rounding = "6%";
+    else if (isStyle("pixel")) rounding = "9%";
+    else if (isStyle("iphone") || isStyle("ios")) rounding = "9%";
 
     // Proper segment-level encoding handles spaces AND & in paths
-    const frameSrc = currentStyle.split('/').map(segment => encodeURIComponent(segment)).join('/');
+    const frameSrc = currentStyle
+      .split("/")
+      .map((segment) => encodeURIComponent(segment))
+      .join("/");
 
     const paddingStyle = {
       paddingLeft: `${l}%`,
@@ -131,19 +186,26 @@ export default function HomePage() {
       <div className={`flex flex-col items-center group relative ${className}`}>
         <div className="relative w-full drop-shadow-2xl">
           {/* The device frame image */}
-          <img 
-            src={frameSrc} 
-            alt="Device Frame" 
-            className="w-full h-auto block relative z-20 pointer-events-none" 
+          <img
+            src={frameSrc}
+            alt="Device Frame"
+            className="w-full h-auto block relative z-20 pointer-events-none"
           />
-          
+
           {/* The screen content container positioned exactly within the frame's transparent area */}
-          <div className="absolute inset-0 z-10" style={paddingStyle}>
+          {/* The screen content container positioned exactly within the frame's transparent area */}
+          <div
+            className="absolute inset-0 z-10 overflow-hidden select-none touch-none"
+            style={{ ...paddingStyle, borderRadius: rounding }}
+          >
             <div
-              className={`w-full h-full relative overflow-hidden flex flex-col items-center justify-center bg-slate-950 ${innerClassName}`}
+              className={`w-full h-full relative overflow-hidden flex flex-col items-center justify-center bg-slate-950/20 backdrop-blur-sm ${innerClassName}`}
               style={{ borderRadius: rounding }}
             >
-              {children}
+              <div className="absolute inset-0 z-0 bg-slate-950"></div>
+              <div className="relative z-10 w-full h-full translate-y-[1mm] overflow-hidden">
+                {children}
+              </div>
             </div>
           </div>
         </div>
@@ -154,23 +216,29 @@ export default function HomePage() {
   // Helper to get icon component
   const getIcon = (iconName: string) => {
     switch (iconName) {
-      case "sparkles": return Sparkles;
-      case "car": return Car;
-      case "map-pin": return MapPin;
-      default: return Package;
+      case "sparkles":
+        return Sparkles;
+      case "car":
+        return Car;
+      case "map-pin":
+        return MapPin;
+      default:
+        return Package;
     }
   };
 
-  const MockupContent = ({ 
-    config, 
-    isLaptop = false, 
+  const MockupContent = ({
+    config,
+    isLaptop = false,
     isTablet = false,
-    className = ""
-  }: { 
-    config: any; 
-    isLaptop?: boolean; 
+    className = "",
+    disableHover = false,
+  }: {
+    config: any;
+    isLaptop?: boolean;
     isTablet?: boolean;
     className?: string;
+    disableHover?: boolean;
   }) => {
     if (!config) return null;
     if (config.type === "image" && config.image) {
@@ -179,30 +247,41 @@ export default function HomePage() {
         <img
           src={config.image}
           alt="App Mockup"
-          className="w-full h-full object-cover"
+          className={`w-full h-full object-cover ${isLaptop ? "object-center" : "object-top"} transition-transform duration-500 ${!disableHover ? "group-hover:scale-105" : ""}`}
         />
       );
     }
 
     const Icon = getIcon(config.icon);
 
-    const bgColor = config.color === "purple" 
-      ? "bg-purple-600" 
-      : config.color === "accent" 
-        ? "bg-accent" 
-        : "bg-primary";
+    const bgColor =
+      config.color === "purple"
+        ? "bg-purple-600"
+        : config.color === "accent"
+          ? "bg-accent"
+          : "bg-primary";
 
     const size = isLaptop ? "w-24 h-24" : isTablet ? "w-20 h-20" : "w-16 h-16";
-    const iconSize = isLaptop ? "w-12 h-12" : isTablet ? "w-10 h-10" : "w-8 h-8";
+    const iconSize = isLaptop
+      ? "w-12 h-12"
+      : isTablet
+        ? "w-10 h-10"
+        : "w-8 h-8";
 
     return (
-      <div className={`flex flex-col items-center justify-center gap-4 ${className} w-full h-full`}>
-        <div className={`${size} ${bgColor} rounded-3xl flex items-center justify-center shadow-[0_20px_40px_rgba(0,0,0,0.3)] ring-4 ring-white/10 rotate-12 transition-all duration-700 hover:rotate-0 hover:scale-110`}>
+      <div
+        className={`flex flex-col items-center justify-center gap-4 ${className} w-full h-full`}
+      >
+        <div
+          className={`${size} ${bgColor} rounded-3xl flex items-center justify-center shadow-[0_20px_40px_rgba(0,0,0,0.3)] ring-4 ring-white/10 rotate-12 transition-all duration-700 hover:rotate-0 hover:scale-110`}
+        >
           <Icon className={`${iconSize} text-white shadow-sm`} />
         </div>
         {(isLaptop || isTablet) && (
           <div className="text-center animate-in fade-in slide-in-from-bottom-2 duration-1000">
-            <p className="text-white font-bold text-lg leading-tight">Tunsiska</p>
+            <p className="text-white font-bold text-lg leading-tight">
+              Tunsiska
+            </p>
             <p className="text-gray-400 text-sm">Mega Services</p>
           </div>
         )}
@@ -248,7 +327,9 @@ export default function HomePage() {
                     <div className="text-[10px] uppercase tracking-wider opacity-80">
                       {t.hero.downloadAppStore}
                     </div>
-                    <div className="text-sm leading-tight">{t.hero.appStore}</div>
+                    <div className="text-sm leading-tight">
+                      {t.hero.appStore}
+                    </div>
                   </div>
                 </button>
 
@@ -266,7 +347,9 @@ export default function HomePage() {
                     <div className="text-[10px] uppercase tracking-wider opacity-80">
                       {t.hero.getGooglePlay}
                     </div>
-                    <div className="text-sm leading-tight">{t.hero.googlePlay}</div>
+                    <div className="text-sm leading-tight">
+                      {t.hero.googlePlay}
+                    </div>
                   </div>
                 </button>
               </div>
@@ -282,19 +365,55 @@ export default function HomePage() {
               {/* Left Phone */}
               <motion.div
                 initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 0.8, x: (settings?.mockups?.heroCenter?.style || "").toLowerCase().includes("ipad") ? -180 : -140 }}
+                animate={{
+                  opacity: 0.8,
+                  x: (settings?.mockups?.heroCenter?.style || "")
+                    .toLowerCase()
+                    .includes("ipad")
+                    ? -180
+                    : -140,
+                }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
                 className="absolute z-0 hidden md:block"
               >
                 <DeviceMockup
-                  style={settings?.mockups?.heroLeft?.style || settings?.mockups?.style}
-                  className="w-56 lg:w-60"
-                  innerClassName={settings?.mockups?.heroLeft?.type === "image" ? "" : "bg-linear-to-b from-indigo-950 to-slate-900"}
+                  style={
+                    settings?.mockups?.heroLeft?.style ||
+                    settings?.mockups?.style
+                  }
+                  className={`${(settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook") ? "w-80 lg:w-96" : "w-56 lg:w-60"}`}
+                  innerClassName={
+                    settings?.mockups?.heroLeft?.type === "image"
+                      ? ""
+                      : "bg-linear-to-b from-indigo-950 to-slate-900"
+                  }
                 >
-                  <MockupContent 
-                    config={settings?.mockups?.heroLeft} 
-                    isLaptop={(settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
-                    isTablet={(settings?.mockups?.heroLeft?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.heroLeft?.style || "").toLowerCase().includes("tablet")}
+                  <MockupContent
+                    config={settings?.mockups?.heroLeft}
+                    isLaptop={
+                      (
+                        settings?.mockups?.heroLeft?.style ||
+                        settings?.mockups?.style ||
+                        ""
+                      )
+                        .toLowerCase()
+                        .includes("laptop") ||
+                      (
+                        settings?.mockups?.heroLeft?.style ||
+                        settings?.mockups?.style ||
+                        ""
+                      )
+                        .toLowerCase()
+                        .includes("macbook")
+                    }
+                    isTablet={
+                      (settings?.mockups?.heroLeft?.style || "")
+                        .toLowerCase()
+                        .includes("ipad") ||
+                      (settings?.mockups?.heroLeft?.style || "")
+                        .toLowerCase()
+                        .includes("tablet")
+                    }
                   />
                 </DeviceMockup>
               </motion.div>
@@ -302,19 +421,55 @@ export default function HomePage() {
               {/* Right Phone */}
               <motion.div
                 initial={{ opacity: 0, x: -100 }}
-                animate={{ opacity: 0.8, x: (settings?.mockups?.heroCenter?.style || "").toLowerCase().includes("ipad") ? 180 : 140 }}
+                animate={{
+                  opacity: 0.8,
+                  x: (settings?.mockups?.heroCenter?.style || "")
+                    .toLowerCase()
+                    .includes("ipad")
+                    ? 180
+                    : 140,
+                }}
                 transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
                 className="absolute z-0 hidden md:block"
               >
                 <DeviceMockup
-                  style={settings?.mockups?.heroRight?.style || settings?.mockups?.style}
-                  className="w-56 lg:w-60"
-                  innerClassName={settings?.mockups?.heroRight?.type === "image" ? "" : "bg-linear-to-b from-purple-950 to-slate-900"}
+                  style={
+                    settings?.mockups?.heroRight?.style ||
+                    settings?.mockups?.style
+                  }
+                  className={`${(settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook") ? "w-80 lg:w-96" : "w-56 lg:w-60"}`}
+                  innerClassName={
+                    settings?.mockups?.heroRight?.type === "image"
+                      ? ""
+                      : "bg-linear-to-b from-purple-950 to-slate-900"
+                  }
                 >
-                  <MockupContent 
-                    config={settings?.mockups?.heroRight} 
-                    isLaptop={(settings?.mockups?.heroRight?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroRight?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
-                    isTablet={(settings?.mockups?.heroRight?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.heroRight?.style || "").toLowerCase().includes("tablet")}
+                  <MockupContent
+                    config={settings?.mockups?.heroRight}
+                    isLaptop={
+                      (
+                        settings?.mockups?.heroRight?.style ||
+                        settings?.mockups?.style ||
+                        ""
+                      )
+                        .toLowerCase()
+                        .includes("laptop") ||
+                      (
+                        settings?.mockups?.heroRight?.style ||
+                        settings?.mockups?.style ||
+                        ""
+                      )
+                        .toLowerCase()
+                        .includes("macbook")
+                    }
+                    isTablet={
+                      (settings?.mockups?.heroRight?.style || "")
+                        .toLowerCase()
+                        .includes("ipad") ||
+                      (settings?.mockups?.heroRight?.style || "")
+                        .toLowerCase()
+                        .includes("tablet")
+                    }
                   />
                 </DeviceMockup>
               </motion.div>
@@ -327,18 +482,43 @@ export default function HomePage() {
                 className="relative z-10"
               >
                 <DeviceMockup
-                  style={settings?.mockups?.heroCenter?.style || settings?.mockups?.style}
-                  className="w-64 lg:w-72"
+                  style={
+                    settings?.mockups?.heroCenter?.style ||
+                    settings?.mockups?.style
+                  }
+                  className={`${(settings?.mockups?.heroCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook") ? "w-80 lg:w-md" : "w-64 lg:w-72"}`}
                   innerClassName={
                     settings?.mockups?.heroCenter?.type === "image"
                       ? ""
                       : "bg-linear-to-b from-slate-900 to-indigo-950"
                   }
                 >
-                  <MockupContent 
-                    config={settings?.mockups?.heroCenter} 
-                    isLaptop={(settings?.mockups?.heroCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
-                    isTablet={(settings?.mockups?.heroCenter?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.heroCenter?.style || "").toLowerCase().includes("tablet")}
+                  <MockupContent
+                    config={settings?.mockups?.heroCenter}
+                    isLaptop={
+                      (
+                        settings?.mockups?.heroCenter?.style ||
+                        settings?.mockups?.style ||
+                        ""
+                      )
+                        .toLowerCase()
+                        .includes("laptop") ||
+                      (
+                        settings?.mockups?.heroCenter?.style ||
+                        settings?.mockups?.style ||
+                        ""
+                      )
+                        .toLowerCase()
+                        .includes("macbook")
+                    }
+                    isTablet={
+                      (settings?.mockups?.heroCenter?.style || "")
+                        .toLowerCase()
+                        .includes("ipad") ||
+                      (settings?.mockups?.heroCenter?.style || "")
+                        .toLowerCase()
+                        .includes("tablet")
+                    }
                   />
                 </DeviceMockup>
               </motion.div>
@@ -499,14 +679,43 @@ export default function HomePage() {
                 className="absolute left-0 md:left-[10%] z-10 hidden sm:block origin-bottom transition-transform"
               >
                 <DeviceMockup
-                  style={settings?.mockups?.ctaLeft?.style || settings?.mockups?.style}
+                  style={
+                    settings?.mockups?.ctaLeft?.style ||
+                    settings?.mockups?.style
+                  }
                   className="w-44 md:w-56"
-                  innerClassName={settings?.mockups?.ctaLeft?.type === "image" ? "" : "bg-linear-to-tr from-slate-950 to-indigo-950"}
+                  innerClassName={
+                    settings?.mockups?.ctaLeft?.type === "image"
+                      ? ""
+                      : "bg-linear-to-tr from-slate-950 to-indigo-950"
+                  }
                 >
-                  <MockupContent 
-                    config={settings?.mockups?.ctaLeft} 
-                    isLaptop={(settings?.mockups?.ctaLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.ctaLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
-                    isTablet={(settings?.mockups?.ctaLeft?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.ctaLeft?.style || "").toLowerCase().includes("tablet")}
+                  <MockupContent
+                    config={settings?.mockups?.ctaLeft}
+                    isLaptop={
+                      (
+                        settings?.mockups?.ctaLeft?.style ||
+                        settings?.mockups?.style ||
+                        ""
+                      )
+                        .toLowerCase()
+                        .includes("laptop") ||
+                      (
+                        settings?.mockups?.ctaLeft?.style ||
+                        settings?.mockups?.style ||
+                        ""
+                      )
+                        .toLowerCase()
+                        .includes("macbook")
+                    }
+                    isTablet={
+                      (settings?.mockups?.ctaLeft?.style || "")
+                        .toLowerCase()
+                        .includes("ipad") ||
+                      (settings?.mockups?.ctaLeft?.style || "")
+                        .toLowerCase()
+                        .includes("tablet")
+                    }
                   />
                 </DeviceMockup>
               </motion.div>
@@ -520,14 +729,43 @@ export default function HomePage() {
                 className="absolute right-0 md:right-[10%] z-10 hidden sm:block origin-bottom transition-transform"
               >
                 <DeviceMockup
-                  style={settings?.mockups?.ctaRight?.style || settings?.mockups?.style}
+                  style={
+                    settings?.mockups?.ctaRight?.style ||
+                    settings?.mockups?.style
+                  }
                   className="w-44 md:w-56"
-                  innerClassName={settings?.mockups?.ctaRight?.type === "image" ? "" : "bg-linear-to-bl from-slate-950 to-purple-950"}
+                  innerClassName={
+                    settings?.mockups?.ctaRight?.type === "image"
+                      ? ""
+                      : "bg-linear-to-bl from-slate-950 to-purple-950"
+                  }
                 >
-                  <MockupContent 
-                    config={settings?.mockups?.ctaRight} 
-                    isLaptop={(settings?.mockups?.ctaRight?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.ctaRight?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
-                    isTablet={(settings?.mockups?.ctaRight?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.ctaRight?.style || "").toLowerCase().includes("tablet")}
+                  <MockupContent
+                    config={settings?.mockups?.ctaRight}
+                    isLaptop={
+                      (
+                        settings?.mockups?.ctaRight?.style ||
+                        settings?.mockups?.style ||
+                        ""
+                      )
+                        .toLowerCase()
+                        .includes("laptop") ||
+                      (
+                        settings?.mockups?.ctaRight?.style ||
+                        settings?.mockups?.style ||
+                        ""
+                      )
+                        .toLowerCase()
+                        .includes("macbook")
+                    }
+                    isTablet={
+                      (settings?.mockups?.ctaRight?.style || "")
+                        .toLowerCase()
+                        .includes("ipad") ||
+                      (settings?.mockups?.ctaRight?.style || "")
+                        .toLowerCase()
+                        .includes("tablet")
+                    }
                   />
                 </DeviceMockup>
               </motion.div>
@@ -541,7 +779,10 @@ export default function HomePage() {
                 className="absolute z-20 origin-bottom hover:-translate-y-4 transition-transform duration-500"
               >
                 <DeviceMockup
-                  style={settings?.mockups?.ctaCenter?.style || settings?.mockups?.style}
+                  style={
+                    settings?.mockups?.ctaCenter?.style ||
+                    settings?.mockups?.style
+                  }
                   className="w-56 md:w-64 shadow-2xl"
                   innerClassName={
                     settings?.mockups?.ctaCenter?.type === "image"
@@ -550,17 +791,41 @@ export default function HomePage() {
                   }
                 >
                   {settings?.mockups?.ctaCenter?.type === "image" ? (
-                    <MockupContent 
-                      config={settings.mockups.ctaCenter} 
-                      isLaptop={(settings?.mockups?.ctaCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.ctaCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
-                      isTablet={(settings?.mockups?.ctaCenter?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.ctaCenter?.style || "").toLowerCase().includes("tablet")}
+                    <MockupContent
+                      config={settings.mockups.ctaCenter}
+                      isLaptop={
+                        (
+                          settings?.mockups?.ctaCenter?.style ||
+                          settings?.mockups?.style ||
+                          ""
+                        )
+                          .toLowerCase()
+                          .includes("laptop") ||
+                        (
+                          settings?.mockups?.ctaCenter?.style ||
+                          settings?.mockups?.style ||
+                          ""
+                        )
+                          .toLowerCase()
+                          .includes("macbook")
+                      }
+                      isTablet={
+                        (settings?.mockups?.ctaCenter?.style || "")
+                          .toLowerCase()
+                          .includes("ipad") ||
+                        (settings?.mockups?.ctaCenter?.style || "")
+                          .toLowerCase()
+                          .includes("tablet")
+                      }
                     />
                   ) : (
                     <>
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center shrink-0 border border-primary/30">
                           {(() => {
-                            const CtaIcon = getIcon(settings?.mockups?.ctaCenter?.icon);
+                            const CtaIcon = getIcon(
+                              settings?.mockups?.ctaCenter?.icon,
+                            );
                             return <CtaIcon className="w-5 h-5 text-primary" />;
                           })()}
                         </div>
@@ -589,65 +854,97 @@ export default function HomePage() {
       )}
 
       {/* App Screens Gallery */}
-      {settings?.sections?.gallery?.visible !== false && settings?.mockups?.gallery?.filter((g: any) => g.image).length > 0 && (
-        <section className="relative w-full py-24 overflow-hidden bg-black/50 border-t border-white/5">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.05)_0%,transparent_70%)] pointer-events-none"></div>
+      {settings?.sections?.gallery?.visible !== false &&
+        settings?.mockups?.gallery?.filter((g: any) => g.image).length > 0 && (
+          <section className="relative w-full py-24 overflow-hidden bg-black/50 border-t border-white/5">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.05)_0%,transparent_70%)] pointer-events-none"></div>
 
-          <div className="text-center max-w-3xl mx-auto px-6 mb-16 relative z-10">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-5xl font-bold tracking-tight mb-6"
-            >
-              {galleryContent.headline}
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-gray-400 text-lg mx-auto"
-            >
-              {galleryContent.description}
-            </motion.p>
-          </div>
-
-          <div className="w-full overflow-hidden relative">
-            <div className="flex gap-6 md:gap-10 px-8 md:px-[20vw] overflow-x-auto pb-12 snap-x snap-mandatory hide-scrollbar items-center">
-              {settings.mockups.gallery.map((mock: any, idx: number) => {
-                if (!mock.image) return null;
-                
-                return (
-                  <motion.div 
-                    key={idx}
-                    initial={{ opacity: 0, scale: 0.95, y: 30 }}
-                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.5, delay: idx * 0.1 }}
-                    className="snap-center shrink-0 w-[240px] md:w-[280px]"
-                  >
-                    <DeviceMockup
-                      style={mock.style || settings?.mockups?.style}
-                      className="w-full"
-                    >
-                      <MockupContent 
-                        config={mock} 
-                        isLaptop={(mock.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (mock.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
-                        isTablet={(mock.style || "").toLowerCase().includes("ipad") || (mock.style || "").toLowerCase().includes("tablet")}
-                      />
-                    </DeviceMockup>
-                  </motion.div>
-                );
-              })}
+            <div className="text-center max-w-3xl mx-auto px-6 mb-16 relative z-10">
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-3xl md:text-5xl font-bold tracking-tight mb-6"
+              >
+                {galleryContent.headline}
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="text-gray-400 text-lg mx-auto"
+              >
+                {galleryContent.description}
+              </motion.p>
             </div>
-            
-            {/* Scroll fading edges */}
-            <div className={`absolute top-0 bottom-0 ${isRtl ? 'right-0 bg-linear-to-l' : 'left-0 bg-linear-to-r'} from-black to-transparent w-16 md:w-48 pointer-events-none z-10`}></div>
-            <div className={`absolute top-0 bottom-0 ${isRtl ? 'left-0 bg-linear-to-r' : 'right-0 bg-linear-to-l'} from-black to-transparent w-16 md:w-48 pointer-events-none z-10`}></div>
-          </div>
-        </section>
-      )}
+
+            <div className="w-full overflow-hidden relative">
+              <div className="flex gap-6 md:gap-10 px-8 md:px-[20vw] overflow-x-auto pb-12 snap-x snap-mandatory hide-scrollbar items-center">
+                {settings.mockups.gallery.map((mock: any, idx: number) => {
+                  if (!mock.image) return null;
+
+                  return (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                      whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ duration: 0.5, delay: idx * 0.1 }}
+                      className={`snap-center shrink-0 ${
+                        (mock.style || settings?.mockups?.style || "")
+                          .toLowerCase()
+                          .includes("laptop") ||
+                        (mock.style || settings?.mockups?.style || "")
+                          .toLowerCase()
+                          .includes("macbook")
+                          ? "w-[350px] md:w-[600px]"
+                          : (mock.style || settings?.mockups?.style || "")
+                                .toLowerCase()
+                                .includes("ipad") ||
+                              (mock.style || settings?.mockups?.style || "")
+                                .toLowerCase()
+                                .includes("tablet")
+                            ? "w-[300px] md:w-[450px]"
+                            : "w-[240px] md:w-[280px]"
+                      }`}
+                    >
+                      <DeviceMockup
+                        style={mock.style || settings?.mockups?.style}
+                        className="w-full"
+                      >
+                        <MockupContent
+                          config={mock}
+                          isLaptop={
+                            (mock.style || settings?.mockups?.style || "")
+                              .toLowerCase()
+                              .includes("laptop") ||
+                            (mock.style || settings?.mockups?.style || "")
+                              .toLowerCase()
+                              .includes("macbook")
+                          }
+                          isTablet={
+                            (mock.style || "").toLowerCase().includes("ipad") ||
+                            (mock.style || "").toLowerCase().includes("tablet")
+                          }
+                          disableHover={true}
+                        />
+                      </DeviceMockup>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              {/* Scroll fading edges */}
+              <div
+                className={`absolute top-0 bottom-0 ${isRtl ? "right-0 bg-linear-to-l" : "left-0 bg-linear-to-r"} from-black to-transparent w-16 md:w-48 pointer-events-none z-10`}
+              ></div>
+              <div
+                className={`absolute top-0 bottom-0 ${isRtl ? "left-0 bg-linear-to-r" : "right-0 bg-linear-to-l"} from-black to-transparent w-16 md:w-48 pointer-events-none z-10`}
+              ></div>
+            </div>
+          </section>
+        )}
     </>
   );
 }
