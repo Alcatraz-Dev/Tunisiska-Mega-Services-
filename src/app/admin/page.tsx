@@ -55,26 +55,44 @@ import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/translations";
 
 const DEVICE_STYLES = [
-  { id: "iphone-15", label: "iPhone (Island)", icon: <PhoneIcon size={14} /> },
-  {
-    id: "iphone-notch",
-    label: "iPhone (Notch)",
-    icon: <Smartphone size={14} />,
-  },
-  {
-    id: "android-centered",
-    label: "Android (Center)",
-    icon: <Smartphone size={14} />,
-  },
-  {
-    id: "android-left",
-    label: "Android (Left)",
-    icon: <Smartphone size={14} />,
-  },
-  { id: "ipad", label: "iPad Pro", icon: <Layout size={14} /> },
-  { id: "tablet", label: "Tablet", icon: <Layout size={14} /> },
-  { id: "minimal", label: "Minimal", icon: <AppWindow size={14} /> },
-  { id: "laptop", label: "Laptop", icon: <Laptop size={14} /> },
+  // iOS - iPhone 16 series
+  { id: "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png", label: "iPhone 16 Pro Max (Black)", category: "ios", icon: <PhoneIcon size={14} className="text-accent" /> },
+  { id: "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png", label: "iPhone 16 Pro Max (Desert)", category: "ios", icon: <PhoneIcon size={14} className="text-amber-500" /> },
+  { id: "/devices/iOS/16 Pro/16 Pro - Black Titanium.png", label: "iPhone 16 Pro", category: "ios", icon: <PhoneIcon size={14} /> },
+  { id: "/devices/iOS/16/16 - Ultramarine.png", label: "iPhone 16 (Teal)", category: "ios", icon: <PhoneIcon size={14} /> },
+  
+  // iOS - iPhone 15 series
+  { id: "/devices/iOS/15 Pro Max/15 Pro Max - Natural Titanium.png", label: "iPhone 15 Pro Max", category: "ios", icon: <PhoneIcon size={14} /> },
+  
+  // Android Phone
+  { id: "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png", label: "Pixel 9 Pro XL (Obsidian)", category: "android", icon: <Smartphone size={14} className="text-blue-400" /> },
+  { id: "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png", label: "Pixel 9 Pro XL (Rose)", category: "android", icon: <Smartphone size={14} className="text-rose-400" /> },
+  { id: "/devices/Android Phone/Samsung S24 Ultra/Samsung S24 Ultra Titanium Black.png", label: "S24 Ultra (Black)", category: "android", icon: <Smartphone size={14} /> },
+  { id: "/devices/Android Phone/Samsung S24 Ultra/Samsung S24 Ultra Titanium Yellow.png", label: "S24 Ultra (Yellow)", category: "android", icon: <Smartphone size={14} /> },
+  
+  // Tablets
+  { id: "/devices/iPadOS/iPad Pro/M4 & M5/13/iPad Pro 13 M4 & M5 - Portrait - Silver.png", label: "iPad Pro 13 (M4/M5)", category: "tablet", icon: <Layout size={14} className="text-accent" /> },
+  { id: "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png", label: "iPad Air 13", category: "tablet", icon: <Layout size={14} /> },
+  { id: "/devices/Android Tablet/Samsung Tab S9/Samsung Tab S9 Ultra.png", label: "Galaxy Tab S9 Ultra", category: "tablet", icon: <Layout size={14} /> },
+
+  // Laptops
+  { id: "/devices/MacBook/MacBook Pro 16.png", label: "MacBook Pro 16", category: "laptop", icon: <Laptop size={14} className="text-accent" /> },
+  { id: "/devices/MacBook/MacBook Air 15.png", label: "MacBook Air 15", category: "laptop", icon: <Laptop size={14} /> },
+  { id: "/devices/Windows Laptop/Dell/2024 XPS 16 Platinum.png", label: "Dell XPS 16", category: "laptop", icon: <Laptop size={14} /> },
+  
+  // Legacy CSS
+  { id: "iphone-15", label: "iPhone 15 (CSS)", category: "legacy", icon: <PhoneIcon size={14} /> },
+  { id: "iphone-notch", label: "iPhone (Notch)", category: "legacy", icon: <Smartphone size={14} /> },
+  { id: "android-centered", label: "Android (Center)", category: "legacy", icon: <Smartphone size={14} /> },
+  { id: "laptop", label: "Laptop (CSS)", category: "legacy", icon: <Laptop size={14} /> },
+];
+
+const DEVICE_CATEGORIES = [
+  { id: "ios", label: "iOS" },
+  { id: "android", label: "Android" },
+  { id: "tablet", label: "Tablets" },
+  { id: "laptop", label: "Laptops" },
+  { id: "legacy", label: "Legacy" },
 ];
 
 export default function AdminDashboard() {
@@ -87,6 +105,7 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mockupCategory, setMockupCategory] = useState<string>("ios");
   const [activeTab, setActiveTab] = useState<"general" | "sections" | "pages">(
     "general",
   );
@@ -1257,23 +1276,40 @@ export default function AdminDashboard() {
                                     : "Mockup 3 (Right)"}
                               </span>
                               {/* Per-Mockup Device Style Selection */}
-                              <div className="flex flex-wrap gap-1 p-1 bg-black/40 rounded-xl border border-white/5">
-                                {DEVICE_STYLES.map((s) => (
-                                  <button
-                                    key={s.id}
-                                    onClick={() =>
-                                      handleMockupChange(mock, "style", s.id)
-                                    }
-                                    title={s.label}
-                                    className={`p-1.5 rounded-lg transition-all ${
-                                      settings.mockups[mock].style === s.id
-                                        ? "bg-primary text-white"
-                                        : "text-gray-500 hover:text-gray-300"
-                                    }`}
-                                  >
-                                    {s.icon}
-                                  </button>
-                                ))}
+                              <div className="flex flex-col gap-3 p-3 bg-black/40 rounded-2xl border border-white/5">
+                                <div className="flex flex-wrap gap-2 pb-2 border-b border-white/5">
+                                  {DEVICE_CATEGORIES.map((cat) => (
+                                    <button
+                                      key={cat.id}
+                                      onClick={() => setMockupCategory(cat.id)}
+                                      className={`px-2 py-1 text-[9px] font-bold uppercase tracking-wider rounded-md transition-all ${
+                                        mockupCategory === cat.id
+                                          ? "bg-accent/20 text-accent"
+                                          : "text-gray-500 hover:text-gray-300"
+                                      }`}
+                                    >
+                                      {cat.label}
+                                    </button>
+                                  ))}
+                                </div>
+                                <div className="grid grid-cols-6 gap-2">
+                                  {DEVICE_STYLES.filter(s => s.category === mockupCategory).map((s) => (
+                                    <button
+                                      key={s.id}
+                                      onClick={() =>
+                                        handleMockupChange(mock, "style", s.id)
+                                      }
+                                      title={s.label}
+                                      className={`p-2.5 rounded-lg transition-all flex items-center justify-center ${
+                                        settings.mockups[mock].style === s.id
+                                          ? "bg-primary text-white shadow-[0_0_12px_rgba(var(--primary-rgb),0.3)] scale-110"
+                                          : "bg-black/20 text-gray-500 hover:text-gray-300 hover:bg-black/30"
+                                      }`}
+                                    >
+                                      {s.icon}
+                                    </button>
+                                  ))}
+                                </div>
                               </div>
                               <div className="flex bg-linear-to-b from-black/40 to-black/20 p-1 rounded-lg border border-white/5">
                                 {["icon", "image"].map((type) => (
@@ -2617,8 +2653,10 @@ function DevicePreview({
   title: string;
   deviceStyle?: string;
 }) {
-  const isLaptop = deviceStyle === "laptop";
-  const isTablet = deviceStyle === "ipad" || deviceStyle === "tablet";
+  const isImageMockup = deviceStyle.startsWith("/devices/");
+  const isLaptop = !isImageMockup && deviceStyle === "laptop";
+  const isTablet =
+    !isImageMockup && (deviceStyle === "ipad" || deviceStyle === "tablet");
 
   // Helper to get icon component
   const getIcon = (iconName: string) => {
@@ -2673,18 +2711,14 @@ function DevicePreview({
       deviceStyle === "iphone-notch" ||
       deviceStyle === "minimal";
     const isAndroid = deviceStyle.startsWith("android");
-    const isTablet = deviceStyle === "ipad" || deviceStyle === "tablet";
+    const isTab = deviceStyle === "ipad" || deviceStyle === "tablet";
 
     if (isIphone) {
       return (
         <>
-          {/* Silent/Action button */}
           <div className="absolute top-[12%] -left-[3px] w-[3px] h-[4%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
-          {/* Volume Up */}
           <div className="absolute top-[20%] -left-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
-          {/* Volume Down */}
           <div className="absolute top-[29%] -left-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
-          {/* Power */}
           <div className="absolute top-[24%] -right-[3px] w-[3px] h-[12%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
         </>
       );
@@ -2693,20 +2727,16 @@ function DevicePreview({
     if (isAndroid) {
       return (
         <>
-          {/* Power */}
           <div className="absolute top-[18%] -right-[3px] w-[3px] h-[10%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-          {/* Volume */}
           <div className="absolute top-[30%] -right-[3px] w-[3px] h-[6%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
         </>
       );
     }
 
-    if (isTablet) {
+    if (isTab) {
       return (
         <>
-          {/* Volume Up */}
           <div className="absolute top-[10%] -right-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-          {/* Volume Down */}
           <div className="absolute top-[20%] -right-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
         </>
       );
@@ -2714,6 +2744,83 @@ function DevicePreview({
 
     return null;
   };
+
+  const Icon = getIcon(config?.icon || "package");
+  const device = DEVICE_STYLES.find((s) => s.id === deviceStyle);
+  const deviceLabel = device?.label || deviceStyle;
+
+  if (isImageMockup) {
+    const isTab =
+      deviceStyle.toLowerCase().includes("tablet") ||
+      deviceStyle.toLowerCase().includes("ipad");
+    const isLap =
+      deviceStyle.toLowerCase().includes("laptop") ||
+      deviceStyle.toLowerCase().includes("macbook") ||
+      deviceStyle.toLowerCase().includes("desktop");
+
+    // Calculate padding based on device type to fit screen content
+    const isS24 = deviceStyle.includes("S24");
+    const isUltra = deviceStyle.includes("Ultra") || deviceStyle.includes("Pro Max");
+    const isPro = deviceStyle.includes("Pro") && !deviceStyle.includes("Max");
+    
+    // Modern devices have much thinner bezels
+    const hPadding = isUltra ? "px-[3.5%]" : isLap ? "px-[6%]" : isTab ? "px-[7%]" : "px-[4%]";
+    const vPadding = isLap ? "pt-[5%] pb-[12%]" : isTab ? "pt-[7%] pb-[7%]" : isUltra ? "pt-[3%] pb-[3.5%]" : "pt-[4%] pb-[5%]";
+    
+    const rounding = isLap
+      ? "rounded-sm"
+      : isTab
+        ? "rounded-[0.5rem]"
+        : isUltra || isPro || isS24
+          ? "rounded-[1.2rem]"
+          : "rounded-[1rem]";
+
+    return (
+      <div className="flex flex-col items-center">
+        <div className="relative w-full drop-shadow-xl">
+          <img
+            src={encodeURI(deviceStyle)}
+            alt="Device Frame"
+            className="w-full h-auto block relative z-20 pointer-events-none"
+          />
+          <div
+            className={`absolute inset-0 flex items-center justify-center ${hPadding} ${vPadding} z-10`}
+          >
+            <div
+              className={`w-full h-full overflow-hidden ${rounding} bg-slate-950 flex flex-col items-center justify-center p-2`}
+            >
+              {config?.type === "image" && config?.image ? (
+                <img
+                  src={config.image}
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: 'top center' }}
+                  alt="Review"
+                />
+              ) : (
+                <div className="flex flex-col items-center">
+                  <div
+                    className={`w-8 h-8 ${config?.color === "purple" ? "bg-purple-600" : config?.color === "accent" ? "bg-accent" : "bg-primary"} rounded-lg flex items-center justify-center mb-2 shadow-lg`}
+                  >
+                    <Icon size={14} className="text-white" />
+                  </div>
+                  <div className="w-12 h-1.5 bg-white/10 rounded-full mb-1" />
+                  <div className="w-8 h-1 bg-white/5 rounded-full" />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-col items-center text-center gap-1">
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+            {title}
+          </span>
+          <span className="text-[10px] font-medium text-accent truncate max-w-[150px]">
+            {deviceLabel}
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   const rounding = isLaptop
     ? "rounded-lg"
@@ -2747,40 +2854,26 @@ function DevicePreview({
             className={`relative w-full h-full bg-linear-to-b from-gray-900 to-black flex items-center justify-center overflow-hidden ${innerRounding} ${config?.type === "image" ? (!isLaptop && !isTablet ? "p-1.5" : "p-0") : isLaptop ? "p-4" : "p-2"}`}
           >
             {config?.type === "icon" ? (
-              (() => {
-                const Icon = getIcon(config.icon);
-                const bgColor =
-                  config.color === "primary"
-                    ? "bg-primary"
-                    : config.color === "purple"
-                      ? "bg-purple-600"
-                      : "bg-blue-600";
-                return (
-                  <div className="flex flex-col items-center justify-center gap-2">
-                    <div
-                      className={`${isLaptop ? "w-10 h-10" : "w-8 h-8"} ${bgColor} rounded-xl flex items-center justify-center shadow-lg transform rotate-12 transition-all`}
-                    >
-                      <Icon
-                        className={`${isLaptop ? "w-5 h-5" : "w-4 h-4"} text-white`}
-                      />
-                    </div>
-                    {isLaptop && (
-                      <div className="text-center">
-                        <p className="text-white font-bold text-[8px] leading-tight">
-                          Tunsiska
-                        </p>
-                        <p className="text-gray-400 text-[6px]">
-                          Mega Services
-                        </p>
-                      </div>
-                    )}
+              <div className="flex flex-col items-center justify-center gap-2">
+                <div
+                  className={`${isLaptop ? "w-10 h-10" : "w-8 h-8"} ${config.color === "primary" ? "bg-primary" : config.color === "purple" ? "bg-purple-600" : "bg-blue-600"} rounded-xl flex items-center justify-center shadow-lg transform rotate-12 transition-all`}
+                >
+                  <Icon
+                    className={`${isLaptop ? "w-5 h-5" : "w-4 h-4"} text-white`}
+                  />
+                </div>
+                {isLaptop && (
+                  <div className="text-center">
+                    <p className="text-white font-bold text-[8px] leading-tight">
+                      Tunsiska
+                    </p>
+                    <p className="text-gray-400 text-[6px]">Mega Services</p>
                   </div>
-                );
-              })()
+                )}
+              </div>
             ) : (
               <div className="w-full h-full relative">
                 {config?.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={config.image}
                     alt="Preview"
@@ -2803,9 +2896,14 @@ function DevicePreview({
         </div>
       )}
 
-      <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-4">
-        {title}
-      </span>
+      <div className="mt-4 flex flex-col items-center text-center gap-1">
+        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+          {title}
+        </span>
+        <span className="text-[10px] font-medium text-accent truncate max-w-[150px]">
+          {deviceLabel}
+        </span>
+      </div>
     </div>
   );
 }

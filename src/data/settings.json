@@ -20,24 +20,24 @@
     "password": "admin123"
   },
   "mockups": {
-    "style": "iphone-15",
+    "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
     "heroLeft": {
       "type": "icon",
       "icon": "package",
       "color": "primary",
-      "style": "iphone-15"
+      "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png"
     },
     "heroCenter": {
       "type": "icon",
       "icon": "sparkles",
       "color": "primary",
-      "style": "ipad"
+      "style": "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png"
     },
     "heroRight": {
       "type": "icon",
       "icon": "car",
       "color": "purple",
-      "style": "android-left"
+      "style": "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png"
     },
     "ctaLeft": {
       "type": "image",
@@ -50,59 +50,59 @@
       "type": "icon",
       "icon": "package",
       "color": "primary",
-      "style": "android-centered"
+      "style": "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png"
     },
     "ctaRight": {
       "type": "icon",
       "icon": "car",
       "color": "purple",
-      "style": "iphone-15"
+      "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png"
     },
     "gallery": [
       {
-        "style": "minimal",
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
         "type": "image",
         "image": "/uploads/1774474595518-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.26.37.png",
         "icon": "sparkles",
         "color": "primary"
       },
       {
-        "style": "minimal",
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
         "type": "image",
         "image": "/uploads/1774474601001-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.27.51.png",
         "icon": "package",
         "color": "purple"
       },
       {
-        "style": "minimal",
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
         "type": "image",
         "image": "/uploads/1774474604413-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.27.52.png",
         "icon": "car",
         "color": "primary"
       },
       {
-        "style": "minimal",
+        "style": "/devices/iPadOS/iPad Pro/M4/13/iPad Pro 13 M4 - Silver.png",
         "type": "image",
         "image": "/uploads/1774474610391-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_21_at_16.26.49.png",
         "icon": "map-pin",
         "color": "purple"
       },
       {
-        "style": "minimal",
+        "style": "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png",
         "type": "image",
         "image": "/uploads/1774474616676-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.07.png",
         "icon": "sparkles",
         "color": "primary"
       },
       {
-        "style": "minimal",
+        "style": "/devices/MacBook/MacBook Air 15.png",
         "type": "image",
         "image": "/uploads/1774474619605-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.28.png",
         "icon": "package",
         "color": "purple"
       },
       {
-        "style": "minimal",
+        "style": "iphone-notch",
         "type": "image",
         "image": "",
         "icon": "sparkles",

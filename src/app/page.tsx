@@ -127,14 +127,49 @@ export default function HomePage() {
     className?: string;
     innerClassName?: string;
   }) => {
-    const isLaptop = style === "laptop";
-    const isTablet = style === "ipad" || style === "tablet";
+    const isImageMockup = style.startsWith("/devices/");
+    const isLaptop = !isImageMockup && style === "laptop";
+    const isTablet = !isImageMockup && (style === "ipad" || style === "tablet");
 
-    const getAspect = () => {
-      if (isLaptop) return "aspect-16/10";
-      if (isTablet) return "aspect-3/4";
-      return "aspect-9/19";
-    };
+    if (isImageMockup) {
+      const isTab = style.toLowerCase().includes("tablet") || style.toLowerCase().includes("ipad");
+      const isLap = style.toLowerCase().includes("laptop") || style.toLowerCase().includes("macbook") || style.toLowerCase().includes("desktop");
+      const isUltra = style.includes("Ultra") || style.includes("Pro Max");
+      const isS24 = style.includes("S24");
+      const isPro = style.includes("Pro") && !style.includes("Max");
+
+      // Category-aware padding for pixel-perfect screen fitting
+      const hPadding = isUltra ? "px-[3.5%]" : isLap ? "px-[6%]" : isTab ? "px-[7%]" : "px-[4%]";
+      const vPadding = isLap ? "pt-[5%] pb-[12%]" : isTab ? "pt-[7%] pb-[7%]" : isUltra ? "pt-[3%] pb-[3.5%]" : "pt-[4%] pb-[5%]";
+      
+      const rounding = isLap 
+        ? "rounded-sm" 
+        : isTab 
+          ? "rounded-[1rem]" 
+          : isUltra || isPro || isS24 
+            ? "rounded-[1.2rem]" 
+            : "rounded-[1rem]";
+
+      return (
+        <div className={`flex flex-col items-center group relative ${className}`}>
+          <div className="relative w-full drop-shadow-2xl">
+            {/* The device frame image */}
+            <img 
+              src={encodeURI(style)} 
+              alt="Device Frame" 
+              className="w-full h-auto block relative z-20 pointer-events-none" 
+            />
+            
+            {/* The screen content container positioned behind the frame's transparent area */}
+            <div className={`absolute inset-0 flex items-center justify-center ${hPadding} ${vPadding} z-10`}>
+              <div className={`w-full h-full overflow-hidden ${rounding} ${innerClassName} bg-slate-950`}>
+                {children}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     const rounding = isLaptop ? "rounded-xl" : isTablet ? "rounded-[2.5rem]" : "rounded-[3rem]";
     const innerRounding = isLaptop ? "rounded-lg" : isTablet ? "rounded-[2rem]" : "rounded-[2.5rem]";
@@ -302,7 +337,7 @@ export default function HomePage() {
               {/* Left Phone */}
               <motion.div
                 initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 0.8, x: -140 }}
+                animate={{ opacity: 0.8, x: (settings?.mockups?.heroCenter?.style || "").toLowerCase().includes("ipad") ? -180 : -140 }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
                 className="absolute z-0 hidden md:block"
               >
@@ -313,8 +348,8 @@ export default function HomePage() {
                 >
                   <MockupContent 
                     config={settings?.mockups?.heroLeft} 
-                    isLaptop={(settings?.mockups?.heroLeft?.style || settings?.mockups?.style) === "laptop"}
-                    isTablet={(settings?.mockups?.heroLeft?.style === "ipad" || settings?.mockups?.heroLeft?.style === "tablet")}
+                    isLaptop={(settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
+                    isTablet={(settings?.mockups?.heroLeft?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.heroLeft?.style || "").toLowerCase().includes("tablet")}
                   />
                 </DeviceMockup>
               </motion.div>
@@ -322,7 +357,7 @@ export default function HomePage() {
               {/* Right Phone */}
               <motion.div
                 initial={{ opacity: 0, x: -100 }}
-                animate={{ opacity: 0.8, x: 140 }}
+                animate={{ opacity: 0.8, x: (settings?.mockups?.heroCenter?.style || "").toLowerCase().includes("ipad") ? 180 : 140 }}
                 transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
                 className="absolute z-0 hidden md:block"
               >
@@ -333,8 +368,8 @@ export default function HomePage() {
                 >
                   <MockupContent 
                     config={settings?.mockups?.heroRight} 
-                    isLaptop={(settings?.mockups?.heroRight?.style || settings?.mockups?.style) === "laptop"}
-                    isTablet={(settings?.mockups?.heroRight?.style === "ipad" || settings?.mockups?.heroRight?.style === "tablet")}
+                    isLaptop={(settings?.mockups?.heroRight?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroRight?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
+                    isTablet={(settings?.mockups?.heroRight?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.heroRight?.style || "").toLowerCase().includes("tablet")}
                   />
                 </DeviceMockup>
               </motion.div>
@@ -357,8 +392,8 @@ export default function HomePage() {
                 >
                   <MockupContent 
                     config={settings?.mockups?.heroCenter} 
-                    isLaptop={(settings?.mockups?.heroCenter?.style || settings?.mockups?.style) === "laptop"}
-                    isTablet={(settings?.mockups?.heroCenter?.style === "ipad" || settings?.mockups?.heroCenter?.style === "tablet")}
+                    isLaptop={(settings?.mockups?.heroCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
+                    isTablet={(settings?.mockups?.heroCenter?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.heroCenter?.style || "").toLowerCase().includes("tablet")}
                   />
                 </DeviceMockup>
               </motion.div>
@@ -525,7 +560,8 @@ export default function HomePage() {
                 >
                   <MockupContent 
                     config={settings?.mockups?.ctaLeft} 
-                    isLaptop={(settings?.mockups?.ctaLeft?.style || settings?.mockups?.style) === "laptop"}
+                    isLaptop={(settings?.mockups?.ctaLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.ctaLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
+                    isTablet={(settings?.mockups?.ctaLeft?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.ctaLeft?.style || "").toLowerCase().includes("tablet")}
                   />
                 </DeviceMockup>
               </motion.div>
@@ -545,7 +581,8 @@ export default function HomePage() {
                 >
                   <MockupContent 
                     config={settings?.mockups?.ctaRight} 
-                    isLaptop={(settings?.mockups?.ctaRight?.style || settings?.mockups?.style) === "laptop"}
+                    isLaptop={(settings?.mockups?.ctaRight?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.ctaRight?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
+                    isTablet={(settings?.mockups?.ctaRight?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.ctaRight?.style || "").toLowerCase().includes("tablet")}
                   />
                 </DeviceMockup>
               </motion.div>
@@ -568,7 +605,11 @@ export default function HomePage() {
                   }
                 >
                   {settings?.mockups?.ctaCenter?.type === "image" ? (
-                    <MockupContent config={settings.mockups.ctaCenter} />
+                    <MockupContent 
+                      config={settings.mockups.ctaCenter} 
+                      isLaptop={(settings?.mockups?.ctaCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.ctaCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
+                      isTablet={(settings?.mockups?.ctaCenter?.style || "").toLowerCase().includes("ipad") || (settings?.mockups?.ctaCenter?.style || "").toLowerCase().includes("tablet")}
+                    />
                   ) : (
                     <>
                       <div className="flex items-center gap-3">
