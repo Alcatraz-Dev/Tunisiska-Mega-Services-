@@ -54,67 +54,7 @@ export default function HomePage() {
     description: lang === "ar" ? "ألق نظرة على التصميم الأنيق والواجهة السلسة لخدماتنا في التطبيق." : lang === "sv" ? "Ta en titt på den eleganta designen och det smidiga gränssnittet för våra tjänster i appen." : "Take a look at the elegant design and seamless interface of our services in the app."
   });
 
-  const renderSensors = (style: string) => {
-    switch (style) {
-      case "iphone-15":
-        return <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-[1.25rem] z-20 border border-white/5 shadow-sm" />;
-      case "iphone-notch":
-        return <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-b-2xl z-20" />;
-      case "android-centered":
-        return <div className="absolute top-3 left-1/2 -translate-x-1/2 w-3 h-3 bg-black rounded-full z-20 ring-1 ring-white/10" />;
-      case "android-left":
-        return <div className="absolute top-3 left-6 w-3 h-3 bg-black rounded-full z-20 ring-1 ring-white/10" />;
-      case "laptop":
-        return <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-black rounded-full z-20" />;
-      default:
-        return null;
-    }
-  };
 
-  const renderButtons = (style: string) => {
-    const isIphone = style === "iphone-15" || style === "iphone-notch" || style === "minimal";
-    const isAndroid = style.startsWith("android");
-    const isTablet = style === "ipad" || style === "tablet";
-
-    if (isIphone) {
-      return (
-        <>
-          {/* Silent/Action button */}
-          <div className="absolute top-[12%] -left-[3px] w-[3px] h-[4%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
-          {/* Volume Up */}
-          <div className="absolute top-[20%] -left-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
-          {/* Volume Down */}
-          <div className="absolute top-[29%] -left-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
-          {/* Power */}
-          <div className="absolute top-[24%] -right-[3px] w-[3px] h-[12%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-        </>
-      );
-    }
-
-    if (isAndroid) {
-      return (
-        <>
-          {/* Power */}
-          <div className="absolute top-[18%] -right-[3px] w-[3px] h-[10%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-          {/* Volume */}
-          <div className="absolute top-[30%] -right-[3px] w-[3px] h-[6%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-        </>
-      );
-    }
-
-    if (isTablet) {
-      return (
-        <>
-          {/* Volume Up */}
-          <div className="absolute top-[10%] -right-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-          {/* Volume Down */}
-          <div className="absolute top-[20%] -right-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-        </>
-      );
-    }
-
-    return null;
-  };
 
   const DeviceMockup = ({
     style = "iphone-15",
@@ -127,81 +67,59 @@ export default function HomePage() {
     className?: string;
     innerClassName?: string;
   }) => {
-    const isImageMockup = style.startsWith("/devices/");
-    const isLaptop = !isImageMockup && style === "laptop";
-    const isTablet = !isImageMockup && (style === "ipad" || style === "tablet");
+    const isImageMockup = style && style.startsWith("/devices/");
+    const currentStyle = isImageMockup ? style : "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png";
 
-    if (isImageMockup) {
-      const isTab = style.toLowerCase().includes("tablet") || style.toLowerCase().includes("ipad");
-      const isLap = style.toLowerCase().includes("laptop") || style.toLowerCase().includes("macbook") || style.toLowerCase().includes("desktop");
-      const isUltra = style.includes("Ultra") || style.includes("Pro Max");
-      const isS24 = style.includes("S24");
-      const isPro = style.includes("Pro") && !style.includes("Max");
+    const isTab = currentStyle.toLowerCase().includes("tablet") || currentStyle.toLowerCase().includes("ipad");
+    const isLap = currentStyle.toLowerCase().includes("laptop") || currentStyle.toLowerCase().includes("macbook") || currentStyle.toLowerCase().includes("desktop");
 
-      // Category-aware padding for pixel-perfect screen fitting
-      const hPadding = isUltra ? "px-[3.5%]" : isLap ? "px-[6%]" : isTab ? "px-[7%]" : "px-[4%]";
-      const vPadding = isLap ? "pt-[5%] pb-[12%]" : isTab ? "pt-[7%] pb-[7%]" : isUltra ? "pt-[3%] pb-[3.5%]" : "pt-[4%] pb-[5%]";
-      
-      const rounding = isLap 
-        ? "rounded-sm" 
-        : isTab 
-          ? "rounded-[1rem]" 
-          : isUltra || isPro || isS24 
-            ? "rounded-[1.2rem]" 
-            : "rounded-[1rem]";
+    const isS24 = currentStyle.includes("S24");
+    const isUltra = currentStyle.includes("Ultra") || currentStyle.includes("Max");
+    const isPixel = currentStyle.includes("Pixel");
 
-      return (
-        <div className={`flex flex-col items-center group relative ${className}`}>
-          <div className="relative w-full drop-shadow-2xl">
-            {/* The device frame image */}
-            <img 
-              src={encodeURI(style)} 
-              alt="Device Frame" 
-              className="w-full h-auto block relative z-20 pointer-events-none" 
-            />
-            
-            {/* The screen content container positioned behind the frame's transparent area */}
-            <div className={`absolute inset-0 flex items-center justify-center ${hPadding} ${vPadding} z-10`}>
-              <div className={`w-full h-full overflow-hidden ${rounding} ${innerClassName} bg-slate-950`}>
-                {children}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+    let hPadding = "px-[3.2%]";
+    let vPadding = "pt-[2.8%] pb-[3%]";
+    let rounding = "rounded-[1.2rem]";
+
+    if (isLap) {
+      hPadding = "px-[6.2%]";
+      vPadding = "pt-[4.5%] pb-[10.5%]";
+      rounding = "rounded-[0.25rem]";
+    } else if (isTab) {
+      hPadding = "px-[4.5%]";
+      vPadding = "pt-[4.5%] pb-[4.5%]";
+      rounding = "rounded-[1.4rem]";
+    } else if (isS24) {
+      hPadding = "px-[3%]";
+      vPadding = "pt-[2.5%] pb-[2.8%]";
+      rounding = "rounded-[1rem]";
+    } else if (isPixel) {
+      hPadding = "px-[3.5%]";
+      vPadding = "pt-[2.8%] pb-[3.2%]";
+      rounding = "rounded-[1.1rem]";
+    } else if (isUltra) {
+      hPadding = "px-[2.8%]";
+      vPadding = "pt-[2.2%] pb-[2.5%]";
+      rounding = "rounded-[1.3rem]";
     }
-
-    const rounding = isLaptop ? "rounded-xl" : isTablet ? "rounded-[2.5rem]" : "rounded-[3rem]";
-    const innerRounding = isLaptop ? "rounded-lg" : isTablet ? "rounded-[2rem]" : "rounded-[2.5rem]";
-    const bezel = isLaptop ? "border-4" : "border-[6px]";
 
     return (
       <div className={`flex flex-col items-center group relative ${className}`}>
-        {renderButtons(style)}
-        <div
-          className={`${
-            isLaptop ? "aspect-16/10 w-full" : isTablet ? "aspect-3/4 w-full" : "aspect-9/19 w-full"
-          } bg-slate-950 ${rounding} shadow-2xl relative overflow-hidden ring-1 ring-white/10 transition-all duration-500`}
-        >
-          {/* Hardware Bezel Trim */}
-          <div className={`absolute inset-0 ${rounding} ${bezel} border-slate-900/90 pointer-events-none z-10`} />
-          <div className={`absolute inset-0.5 ${innerRounding} border border-white/5 pointer-events-none z-20`} />
-
-          {/* Sensors */}
-          {renderSensors(style)}
-
-          {/* Screen Content */}
-          <div className={`relative w-full h-full overflow-hidden ${innerRounding} ${innerClassName} z-0 ${!isLaptop && !isTablet ? 'p-1.5' : ''}`}>
-            {children}
+        <div className="relative w-full drop-shadow-2xl">
+          {/* The device frame image */}
+          <img 
+            src={encodeURI(currentStyle)} 
+            alt="Device Frame" 
+            className="w-full h-auto block relative z-20 pointer-events-none" 
+          />
+          
+          {/* The screen content container positioned behind the frame's transparent area */}
+          <div className={`absolute inset-0 flex items-center justify-center ${hPadding} ${vPadding} z-10`}>
+            <div className={`w-full h-full relative overflow-hidden flex flex-col items-center justify-center bg-slate-950 ${rounding} ${innerClassName}`}>
+              {children}
+            </div>
           </div>
         </div>
-
-        {/* Laptop Keyboard Base */}
-        {isLaptop && (
-          <div className="w-[115%] h-4 bg-slate-800 rounded-b-2xl -mt-1 border-t border-white/10 relative flex flex-col items-center shadow-lg">
-            <div className="w-12 h-1 bg-black/40 rounded-full mt-1" />
-          </div>
-        )}
       </div>
     );
   };
@@ -682,12 +600,14 @@ export default function HomePage() {
                     transition={{ duration: 0.5, delay: idx * 0.1 }}
                     className="snap-center shrink-0 w-[240px] md:w-[280px]"
                   >
-                    <DeviceMockup style={mock.style}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={mock.image}
-                        alt={`App Screen ${idx + 1}`}
-                        className="w-full h-full object-cover"
+                    <DeviceMockup
+                      style={mock.style || settings?.mockups?.style}
+                      className="w-full"
+                    >
+                      <MockupContent 
+                        config={mock} 
+                        isLaptop={(mock.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (mock.style || settings?.mockups?.style || "").toLowerCase().includes("macbook")}
+                        isTablet={(mock.style || "").toLowerCase().includes("ipad") || (mock.style || "").toLowerCase().includes("tablet")}
                       />
                     </DeviceMockup>
                   </motion.div>

@@ -56,35 +56,104 @@ import { translations } from "@/translations";
 
 const DEVICE_STYLES = [
   // iOS - iPhone 16 series
-  { id: "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png", label: "iPhone 16 Pro Max (Black)", category: "ios", icon: <PhoneIcon size={14} className="text-accent" /> },
-  { id: "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png", label: "iPhone 16 Pro Max (Desert)", category: "ios", icon: <PhoneIcon size={14} className="text-amber-500" /> },
-  { id: "/devices/iOS/16 Pro/16 Pro - Black Titanium.png", label: "iPhone 16 Pro", category: "ios", icon: <PhoneIcon size={14} /> },
-  { id: "/devices/iOS/16/16 - Ultramarine.png", label: "iPhone 16 (Teal)", category: "ios", icon: <PhoneIcon size={14} /> },
-  
+  {
+    id: "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
+    label: "iPhone 16 Pro Max (Black)",
+    category: "ios",
+    icon: <PhoneIcon size={14} className="text-accent" />,
+  },
+  {
+    id: "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
+    label: "iPhone 16 Pro Max (Desert)",
+    category: "ios",
+    icon: <PhoneIcon size={14} className="text-amber-500" />,
+  },
+  {
+    id: "/devices/iOS/16 Pro/16 Pro - Black Titanium.png",
+    label: "iPhone 16 Pro",
+    category: "ios",
+    icon: <PhoneIcon size={14} />,
+  },
+  {
+    id: "/devices/iOS/16/16 - Ultramarine.png",
+    label: "iPhone 16 (Teal)",
+    category: "ios",
+    icon: <PhoneIcon size={14} />,
+  },
+
   // iOS - iPhone 15 series
-  { id: "/devices/iOS/15 Pro Max/15 Pro Max - Natural Titanium.png", label: "iPhone 15 Pro Max", category: "ios", icon: <PhoneIcon size={14} /> },
-  
+  {
+    id: "/devices/iOS/15 Pro Max/15 Pro Max - Natural Titanium.png",
+    label: "iPhone 15 Pro Max",
+    category: "ios",
+    icon: <PhoneIcon size={14} />,
+  },
+
   // Android Phone
-  { id: "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png", label: "Pixel 9 Pro XL (Obsidian)", category: "android", icon: <Smartphone size={14} className="text-blue-400" /> },
-  { id: "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png", label: "Pixel 9 Pro XL (Rose)", category: "android", icon: <Smartphone size={14} className="text-rose-400" /> },
-  { id: "/devices/Android Phone/Samsung S24 Ultra/Samsung S24 Ultra Titanium Black.png", label: "S24 Ultra (Black)", category: "android", icon: <Smartphone size={14} /> },
-  { id: "/devices/Android Phone/Samsung S24 Ultra/Samsung S24 Ultra Titanium Yellow.png", label: "S24 Ultra (Yellow)", category: "android", icon: <Smartphone size={14} /> },
-  
+  {
+    id: "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png",
+    label: "Pixel 9 Pro XL (Obsidian)",
+    category: "android",
+    icon: <Smartphone size={14} className="text-blue-400" />,
+  },
+  {
+    id: "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png",
+    label: "Pixel 9 Pro XL (Rose)",
+    category: "android",
+    icon: <Smartphone size={14} className="text-rose-400" />,
+  },
+  {
+    id: "/devices/Android Phone/Samsung S24 Ultra/Samsung S24 Ultra Titanium Black.png",
+    label: "S24 Ultra (Black)",
+    category: "android",
+    icon: <Smartphone size={14} />,
+  },
+  {
+    id: "/devices/Android Phone/Samsung S24 Ultra/Samsung S24 Ultra Titanium Yellow.png",
+    label: "S24 Ultra (Yellow)",
+    category: "android",
+    icon: <Smartphone size={14} />,
+  },
+
   // Tablets
-  { id: "/devices/iPadOS/iPad Pro/M4 & M5/13/iPad Pro 13 M4 & M5 - Portrait - Silver.png", label: "iPad Pro 13 (M4/M5)", category: "tablet", icon: <Layout size={14} className="text-accent" /> },
-  { id: "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png", label: "iPad Air 13", category: "tablet", icon: <Layout size={14} /> },
-  { id: "/devices/Android Tablet/Samsung Tab S9/Samsung Tab S9 Ultra.png", label: "Galaxy Tab S9 Ultra", category: "tablet", icon: <Layout size={14} /> },
+  {
+    id: "/devices/iPadOS/iPad Pro/M4 & M5/13/iPad Pro 13 M4 & M5 - Portrait - Silver.png",
+    label: "iPad Pro 13 (M4/M5)",
+    category: "tablet",
+    icon: <Layout size={14} className="text-accent" />,
+  },
+  {
+    id: "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png",
+    label: "iPad Air 13",
+    category: "tablet",
+    icon: <Layout size={14} />,
+  },
+  {
+    id: "/devices/Android Tablet/Samsung Tab S9/Samsung Tab S9 Ultra.png",
+    label: "Galaxy Tab S9 Ultra",
+    category: "tablet",
+    icon: <Layout size={14} />,
+  },
 
   // Laptops
-  { id: "/devices/MacBook/MacBook Pro 16.png", label: "MacBook Pro 16", category: "laptop", icon: <Laptop size={14} className="text-accent" /> },
-  { id: "/devices/MacBook/MacBook Air 15.png", label: "MacBook Air 15", category: "laptop", icon: <Laptop size={14} /> },
-  { id: "/devices/Windows Laptop/Dell/2024 XPS 16 Platinum.png", label: "Dell XPS 16", category: "laptop", icon: <Laptop size={14} /> },
-  
-  // Legacy CSS
-  { id: "iphone-15", label: "iPhone 15 (CSS)", category: "legacy", icon: <PhoneIcon size={14} /> },
-  { id: "iphone-notch", label: "iPhone (Notch)", category: "legacy", icon: <Smartphone size={14} /> },
-  { id: "android-centered", label: "Android (Center)", category: "legacy", icon: <Smartphone size={14} /> },
-  { id: "laptop", label: "Laptop (CSS)", category: "legacy", icon: <Laptop size={14} /> },
+  {
+    id: "/devices/MacBook/MacBook Pro 16.png",
+    label: "MacBook Pro 16",
+    category: "laptop",
+    icon: <Laptop size={14} className="text-accent" />,
+  },
+  {
+    id: "/devices/MacBook/MacBook Air 15.png",
+    label: "MacBook Air 15",
+    category: "laptop",
+    icon: <Laptop size={14} />,
+  },
+  {
+    id: "/devices/Windows Laptop/Dell/2024 XPS 16 Platinum.png",
+    label: "Dell XPS 16",
+    category: "laptop",
+    icon: <Laptop size={14} />,
+  },
 ];
 
 const DEVICE_CATEGORIES = [
@@ -92,7 +161,6 @@ const DEVICE_CATEGORIES = [
   { id: "android", label: "Android" },
   { id: "tablet", label: "Tablets" },
   { id: "laptop", label: "Laptops" },
-  { id: "legacy", label: "Legacy" },
 ];
 
 export default function AdminDashboard() {
@@ -432,7 +500,11 @@ export default function AdminDashboard() {
     });
   };
 
-  const removeListItem = (sectionId: string, listKey: string, index: number) => {
+  const removeListItem = (
+    sectionId: string,
+    listKey: string,
+    index: number,
+  ) => {
     const newList = [...(settings.sections[sectionId][listKey] || [])];
     newList.splice(index, 1);
     setSettings({
@@ -455,7 +527,7 @@ export default function AdminDashboard() {
         gallery: [
           ...(settings.mockups.gallery || []),
           {
-            style: "iphone-15",
+            style: "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
             type: "image",
             image: "",
             icon: "sparkles",
@@ -829,7 +901,7 @@ export default function AdminDashboard() {
                             title={t.admin.storeLinks.appStoreEnabled}
                           >
                             <span
-                              className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.links.appStoreEnabled ? (lang === "ar" ? "right-5" : "left-5") : (lang === "ar" ? "right-0.5" : "left-0.5")}`}
+                              className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.links.appStoreEnabled ? (lang === "ar" ? "right-5" : "left-5") : lang === "ar" ? "right-0.5" : "left-0.5"}`}
                             />
                           </button>
                         </div>
@@ -864,7 +936,7 @@ export default function AdminDashboard() {
                             title={t.admin.storeLinks.googlePlayEnabled}
                           >
                             <span
-                              className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.links.googlePlayEnabled ? (lang === "ar" ? "right-5" : "left-5") : (lang === "ar" ? "right-0.5" : "left-0.5")}`}
+                              className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-200 ${settings.links.googlePlayEnabled ? (lang === "ar" ? "right-5" : "left-5") : lang === "ar" ? "right-0.5" : "left-0.5"}`}
                             />
                           </button>
                         </div>
@@ -1058,13 +1130,18 @@ export default function AdminDashboard() {
                   {/* Hero Mockups & Preview */}
                   <section className="glass-card rounded-4xl p-8">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-                      <div className="flex flex-col gap-1">
-                        <h4 className="text-lg font-semibold">
-                          {t.admin.heroMockups.title}
-                        </h4>
-                        <p className="text-xs text-gray-400">
-                          {t.admin.heroMockups.desc}
-                        </p>
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                          <PhoneIcon size={20} />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold">
+                            {t.admin.heroMockups.title}
+                          </h3>
+                          <p className="text-xs text-gray-400">
+                            {t.admin.heroMockups.desc}
+                          </p>
+                        </div>
                       </div>
                     </div>
 
@@ -1075,234 +1152,70 @@ export default function AdminDashboard() {
                             key={mock}
                             className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-sm hover:border-white/20 transition-all"
                           >
-                            <div className="flex items-center justify-between mb-6">
-                              <span className="text-sm font-semibold capitalize flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(99,102,241,0.5)]"></div>
-                                {t.admin.heroMockups[
-                                  mock === "heroLeft"
-                                    ? "mockup1"
-                                    : mock === "heroCenter"
-                                      ? "mockup2"
-                                      : "mockup3"
-                                ] || mock.replace("hero", "")}
-                              </span>
+                            <div className="flex flex-col gap-6">
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm font-semibold capitalize flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(99,102,241,0.5)]"></div>
+                                  {t.admin.heroMockups[
+                                    mock === "heroLeft"
+                                      ? "mockup1"
+                                      : mock === "heroCenter"
+                                        ? "mockup2"
+                                        : "mockup3"
+                                  ] || mock.replace("hero", "")}
+                                </span>
 
-                              {/* Per-Mockup Device Style Selection */}
-                              <div className="flex flex-wrap gap-1 p-1 bg-black/40 rounded-xl border border-white/5">
-                                {DEVICE_STYLES.map((s) => (
-                                  <button
-                                    key={s.id}
-                                    onClick={() =>
-                                      handleMockupChange(mock, "style", s.id)
-                                    }
-                                    title={s.label}
-                                    className={`p-1.5 rounded-lg transition-all ${
-                                      settings.mockups[mock].style === s.id
-                                        ? "bg-primary text-white"
-                                        : "text-gray-500 hover:text-gray-300"
-                                    }`}
-                                  >
-                                    {s.icon}
-                                  </button>
-                                ))}
-                              </div>
-                              <div className="flex bg-linear-to-b from-black/40 to-black/20 p-1 rounded-lg border border-white/5">
-                                {["icon", "image"].map((type) => (
-                                  <button
-                                    key={type}
-                                    onClick={() =>
-                                      handleMockupChange(mock, "type", type)
-                                    }
-                                    className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-md transition-all ${
-                                      settings.mockups[mock].type === type
-                                        ? "bg-white/10 text-white shadow-sm"
-                                        : "text-gray-500 hover:text-gray-400"
-                                    }`}
-                                  >
-                                    {t.admin.heroMockups[
-                                      type as keyof typeof t.admin.heroMockups
-                                    ] || type}
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-
-                            {settings.mockups[mock].type === "icon" ? (
-                              <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                  <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
-                                    {t.admin.heroMockups.icon}
-                                  </label>
-                                  <select
-                                    value={settings.mockups[mock].icon}
-                                    onChange={(e) =>
-                                      handleMockupChange(
-                                        mock,
-                                        "icon",
-                                        e.target.value,
-                                      )
-                                    }
-                                    className="w-full h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-primary/50 transition-all"
-                                  >
-                                    <option value="package">Package</option>
-                                    <option value="sparkles">Sparkles</option>
-                                    <option value="car">Car</option>
-                                    <option value="map-pin">Map Pin</option>
-                                  </select>
-                                </div>
-                                <div>
-                                  <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
-                                    {t.admin.heroMockups.color}
-                                  </label>
-                                  <select
-                                    value={settings.mockups[mock].color}
-                                    onChange={(e) =>
-                                      handleMockupChange(
-                                        mock,
-                                        "color",
-                                        e.target.value,
-                                      )
-                                    }
-                                    className="w-full h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-primary/50 transition-all"
-                                  >
-                                    <option value="primary">
-                                      Brand Primary
-                                    </option>
-                                    <option value="purple">Brand Purple</option>
-                                    <option value="accent">Brand Accent</option>
-                                  </select>
+                                <div className="flex bg-linear-to-b from-black/40 to-black/20 p-1 rounded-lg border border-white/5">
+                                  {["icon", "image"].map((type) => (
+                                    <button
+                                      key={type}
+                                      onClick={() =>
+                                        handleMockupChange(mock, "type", type)
+                                      }
+                                      className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-md transition-all ${
+                                        settings.mockups[mock].type === type
+                                          ? "bg-white/10 text-white shadow-sm"
+                                          : "text-gray-500 hover:text-gray-400"
+                                      }`}
+                                    >
+                                      {t.admin.heroMockups[
+                                        type as keyof typeof t.admin.heroMockups
+                                      ] || type}
+                                    </button>
+                                  ))}
                                 </div>
                               </div>
-                            ) : (
-                              <div>
-                                <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
-                                  Image Path
-                                </label>
-                                <div className="flex gap-2">
-                                  <input
-                                    type="text"
-                                    placeholder="/custom-mockup.png"
-                                    value={settings.mockups[mock].image || ""}
-                                    onChange={(e) =>
-                                      handleMockupChange(
-                                        mock,
-                                        "image",
-                                        e.target.value,
-                                      )
-                                    }
-                                    className="flex-1 h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-primary/50 transition-all"
-                                  />
-                                  <label className="cursor-pointer">
-                                    <input
-                                      type="file"
-                                      accept="image/*"
-                                      className="hidden"
-                                      onChange={(e) => {
-                                        const file = e.target.files?.[0];
-                                        if (file) handleImageUpload(mock, file);
-                                      }}
-                                    />
-                                    <div className="h-10 w-10 flex items-center justify-center bg-white/5 border border-white/5 rounded-lg hover:bg-white/10 transition-all text-gray-400 hover:text-white">
-                                      {isUploading === mock ? (
-                                        <Loader2 className="w-4 h-4 animate-spin" />
-                                      ) : (
-                                        <Upload className="w-4 h-4" />
-                                      )}
-                                    </div>
-                                  </label>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
 
-                      <div className="sticky top-8 glass border border-white/5 rounded-3xl p-6 bg-white/5 h-fit">
-                        <div className="flex items-center gap-2 mb-6 text-primary">
-                          <Smartphone className="w-4 h-4" />
-                          <h4 className="text-sm font-bold uppercase tracking-wider">
-                            {t.admin.preview_label}
-                          </h4>
-                        </div>
-                        <div className="grid grid-cols-1 gap-8 max-w-[200px] mx-auto">
-                          {["heroLeft", "heroCenter", "heroRight"].map(
-                            (mock) => (
-                              <DevicePreview
-                                key={mock}
-                                config={settings.mockups[mock]}
-                                title={mock.replace("hero", "")}
-                                deviceStyle={settings.mockups[mock].style}
-                              />
-                            ),
-                          )}
-                        </div>
-                        <p className="mt-6 text-[10px] text-gray-500 text-center leading-relaxed">
-                          Visualizing all hero mockups with current settings.
-                        </p>
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* CTA Mockups */}
-                  <section className="glass-card rounded-4xl p-8">
-                    <div className="flex items-center gap-3 mb-8">
-                      <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
-                        <ImageIcon size={20} />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold">
-                          {t.admin.ctaMockups.title}
-                        </h3>
-                        <p className="text-xs text-gray-400">
-                          {t.admin.ctaMockups.desc}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="grid lg:grid-cols-2 gap-8 items-start mt-8">
-                      <div className="space-y-8">
-                        {["ctaLeft", "ctaCenter", "ctaRight"].map((mock) => (
-                          <div
-                            key={mock}
-                            className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-sm hover:border-white/20 transition-all"
-                          >
-                            <div className="flex items-center justify-between mb-6">
-                              <span className="text-sm font-semibold capitalize flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_rgba(245,158,11,0.5)]"></div>
-                                {mock === "ctaLeft"
-                                  ? "Mockup 1 (Left)"
-                                  : mock === "ctaCenter"
-                                    ? "Mockup 2 (Center)"
-                                    : "Mockup 3 (Right)"}
-                              </span>
-                              {/* Per-Mockup Device Style Selection */}
-                              <div className="flex flex-col gap-3 p-3 bg-black/40 rounded-2xl border border-white/5">
-                                <div className="flex flex-wrap gap-2 pb-2 border-b border-white/5">
+                              {/* Categorized Device Selection */}
+                              <div className="p-4 bg-black/40 rounded-2xl border border-white/5 space-y-4">
+                                <div className="flex flex-wrap gap-2 border-b border-white/5 pb-3">
                                   {DEVICE_CATEGORIES.map((cat) => (
                                     <button
                                       key={cat.id}
                                       onClick={() => setMockupCategory(cat.id)}
-                                      className={`px-2 py-1 text-[9px] font-bold uppercase tracking-wider rounded-md transition-all ${
+                                      className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all ${
                                         mockupCategory === cat.id
-                                          ? "bg-accent/20 text-accent"
-                                          : "text-gray-500 hover:text-gray-300"
+                                          ? "bg-primary/20 text-primary border border-primary/20"
+                                          : "text-gray-500 hover:text-gray-300 border border-transparent"
                                       }`}
                                     >
                                       {cat.label}
                                     </button>
                                   ))}
                                 </div>
-                                <div className="grid grid-cols-6 gap-2">
-                                  {DEVICE_STYLES.filter(s => s.category === mockupCategory).map((s) => (
+                                <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-6 lg:grid-cols-8 gap-3">
+                                  {DEVICE_STYLES.filter(
+                                    (s) => s.category === mockupCategory,
+                                  ).map((s) => (
                                     <button
                                       key={s.id}
                                       onClick={() =>
                                         handleMockupChange(mock, "style", s.id)
                                       }
                                       title={s.label}
-                                      className={`p-2.5 rounded-lg transition-all flex items-center justify-center ${
+                                      className={`p-2.5 rounded-xl transition-all flex items-center justify-center ${
                                         settings.mockups[mock].style === s.id
-                                          ? "bg-primary text-white shadow-[0_0_12px_rgba(var(--primary-rgb),0.3)] scale-110"
+                                          ? "bg-primary text-white shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)] scale-110"
                                           : "bg-black/20 text-gray-500 hover:text-gray-300 hover:bg-black/30"
                                       }`}
                                     >
@@ -1310,138 +1223,383 @@ export default function AdminDashboard() {
                                     </button>
                                   ))}
                                 </div>
+                                <div className="pt-2">
+                                  <p className="text-[10px] text-gray-500 font-medium">
+                                    Selected:{" "}
+                                    <span className="text-gray-300 font-bold uppercase tracking-tight ml-1">
+                                      {DEVICE_STYLES.find(
+                                        (s) =>
+                                          s.id === settings.mockups[mock].style,
+                                      )?.label || "iPhone 16 Pro Max"}
+                                    </span>
+                                  </p>
+                                </div>
                               </div>
-                              <div className="flex bg-linear-to-b from-black/40 to-black/20 p-1 rounded-lg border border-white/5">
-                                {["icon", "image"].map((type) => (
-                                  <button
-                                    key={type}
-                                    onClick={() =>
-                                      handleMockupChange(mock, "type", type)
-                                    }
-                                    className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-md transition-all ${
-                                      settings.mockups[mock].type === type
-                                        ? "bg-white/10 text-white shadow-sm"
-                                        : "text-gray-500 hover:text-gray-400"
-                                    }`}
-                                  >
-                                    {t.admin.heroMockups[
-                                      type as keyof typeof t.admin.heroMockups
-                                    ] || type}
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
 
-                            {settings.mockups[mock].type === "icon" ? (
-                              <div className="grid grid-cols-2 gap-4">
+                              {settings.mockups[mock].type === "icon" ? (
+                                <div className="grid grid-cols-2 gap-4">
+                                  <div>
+                                    <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
+                                      {t.admin.heroMockups.icon}
+                                    </label>
+                                    <select
+                                      value={settings.mockups[mock].icon}
+                                      onChange={(e) =>
+                                        handleMockupChange(
+                                          mock,
+                                          "icon",
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="w-full h-11 bg-black/20 border border-white/5 rounded-xl px-4 text-sm focus:outline-none focus:border-primary/50 transition-all font-medium"
+                                    >
+                                      <option value="package">Package</option>
+                                      <option value="sparkles">Sparkles</option>
+                                      <option value="car">Car</option>
+                                      <option value="map-pin">Map Pin</option>
+                                    </select>
+                                  </div>
+                                  <div>
+                                    <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
+                                      {t.admin.heroMockups.color}
+                                    </label>
+                                    <select
+                                      value={settings.mockups[mock].color}
+                                      onChange={(e) =>
+                                        handleMockupChange(
+                                          mock,
+                                          "color",
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="w-full h-11 bg-black/20 border border-white/5 rounded-xl px-4 text-sm focus:outline-none focus:border-primary/50 transition-all font-medium"
+                                    >
+                                      <option value="primary">
+                                        Brand Primary
+                                      </option>
+                                      <option value="purple">
+                                        Brand Purple
+                                      </option>
+                                      <option value="accent">
+                                        Brand Accent
+                                      </option>
+                                    </select>
+                                  </div>
+                                </div>
+                              ) : (
                                 <div>
                                   <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
-                                    {t.admin.heroMockups.icon}
+                                    Image Asset
                                   </label>
-                                  <select
-                                    value={settings.mockups[mock].icon}
-                                    onChange={(e) =>
-                                      handleMockupChange(
-                                        mock,
-                                        "icon",
-                                        e.target.value,
-                                      )
-                                    }
-                                    className="w-full h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-accent/50 transition-all"
-                                  >
-                                    <option value="package">Package</option>
-                                    <option value="sparkles">Sparkles</option>
-                                    <option value="car">Car</option>
-                                    <option value="map-pin">Map Pin</option>
-                                  </select>
-                                </div>
-                                <div>
-                                  <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
-                                    {t.admin.heroMockups.color}
-                                  </label>
-                                  <select
-                                    value={settings.mockups[mock].color}
-                                    onChange={(e) =>
-                                      handleMockupChange(
-                                        mock,
-                                        "color",
-                                        e.target.value,
-                                      )
-                                    }
-                                    className="w-full h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-accent/50 transition-all"
-                                  >
-                                    <option value="primary">
-                                      Brand Primary
-                                    </option>
-                                    <option value="purple">Brand Purple</option>
-                                    <option value="accent">Brand Accent</option>
-                                  </select>
-                                </div>
-                              </div>
-                            ) : (
-                              <div>
-                                <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
-                                  Image Path
-                                </label>
-                                <div className="flex gap-2">
-                                  <input
-                                    type="text"
-                                    placeholder="/custom-mockup.png"
-                                    value={settings.mockups[mock].image || ""}
-                                    onChange={(e) =>
-                                      handleMockupChange(
-                                        mock,
-                                        "image",
-                                        e.target.value,
-                                      )
-                                    }
-                                    className="flex-1 h-10 bg-black/20 border border-white/5 rounded-lg px-3 text-sm focus:outline-none focus:border-accent/50 transition-all"
-                                  />
-                                  <label className="cursor-pointer">
+                                  <div className="flex gap-2">
                                     <input
-                                      type="file"
-                                      accept="image/*"
-                                      className="hidden"
-                                      onChange={(e) => {
-                                        const file = e.target.files?.[0];
-                                        if (file) handleImageUpload(mock, file);
-                                      }}
+                                      type="text"
+                                      placeholder="/custom-mockup.png"
+                                      value={settings.mockups[mock].image || ""}
+                                      onChange={(e) =>
+                                        handleMockupChange(
+                                          mock,
+                                          "image",
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="flex-1 h-11 bg-black/20 border border-white/5 rounded-xl px-4 text-sm focus:outline-none focus:border-primary/50 transition-all font-medium"
                                     />
-                                    <div className="h-10 w-10 flex items-center justify-center bg-white/5 border border-white/5 rounded-lg hover:bg-white/10 transition-all text-gray-400 hover:text-white">
-                                      {isUploading === mock ? (
-                                        <Loader2 className="w-4 h-4 animate-spin" />
-                                      ) : (
-                                        <Upload className="w-4 h-4" />
-                                      )}
-                                    </div>
-                                  </label>
+                                    <label className="cursor-pointer">
+                                      <input
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={(e) => {
+                                          const file = e.target.files?.[0];
+                                          if (file)
+                                            handleImageUpload(mock, file);
+                                        }}
+                                      />
+                                      <div className="h-11 w-11 flex items-center justify-center bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 transition-all text-gray-400 hover:text-white">
+                                        {isUploading === mock ? (
+                                          <Loader2 className="w-4 h-4 animate-spin" />
+                                        ) : (
+                                          <Upload className="w-4 h-4" />
+                                        )}
+                                      </div>
+                                    </label>
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
+                            </div>
                           </div>
                         ))}
                       </div>
 
-                      <div className="sticky top-8 glass border border-white/5 rounded-3xl p-6 bg-white/5 h-fit">
-                        <div className="flex items-center gap-2 mb-6 text-accent">
-                          <Smartphone className="w-4 h-4" />
-                          <h4 className="text-sm font-bold uppercase tracking-wider">
-                            {t.admin.preview_label}
+                      <div className="sticky top-8 glass-card border border-white/10 rounded-4xl p-8 bg-black/20 h-fit">
+                        <div className="flex items-center gap-3 mb-8 text-primary">
+                          <Eye className="w-5 h-5" />
+                          <h4 className="text-sm font-bold uppercase tracking-widest">
+                            Live Visual Preview
                           </h4>
                         </div>
-                        <div className="grid grid-cols-1 gap-8 max-w-[200px] mx-auto">
+                        <div className="grid grid-cols-1 gap-12 max-w-[240px] mx-auto">
+                          {["heroLeft", "heroCenter", "heroRight"].map(
+                            (mock) => (
+                              <DevicePreview
+                                key={mock}
+                                config={settings.mockups[mock]}
+                                title={
+                                  mock === "heroLeft"
+                                    ? "Left Position"
+                                    : mock === "heroCenter"
+                                      ? "Center Position"
+                                      : "Right Position"
+                                }
+                                deviceStyle={settings.mockups[mock].style}
+                              />
+                            ),
+                          )}
+                        </div>
+                        <div className="mt-8 p-4 rounded-2xl bg-white/5 border border-white/5">
+                          <p className="text-[10px] text-gray-500 text-center leading-relaxed">
+                            These previews reflect exactly how the mockups will
+                            appear in the Hero section, respecting device aspect
+                            ratios and alignment.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  {/* CTA Mockups */}
+                  <section className="glass-card rounded-4xl p-8">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
+                          <ImageIcon size={20} />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold">
+                            {t.admin.ctaMockups.title}
+                          </h3>
+                          <p className="text-xs text-gray-400">
+                            {t.admin.ctaMockups.desc}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-8 items-start">
+                      <div className="space-y-8">
+                        {["ctaLeft", "ctaCenter", "ctaRight"].map((mock) => (
+                          <div
+                            key={mock}
+                            className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-sm hover:border-white/20 transition-all"
+                          >
+                            <div className="flex flex-col gap-6">
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm font-semibold capitalize flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_rgba(245,158,11,0.5)]"></div>
+                                  {mock === "ctaLeft"
+                                    ? "Mockup 1 (Left)"
+                                    : mock === "ctaCenter"
+                                      ? "Mockup 2 (Center)"
+                                      : "Mockup 3 (Right)"}
+                                </span>
+
+                                <div className="flex bg-linear-to-b from-black/40 to-black/20 p-1 rounded-lg border border-white/5">
+                                  {["icon", "image"].map((type) => (
+                                    <button
+                                      key={type}
+                                      onClick={() =>
+                                        handleMockupChange(mock, "type", type)
+                                      }
+                                      className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-md transition-all ${
+                                        settings.mockups[mock].type === type
+                                          ? "bg-white/10 text-white shadow-sm"
+                                          : "text-gray-500 hover:text-gray-400"
+                                      }`}
+                                    >
+                                      {t.admin.heroMockups[
+                                        type as keyof typeof t.admin.heroMockups
+                                      ] || type}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Categorized Device Selection */}
+                              <div className="p-4 bg-black/40 rounded-2xl border border-white/5 space-y-4">
+                                <div className="flex flex-wrap gap-2 border-b border-white/5 pb-3">
+                                  {DEVICE_CATEGORIES.map((cat) => (
+                                    <button
+                                      key={cat.id}
+                                      onClick={() => setMockupCategory(cat.id)}
+                                      className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all ${
+                                        mockupCategory === cat.id
+                                          ? "bg-accent/20 text-accent border border-accent/20"
+                                          : "text-gray-500 hover:text-gray-300 border border-transparent"
+                                      }`}
+                                    >
+                                      {cat.label}
+                                    </button>
+                                  ))}
+                                </div>
+                                <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-6 lg:grid-cols-8 gap-3">
+                                  {DEVICE_STYLES.filter(
+                                    (s) => s.category === mockupCategory,
+                                  ).map((s) => (
+                                    <button
+                                      key={s.id}
+                                      onClick={() =>
+                                        handleMockupChange(mock, "style", s.id)
+                                      }
+                                      title={s.label}
+                                      className={`p-2.5 rounded-xl transition-all flex items-center justify-center ${
+                                        settings.mockups[mock].style === s.id
+                                          ? "bg-accent text-white shadow-[0_0_15px_rgba(245,158,11,0.3)] scale-110"
+                                          : "bg-black/20 text-gray-500 hover:text-gray-300 hover:bg-black/30"
+                                      }`}
+                                    >
+                                      {s.icon}
+                                    </button>
+                                  ))}
+                                </div>
+                                <div className="pt-2">
+                                  <p className="text-[10px] text-gray-500 font-medium">
+                                    Selected:{" "}
+                                    <span className="text-gray-300 font-bold uppercase tracking-tight ml-1">
+                                      {DEVICE_STYLES.find(
+                                        (s) =>
+                                          s.id === settings.mockups[mock].style,
+                                      )?.label || "iPhone 16 Pro Max"}
+                                    </span>
+                                  </p>
+                                </div>
+                              </div>
+
+                              {settings.mockups[mock].type === "icon" ? (
+                                <div className="grid grid-cols-2 gap-4">
+                                  <div>
+                                    <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
+                                      {t.admin.heroMockups.icon}
+                                    </label>
+                                    <select
+                                      value={settings.mockups[mock].icon}
+                                      onChange={(e) =>
+                                        handleMockupChange(
+                                          mock,
+                                          "icon",
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="w-full h-11 bg-black/20 border border-white/5 rounded-xl px-4 text-sm focus:outline-none focus:border-accent/50 transition-all font-medium"
+                                    >
+                                      <option value="package">Package</option>
+                                      <option value="sparkles">Sparkles</option>
+                                      <option value="car">Car</option>
+                                      <option value="map-pin">Map Pin</option>
+                                    </select>
+                                  </div>
+                                  <div>
+                                    <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
+                                      {t.admin.heroMockups.color}
+                                    </label>
+                                    <select
+                                      value={settings.mockups[mock].color}
+                                      onChange={(e) =>
+                                        handleMockupChange(
+                                          mock,
+                                          "color",
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="w-full h-11 bg-black/20 border border-white/5 rounded-xl px-4 text-sm focus:outline-none focus:border-accent/50 transition-all font-medium"
+                                    >
+                                      <option value="primary">
+                                        Brand Primary
+                                      </option>
+                                      <option value="purple">
+                                        Brand Purple
+                                      </option>
+                                      <option value="accent">
+                                        Brand Accent
+                                      </option>
+                                    </select>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div>
+                                  <label className="block text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">
+                                    Image Asset
+                                  </label>
+                                  <div className="flex gap-2">
+                                    <input
+                                      type="text"
+                                      placeholder="/custom-mockup.png"
+                                      value={settings.mockups[mock].image || ""}
+                                      onChange={(e) =>
+                                        handleMockupChange(
+                                          mock,
+                                          "image",
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="flex-1 h-11 bg-black/20 border border-white/5 rounded-xl px-4 text-sm focus:outline-none focus:border-accent/50 transition-all font-medium"
+                                    />
+                                    <label className="cursor-pointer">
+                                      <input
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={(e) => {
+                                          const file = e.target.files?.[0];
+                                          if (file)
+                                            handleImageUpload(mock, file);
+                                        }}
+                                      />
+                                      <div className="h-11 w-11 flex items-center justify-center bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 transition-all text-gray-400 hover:text-white">
+                                        {isUploading === mock ? (
+                                          <Loader2 className="w-4 h-4 animate-spin" />
+                                        ) : (
+                                          <Upload className="w-4 h-4" />
+                                        )}
+                                      </div>
+                                    </label>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="sticky top-8 glass-card border border-white/10 rounded-4xl p-8 bg-black/20 h-fit">
+                        <div className="flex items-center gap-3 mb-8 text-accent">
+                          <Eye className="w-5 h-5" />
+                          <h4 className="text-sm font-bold uppercase tracking-widest">
+                            Live Visual Preview
+                          </h4>
+                        </div>
+                        <div className="grid grid-cols-1 gap-12 max-w-[240px] mx-auto">
                           {["ctaLeft", "ctaCenter", "ctaRight"].map((mock) => (
                             <DevicePreview
                               key={mock}
                               config={settings.mockups[mock]}
-                              title={mock.replace("cta", "")}
+                              title={
+                                mock === "ctaLeft"
+                                  ? "Left CTA"
+                                  : mock === "ctaCenter"
+                                    ? "Center CTA"
+                                    : "Right CTA"
+                              }
                               deviceStyle={settings.mockups[mock].style}
                             />
                           ))}
                         </div>
-                        <p className="mt-6 text-[10px] text-gray-500 text-center leading-relaxed">
-                          Visualizing all CTA mockups with current settings.
-                        </p>
+                        <div className="mt-8 p-4 rounded-2xl bg-white/5 border border-white/5">
+                          <p className="text-[10px] text-gray-500 text-center leading-relaxed">
+                            These previews reflect exactly how the mockups will
+                            appear in the CTA section.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </section>
@@ -1488,9 +1646,9 @@ export default function AdminDashboard() {
                         (mock: any, index: number) => (
                           <div
                             key={index}
-                            className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-sm hover:border-white/20 transition-all relative"
+                            className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-sm flex flex-col gap-6 hover:border-white/20 transition-all relative"
                           >
-                            <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2 text-sm font-semibold capitalize">
                                 <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(99,102,241,0.5)]"></div>
                                 {t.admin.galleryMockups?.device || "Device"}{" "}
@@ -1505,76 +1663,71 @@ export default function AdminDashboard() {
                               </button>
                             </div>
 
-                            <div className="flex flex-wrap gap-1 p-1 bg-black/40 rounded-xl border border-white/5 mb-6">
-                              {DEVICE_STYLES.map((s) => (
-                                <button
-                                  key={s.id}
-                                  onClick={() =>
-                                    handleGalleryChange(index, "style", s.id)
-                                  }
-                                  title={s.label}
-                                  className={`p-1.5 rounded-lg transition-all ${
-                                    mock.style === s.id
-                                      ? "bg-primary text-white"
-                                      : "text-gray-500 hover:text-gray-300"
-                                  }`}
-                                >
-                                  {s.icon}
-                                </button>
-                              ))}
+                            {/* Live Preview */}
+                            <div className="flex flex-col items-center justify-center p-6 bg-black/40 rounded-2xl border border-white/10 overflow-hidden relative group min-h-[220px]">
+                              <div className="absolute inset-0 bg-linear-to-br from-indigo-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                              <div className="w-[140px] md:w-[160px] relative z-10 transform group-hover:translate-y-[-4px] transition-transform duration-500">
+                                <DevicePreview
+                                  config={mock}
+                                  title={`Screen ${index + 1}`}
+                                  deviceStyle={mock.style}
+                                />
+                              </div>
                             </div>
 
-                            <div>
-                              <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">
-                                {t.admin.heroMockups.image}
-                              </label>
-                              <div className="relative group">
-                                <input
-                                  type="file"
-                                  accept="image/*"
-                                  onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file)
-                                      handleImageUpload(
-                                        `gallery-${index}`,
-                                        file,
-                                      );
-                                  }}
-                                  className="hidden"
-                                  id={`gallery-upload-${index}`}
-                                  disabled={isUploading === `gallery-${index}`}
-                                />
-                                <label
-                                  htmlFor={`gallery-upload-${index}`}
-                                  className="flex flex-col items-center justify-center w-full aspect-9/19 rounded-2xl border-2 border-dashed border-white/10 bg-black/20 hover:bg-black/40 hover:border-primary/50 cursor-pointer transition-all overflow-hidden relative group-hover:shadow-[0_0_20px_rgba(99,102,241,0.1)]"
+                            {/* Device & Upload Controls */}
+                            <div className="flex flex-col gap-4">
+                              <div className="flex flex-col gap-2">
+                                <label className="text-xs font-medium text-gray-400 uppercase tracking-wider">Device Model</label>
+                                <select 
+                                  value={mock.style} 
+                                  onChange={(e) => handleGalleryChange(index, "style", e.target.value)}
+                                  className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-gray-200 outline-none focus:border-primary transition-colors appearance-none"
                                 >
-                                  {mock.image ? (
-                                    <>
-                                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                                      <img
-                                        src={mock.image}
-                                        alt="Preview"
-                                        className="w-full h-full object-cover"
-                                      />
-                                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-sm">
-                                        <Upload className="w-6 h-6 text-white" />
-                                      </div>
-                                    </>
-                                  ) : (
-                                    <div className="flex flex-col items-center gap-2 text-gray-500 group-hover:text-primary transition-colors">
-                                      {isUploading === `gallery-${index}` ? (
-                                        <Loader2 className="w-6 h-6 animate-spin" />
-                                      ) : (
-                                        <>
-                                          <ImageIcon className="w-8 h-8 opacity-50" />
-                                          <span className="text-xs font-medium">
-                                            Upload Image
-                                          </span>
-                                        </>
-                                      )}
-                                    </div>
-                                  )}
+                                  {['ios', 'android', 'tablet', 'laptop'].map(cat => {
+                                    const devCat = DEVICE_STYLES.filter(s => s.category === cat);
+                                    if (devCat.length === 0) return null;
+                                    return (
+                                      <optgroup key={cat} label={cat.toUpperCase()} className="bg-slate-900 text-gray-400 font-semibold p-2">
+                                        {devCat.map(s => (
+                                          <option key={s.id} value={s.id} className="text-gray-200">{s.label}</option>
+                                        ))}
+                                      </optgroup>
+                                    );
+                                  })}
+                                </select>
+                              </div>
+
+                              <div>
+                                <label className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-2 block">
+                                  {t.admin.heroMockups.image || "Screen Image"}
                                 </label>
+                                <div className="relative group">
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0];
+                                      if (file) handleImageUpload(`gallery-${index}`, file);
+                                    }}
+                                    className="hidden"
+                                    id={`gallery-upload-${index}`}
+                                    disabled={isUploading === `gallery-${index}`}
+                                  />
+                                  <label
+                                    htmlFor={`gallery-upload-${index}`}
+                                    className="flex items-center justify-center w-full h-12 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary/50 cursor-pointer transition-all"
+                                  >
+                                    {isUploading === `gallery-${index}` ? (
+                                      <Loader2 className="w-5 h-5 animate-spin text-primary" />
+                                    ) : (
+                                      <div className="flex items-center gap-2 text-gray-300 group-hover:text-primary transition-colors text-sm font-medium">
+                                        <Upload className="w-4 h-4" />
+                                        {mock.image ? "Change Image" : "Upload Image"}
+                                      </div>
+                                    )}
+                                  </label>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -1792,27 +1945,24 @@ export default function AdminDashboard() {
                                               </button>
                                             </div>
 
-                                            <div className="flex flex-wrap gap-1 p-1 bg-black/40 rounded-lg border border-white/5 mb-4">
-                                              {DEVICE_STYLES.map((s) => (
-                                                <button
-                                                  key={s.id}
-                                                  onClick={() =>
-                                                    handleGalleryChange(
-                                                      index,
-                                                      "style",
-                                                      s.id,
-                                                    )
-                                                  }
-                                                  title={s.label}
-                                                  className={`p-1 rounded-md transition-all ${
-                                                    mock.style === s.id
-                                                      ? "bg-primary text-white"
-                                                      : "text-gray-500 hover:text-gray-300"
-                                                  }`}
-                                                >
-                                                  {s.icon}
-                                                </button>
-                                              ))}
+                                            <div className="flex flex-col gap-2 mb-4">
+                                              <select 
+                                                value={mock.style} 
+                                                onChange={(e) => handleGalleryChange(index, "style", e.target.value)}
+                                                className="w-full bg-black/40 border border-white/5 rounded-lg px-2 py-1.5 text-xs text-gray-300 outline-none focus:border-primary transition-colors appearance-none"
+                                              >
+                                                {['ios', 'android', 'tablet', 'laptop'].map(cat => {
+                                                  const devCat = DEVICE_STYLES.filter(s => s.category === cat);
+                                                  if (devCat.length === 0) return null;
+                                                  return (
+                                                    <optgroup key={cat} label={cat.toUpperCase()} className="bg-slate-900 border-none">
+                                                      {devCat.map(s => (
+                                                        <option key={s.id} value={s.id}>{s.label}</option>
+                                                      ))}
+                                                    </optgroup>
+                                                  );
+                                                })}
+                                              </select>
                                             </div>
 
                                             <div className="relative group aspect-9/19 rounded-xl overflow-hidden bg-black/20 border border-white/5">
@@ -2654,9 +2804,6 @@ function DevicePreview({
   deviceStyle?: string;
 }) {
   const isImageMockup = deviceStyle.startsWith("/devices/");
-  const isLaptop = !isImageMockup && deviceStyle === "laptop";
-  const isTablet =
-    !isImageMockup && (deviceStyle === "ipad" || deviceStyle === "tablet");
 
   // Helper to get icon component
   const getIcon = (iconName: string) => {
@@ -2672,235 +2819,97 @@ function DevicePreview({
     }
   };
 
-  const getAspect = () => {
-    if (isLaptop) return "aspect-16/10 w-44";
-    if (isTablet) return "aspect-3/4 w-32";
-    return "aspect-9/19 w-28";
-  };
-
-  const renderSensors = () => {
-    switch (deviceStyle) {
-      case "iphone-15":
-        return (
-          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-10 h-2.5 bg-black rounded-full z-20 border border-white/10" />
-        );
-      case "iphone-notch":
-        return (
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-3 bg-black rounded-b-xl z-20" />
-        );
-      case "android-centered":
-        return (
-          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-2 h-2 bg-black rounded-full z-20 ring-1 ring-white/10" />
-        );
-      case "android-left":
-        return (
-          <div className="absolute top-1.5 left-4 w-2 h-2 bg-black rounded-full z-20 ring-1 ring-white/10" />
-        );
-      case "laptop":
-        return (
-          <div className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-black rounded-full z-20" />
-        );
-      default:
-        return null;
-    }
-  };
-
-  const renderButtons = () => {
-    const isIphone =
-      deviceStyle === "iphone-15" ||
-      deviceStyle === "iphone-notch" ||
-      deviceStyle === "minimal";
-    const isAndroid = deviceStyle.startsWith("android");
-    const isTab = deviceStyle === "ipad" || deviceStyle === "tablet";
-
-    if (isIphone) {
-      return (
-        <>
-          <div className="absolute top-[12%] -left-[3px] w-[3px] h-[4%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
-          <div className="absolute top-[20%] -left-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
-          <div className="absolute top-[29%] -left-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-r-sm z-0" />
-          <div className="absolute top-[24%] -right-[3px] w-[3px] h-[12%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-        </>
-      );
-    }
-
-    if (isAndroid) {
-      return (
-        <>
-          <div className="absolute top-[18%] -right-[3px] w-[3px] h-[10%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-          <div className="absolute top-[30%] -right-[3px] w-[3px] h-[6%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-        </>
-      );
-    }
-
-    if (isTab) {
-      return (
-        <>
-          <div className="absolute top-[10%] -right-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-          <div className="absolute top-[20%] -right-[3px] w-[3px] h-[8%] bg-slate-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] rounded-l-sm z-0" />
-        </>
-      );
-    }
-
-    return null;
-  };
-
   const Icon = getIcon(config?.icon || "package");
-  const device = DEVICE_STYLES.find((s) => s.id === deviceStyle);
-  const deviceLabel = device?.label || deviceStyle;
+  const currentDeviceStyle = isImageMockup
+    ? deviceStyle
+    : "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png";
+  const device = DEVICE_STYLES.find((s) => s.id === currentDeviceStyle);
+  const deviceLabel = device?.label || currentDeviceStyle;
 
-  if (isImageMockup) {
-    const isTab =
-      deviceStyle.toLowerCase().includes("tablet") ||
-      deviceStyle.toLowerCase().includes("ipad");
-    const isLap =
-      deviceStyle.toLowerCase().includes("laptop") ||
-      deviceStyle.toLowerCase().includes("macbook") ||
-      deviceStyle.toLowerCase().includes("desktop");
+  // Modern device frames from public/devices are high quality
+  // Bezels are thin, so we need precise padding
+  const isLap =
+    currentDeviceStyle.toLowerCase().includes("laptop") ||
+    currentDeviceStyle.toLowerCase().includes("macbook");
+  const isTab =
+    currentDeviceStyle.toLowerCase().includes("tablet") ||
+    currentDeviceStyle.toLowerCase().includes("ipad");
+  const isS24 = currentDeviceStyle.includes("S24");
+  const isUltra =
+    currentDeviceStyle.includes("Ultra") || currentDeviceStyle.includes("Max");
+  const isPixel = currentDeviceStyle.includes("Pixel");
 
-    // Calculate padding based on device type to fit screen content
-    const isS24 = deviceStyle.includes("S24");
-    const isUltra = deviceStyle.includes("Ultra") || deviceStyle.includes("Pro Max");
-    const isPro = deviceStyle.includes("Pro") && !deviceStyle.includes("Max");
-    
-    // Modern devices have much thinner bezels
-    const hPadding = isUltra ? "px-[3.5%]" : isLap ? "px-[6%]" : isTab ? "px-[7%]" : "px-[4%]";
-    const vPadding = isLap ? "pt-[5%] pb-[12%]" : isTab ? "pt-[7%] pb-[7%]" : isUltra ? "pt-[3%] pb-[3.5%]" : "pt-[4%] pb-[5%]";
-    
-    const rounding = isLap
-      ? "rounded-sm"
-      : isTab
-        ? "rounded-[0.5rem]"
-        : isUltra || isPro || isS24
-          ? "rounded-[1.2rem]"
-          : "rounded-[1rem]";
+  // Refined paddings for "What You See Is What You Get"
+  // These are calculated to match the inner screen area of the frames in public/devices/
+  let hPadding = "px-[3.2%]";
+  let vPadding = "pt-[2.8%] pb-[3%] text-center";
+  let rounding = "rounded-[1.2rem]";
 
-    return (
-      <div className="flex flex-col items-center">
-        <div className="relative w-full drop-shadow-xl">
-          <img
-            src={encodeURI(deviceStyle)}
-            alt="Device Frame"
-            className="w-full h-auto block relative z-20 pointer-events-none"
-          />
-          <div
-            className={`absolute inset-0 flex items-center justify-center ${hPadding} ${vPadding} z-10`}
-          >
-            <div
-              className={`w-full h-full overflow-hidden ${rounding} bg-slate-950 flex flex-col items-center justify-center p-2`}
-            >
-              {config?.type === "image" && config?.image ? (
-                <img
-                  src={config.image}
-                  className="w-full h-full object-cover"
-                  style={{ objectPosition: 'top center' }}
-                  alt="Review"
-                />
-              ) : (
-                <div className="flex flex-col items-center">
-                  <div
-                    className={`w-8 h-8 ${config?.color === "purple" ? "bg-purple-600" : config?.color === "accent" ? "bg-accent" : "bg-primary"} rounded-lg flex items-center justify-center mb-2 shadow-lg`}
-                  >
-                    <Icon size={14} className="text-white" />
-                  </div>
-                  <div className="w-12 h-1.5 bg-white/10 rounded-full mb-1" />
-                  <div className="w-8 h-1 bg-white/5 rounded-full" />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="mt-4 flex flex-col items-center text-center gap-1">
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-            {title}
-          </span>
-          <span className="text-[10px] font-medium text-accent truncate max-w-[150px]">
-            {deviceLabel}
-          </span>
-        </div>
-      </div>
-    );
+  if (isLap) {
+    hPadding = "px-[6.2%]";
+    vPadding = "pt-[4.5%] pb-[10.5%]";
+    rounding = "rounded-[0.25rem]";
+  } else if (isTab) {
+    hPadding = "px-[4.5%]";
+    vPadding = "pt-[4.5%] pb-[4.5%]";
+    rounding = "rounded-[1.4rem]";
+  } else if (isS24) {
+    hPadding = "px-[3%]";
+    vPadding = "pt-[2.5%] pb-[2.8%]";
+    rounding = "rounded-[1rem]";
+  } else if (isPixel) {
+    hPadding = "px-[3.5%]";
+    vPadding = "pt-[2.8%] pb-[3.2%]";
+    rounding = "rounded-[1.1rem]";
+  } else if (isUltra) {
+    hPadding = "px-[2.8%]";
+    vPadding = "pt-[2.2%] pb-[2.5%]";
+    rounding = "rounded-[1.3rem]";
   }
-
-  const rounding = isLaptop
-    ? "rounded-lg"
-    : isTablet
-      ? "rounded-[1.25rem]"
-      : "rounded-[1.5rem]";
-  const innerRounding = isLaptop
-    ? "rounded-md"
-    : isTablet
-      ? "rounded-[1rem]"
-      : "rounded-[1.25rem]";
-  const bezel = isLaptop ? "border-2" : "border-[4px]";
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative">
-        {renderButtons()}
+      <div className="relative w-full drop-shadow-2xl group transition-all duration-500 hover:scale-[1.02]">
+        <img
+          src={encodeURI(currentDeviceStyle)}
+          alt="Device Frame"
+          className="w-full h-auto block relative z-20 pointer-events-none drop-shadow-lg"
+        />
         <div
-          className={`${getAspect()} bg-slate-950 ${rounding} shadow-2xl relative overflow-hidden ring-1 ring-white/10 scale-75 lg:scale-100 transition-transform`}
+          className={`absolute inset-0 flex items-center justify-center ${hPadding} ${vPadding} z-10`}
         >
-          {/* Hardware Bezel Trim */}
           <div
-            className={`absolute inset-0 ${rounding} ${bezel} border-slate-900 pointer-events-none z-10`}
-          />
-
-          {/* Sensors */}
-          {renderSensors()}
-
-          {/* Screen Content */}
-          <div
-            className={`relative w-full h-full bg-linear-to-b from-gray-900 to-black flex items-center justify-center overflow-hidden ${innerRounding} ${config?.type === "image" ? (!isLaptop && !isTablet ? "p-1.5" : "p-0") : isLaptop ? "p-4" : "p-2"}`}
+            className={`w-full h-full overflow-hidden ${rounding} bg-slate-950 flex flex-col items-center justify-center relative shadow-inner`}
           >
-            {config?.type === "icon" ? (
-              <div className="flex flex-col items-center justify-center gap-2">
-                <div
-                  className={`${isLaptop ? "w-10 h-10" : "w-8 h-8"} ${config.color === "primary" ? "bg-primary" : config.color === "purple" ? "bg-purple-600" : "bg-blue-600"} rounded-xl flex items-center justify-center shadow-lg transform rotate-12 transition-all`}
-                >
-                  <Icon
-                    className={`${isLaptop ? "w-5 h-5" : "w-4 h-4"} text-white`}
-                  />
-                </div>
-                {isLaptop && (
-                  <div className="text-center">
-                    <p className="text-white font-bold text-[8px] leading-tight">
-                      Tunsiska
-                    </p>
-                    <p className="text-gray-400 text-[6px]">Mega Services</p>
-                  </div>
-                )}
-              </div>
+            {config?.type === "image" && config?.image ? (
+              <img
+                src={config.image}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                style={{ objectPosition: "top center" }}
+                alt="Mockup Content"
+              />
             ) : (
-              <div className="w-full h-full relative">
-                {config?.image ? (
-                  <img
-                    src={config.image}
-                    alt="Preview"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-white/5 flex items-center justify-center text-[10px] text-gray-500 italic">
-                    Preview
-                  </div>
-                )}
+              <div className="flex flex-col items-center p-4">
+                <div
+                  className={`w-10 h-10 ${config?.color === "purple" ? "bg-linear-to-br from-purple-500 to-indigo-600" : config?.color === "accent" ? "bg-linear-to-br from-amber-400 to-orange-600" : "bg-linear-to-br from-primary to-indigo-600"} rounded-2xl flex items-center justify-center mb-3 shadow-[0_8px_20px_rgba(0,0,0,0.3)] border border-white/20`}
+                >
+                  <Icon size={18} className="text-white drop-shadow-md" />
+                </div>
+                <div className="w-16 h-2 bg-white/10 rounded-full mb-1.5" />
+                <div className="w-10 h-1.5 bg-white/5 rounded-full" />
               </div>
             )}
+
+            {/* Subtle gloss effect overlay */}
+            <div className="absolute inset-0 bg-linear-to-tr from-white/5 via-transparent to-transparent pointer-events-none z-30" />
           </div>
         </div>
       </div>
-
-      {isLaptop && (
-        <div className="w-[115%] h-3 bg-slate-800 rounded-b-xl -mt-0.5 border-t border-white/10 relative flex flex-col items-center shadow-lg">
-          <div className="w-10 h-0.5 bg-black/20 rounded-full mt-0.5" />
-        </div>
-      )}
-
-      <div className="mt-4 flex flex-col items-center text-center gap-1">
-        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+      <div className="mt-6 flex flex-col items-center text-center gap-1.5 px-4">
+        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] leading-none">
           {title}
         </span>
-        <span className="text-[10px] font-medium text-accent truncate max-w-[150px]">
+        <span className="text-[10px] font-medium text-accent bg-accent/5 px-2 py-0.5 rounded-full border border-accent/10 truncate max-w-[180px]">
           {deviceLabel}
         </span>
       </div>

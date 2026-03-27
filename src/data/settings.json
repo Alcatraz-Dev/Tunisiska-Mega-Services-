@@ -25,13 +25,14 @@
       "type": "icon",
       "icon": "package",
       "color": "primary",
-      "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png"
+      "style": "/devices/iOS/15 Pro Max/15 Pro Max - Natural Titanium.png"
     },
     "heroCenter": {
-      "type": "icon",
+      "type": "image",
       "icon": "sparkles",
       "color": "primary",
-      "style": "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png"
+      "style": "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png",
+      "image": "/uploads/1774629573534-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.26.37.png"
     },
     "heroRight": {
       "type": "icon",
@@ -56,7 +57,7 @@
       "type": "icon",
       "icon": "car",
       "color": "purple",
-      "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png"
+      "style": "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png"
     },
     "gallery": [
       {
@@ -81,7 +82,7 @@
         "color": "primary"
       },
       {
-        "style": "/devices/iPadOS/iPad Pro/M4/13/iPad Pro 13 M4 - Silver.png",
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
         "type": "image",
         "image": "/uploads/1774474610391-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_21_at_16.26.49.png",
         "icon": "map-pin",
@@ -95,7 +96,7 @@
         "color": "primary"
       },
       {
-        "style": "/devices/MacBook/MacBook Air 15.png",
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
         "type": "image",
         "image": "/uploads/1774474619605-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.28.png",
         "icon": "package",
