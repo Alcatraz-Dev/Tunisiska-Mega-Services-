@@ -103,6 +103,10 @@ export async function saveSettings(settings: any) {
     return { success: false, error: 'Unauthorized' };
   }
 
+  if (!process.env.SANITY_API_TOKEN) {
+    return { success: false, error: 'SANITY_API_TOKEN is missing in environment variables' };
+  }
+
   try {
     // We must merge with existing settings to not lose the 'auth' object
     let currentSettings = await client.fetch('*[_type == "settings"][0]');
