@@ -2,7 +2,7 @@
   "links": {
     "appStore": "https://apps.apple.com/app/tunsiska",
     "appStoreEnabled": false,
-    "googlePlay": "https://play.google.com/apps/testing/com.alcatrazdev.tunisiskaservices",
+    "googlePlay": "https://play.google.com/store/apps/details?id=com.alcatrazdev.tunisiskaservices",
     "googlePlayEnabled": true
   },
   "social": {
