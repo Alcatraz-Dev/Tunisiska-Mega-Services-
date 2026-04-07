@@ -40,6 +40,7 @@ import {
   Users,
   Newspaper,
   LayoutGrid as Grid,
+  Cloud,
 } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa6";
 import {
@@ -49,6 +50,7 @@ import {
   logout,
   updateAuth,
   uploadFile,
+  migrateSettingsToSanity,
 } from "./actions";
 import { useSettings } from "@/context/SettingsContext";
 import { useLanguage } from "@/context/LanguageContext";
@@ -664,6 +666,20 @@ export default function AdminDashboard() {
       );
     }
   };
+  
+  const [migrating, setMigrating] = useState(false);
+  const handleMigration = async () => {
+    if (!confirm("Are you sure you want to migrate all local settings to Sanity? This will overwrite existing Sanity settings.")) return;
+    setMigrating(true);
+    const result = await migrateSettingsToSanity();
+    setMigrating(false);
+    if (result.success) {
+      showToast(result.message || "Migration successful!", "success");
+      await loadData();
+    } else {
+      showToast(result.error || "Migration failed", "error");
+    }
+  };
 
   if (loading) {
     return (
@@ -771,6 +787,19 @@ export default function AdminDashboard() {
           </div>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={handleMigration}
+              disabled={migrating}
+              title="Migrate local settings to Sanity"
+              className="flex items-center gap-2 px-4 py-3 rounded-2xl font-semibold bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-all border border-blue-500/20"
+            >
+              {migrating ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Cloud className="w-4 h-4" />
+              )}
+              <span className="hidden sm:inline">Migrate to Sanity</span>
+            </button>
             <button
               onClick={handleLogout}
               className="flex items-center gap-2 px-4 py-3 rounded-2xl font-semibold bg-white/5 text-gray-400 hover:text-white transition-all border border-white/10"
