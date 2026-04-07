@@ -2,13 +2,13 @@
   "links": {
     "appStore": "https://apps.apple.com/app/tunsiska",
     "appStoreEnabled": false,
-    "googlePlay": "https://play.google.com/store/apps/details?id=com.tunsiska",
+    "googlePlay": "https://play.google.com/apps/testing/com.alcatrazdev.tunisiskaservices",
     "googlePlayEnabled": true
   },
   "social": {
-    "facebook": "https://facebook.com/tunsiska",
+    "facebook": "https://www.facebook.com/tunisiska.transport",
     "facebookEnabled": true,
-    "instagram": "https://instagram.com/tunsiska",
+    "instagram": "https://www.instagram.com/transporttunisiska",
     "instagramEnabled": true,
     "youtube": "https://youtube.com",
     "youtubeEnabled": false,
@@ -22,90 +22,157 @@
   "mockups": {
     "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
     "heroLeft": {
-      "type": "icon",
+      "type": "image",
       "icon": "package",
       "color": "primary",
-      "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png"
+      "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
+      "image": "/uploads/1775581122448-Screenshot_20260331_092656.png"
     },
     "heroCenter": {
       "type": "image",
       "icon": "sparkles",
       "color": "primary",
-      "style": "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png",
-      "image": "/uploads/1774629573534-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.26.37.png"
+      "style": "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Black.png",
+      "image": "/uploads/1775581142934-Screenshot_20260331_092709.png"
     },
     "heroRight": {
-      "type": "icon",
+      "type": "image",
       "icon": "car",
       "color": "purple",
-      "style": "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png"
+      "style": "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png",
+      "image": "/uploads/1775581183063-Screenshot_20260331_092539.png"
     },
     "ctaLeft": {
       "type": "image",
       "icon": "sparkles",
       "color": "primary",
-      "style": "minimal",
-      "image": "/uploads/1774473517585-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.56.png"
+      "style": "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Black.png",
+      "image": "/uploads/1775581285721-Screenshot_20260331_092539.png"
     },
     "ctaCenter": {
-      "type": "icon",
+      "type": "image",
       "icon": "package",
       "color": "primary",
-      "style": "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png"
+      "style": "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png",
+      "image": "/uploads/1775581259261-Screenshot_20260331_092257.png"
     },
     "ctaRight": {
-      "type": "icon",
+      "type": "image",
       "icon": "car",
       "color": "purple",
-      "style": "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png"
+      "style": "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png",
+      "image": "/uploads/1775581322003-Screenshot_20260331_092336.png"
     },
     "gallery": [
       {
         "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
         "type": "image",
-        "image": "/uploads/1774474595518-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.26.37.png",
+        "image": "/uploads/1775581445592-Screenshot_20260331_092656.png",
         "icon": "sparkles",
         "color": "primary"
       },
       {
         "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
         "type": "image",
-        "image": "/uploads/1774474601001-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.27.51.png",
+        "image": "/uploads/1775581450818-Screenshot_20260331_092549.png",
         "icon": "package",
         "color": "purple"
       },
       {
         "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
         "type": "image",
-        "image": "/uploads/1774474604413-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_25_at_19.27.52.png",
+        "image": "/uploads/1775581456888-Screenshot_20260331_092557.png",
         "icon": "car",
         "color": "primary"
       },
       {
         "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
         "type": "image",
-        "image": "/uploads/1774474610391-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_21_at_16.26.49.png",
+        "image": "/uploads/1775581461404-Screenshot_20260331_092606.png",
         "icon": "map-pin",
         "color": "purple"
       },
       {
-        "style": "/devices/MacBook/MacBook Pro 16.png",
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
         "type": "image",
-        "image": "/uploads/1774474616676-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.07.png",
+        "image": "/uploads/1775581467874-Screenshot_20260331_092612.png",
         "icon": "sparkles",
         "color": "primary"
       },
       {
         "style": "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png",
         "type": "image",
-        "image": "/uploads/1774474619605-Simulator_Screenshot___iPhone_15_Pro_Max___2026_03_15_at_20.55.28.png",
+        "image": "/uploads/1775581472797-Screenshot_20260331_092620.png",
         "icon": "package",
         "color": "purple"
       },
       {
         "style": "iphone-notch",
         "type": "image",
-        "image": "",
+        "image": "/uploads/1775581478291-Screenshot_20260331_092626.png",
+        "icon": "sparkles",
+        "color": "primary"
+      },
+      {
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
+        "type": "image",
+        "image": "/uploads/1775581484808-Screenshot_20260331_092631.png",
+        "icon": "sparkles",
+        "color": "primary"
+      },
+      {
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
+        "type": "image",
+        "image": "/uploads/1775581491587-Screenshot_20260331_092636.png",
+        "icon": "sparkles",
+        "color": "primary"
+      },
+      {
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
+        "type": "image",
+        "image": "/uploads/1775581503502-Screenshot_20260331_092709.png",
+        "icon": "sparkles",
+        "color": "primary"
+      },
+      {
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
+        "type": "image",
+        "image": "/uploads/1775581517681-Screenshot_20260331_092715.png",
+        "icon": "sparkles",
+        "color": "primary"
+      },
+      {
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
+        "type": "image",
+        "image": "/uploads/1775581533881-Screenshot_20260331_092539.png",
+        "icon": "sparkles",
+        "color": "primary"
+      },
+      {
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
+        "type": "image",
+        "image": "/uploads/1775581618995-Screenshot_20260331_092336.png",
+        "icon": "sparkles",
+        "color": "primary"
+      },
+      {
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
+        "type": "image",
+        "image": "/uploads/1775581634575-Screenshot_20260331_092257.png",
+        "icon": "sparkles",
+        "color": "primary"
+      },
+      {
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
+        "type": "image",
+        "image": "/uploads/1775581656921-Screenshot_20260331_092349.png",
+        "icon": "sparkles",
+        "color": "primary"
+      },
+      {
+        "style": "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png",
+        "type": "image",
+        "image": "/uploads/1775581668045-Screenshot_20260331_092400.png",
         "icon": "sparkles",
         "color": "primary"
       }
