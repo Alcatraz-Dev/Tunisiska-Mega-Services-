@@ -3,33 +3,26 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  AppWindow,
   Smartphone,
   Link as LinkIcon,
   Layout,
   Save,
   CheckCircle2,
-  ChevronRight,
   Settings,
   Shield,
   Loader2,
   Mail,
   Lock,
   LogOut,
-  User,
   Globe,
   Edit3,
   Eye,
-  EyeOff,
-  Type,
   Image as ImageIcon,
   Smartphone as PhoneIcon,
   Laptop,
-  Check,
   Upload,
   Sparkles,
   Car,
-  MapPin,
   Package,
   Share2,
   Plus,
@@ -683,7 +676,7 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background-dark flex items-center justify-center">
+      <div className="admin-light min-h-screen bg-background-dark flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-primary animate-spin" />
       </div>
     );
@@ -691,7 +684,7 @@ export default function AdminDashboard() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-background-dark flex items-center justify-center p-6">
+      <div className="admin-light min-h-screen bg-background-dark flex items-center justify-center p-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -767,7 +760,7 @@ export default function AdminDashboard() {
 
   return (
     <div
-      className="min-h-screen bg-background-dark pt-32 pb-20 px-6"
+      className="admin-light min-h-screen bg-background-dark pt-32 pb-20 px-6"
       dir={lang === "ar" ? "rtl" : "ltr"}
     >
       <div className="max-w-full lg:px-12 mx-auto">
@@ -1184,7 +1177,7 @@ export default function AdminDashboard() {
                             <div className="flex flex-col gap-6">
                               <div className="flex items-center justify-between">
                                 <span className="text-sm font-semibold capitalize flex items-center gap-2">
-                                  <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(99,102,241,0.5)]"></div>
+                                  <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(19,43,85,0.25)]"></div>
                                   {t.admin.heroMockups[
                                     mock === "heroLeft"
                                       ? "mockup1"
@@ -1679,7 +1672,7 @@ export default function AdminDashboard() {
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2 text-sm font-semibold capitalize">
-                                <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(99,102,241,0.5)]"></div>
+                                <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(19,43,85,0.25)]"></div>
                                 {t.admin.galleryMockups?.device || "Device"}{" "}
                                 {index + 1}
                               </div>
@@ -1694,7 +1687,7 @@ export default function AdminDashboard() {
 
                             {/* Live Preview */}
                             <div className="flex flex-col items-center justify-center p-6 bg-black/40 rounded-2xl border border-white/10 overflow-hidden relative group min-h-[220px]">
-                              <div className="absolute inset-0 bg-linear-to-br from-indigo-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                              <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                               <div className="w-[140px] md:w-[160px] relative z-10 transform group-hover:translate-y-[-4px] transition-transform duration-500">
                                 <DevicePreview
                                   config={mock}
@@ -2166,7 +2159,7 @@ export default function AdminDashboard() {
                         {
                           id: "service_taxi",
                           title: t.admin.pages_tab.service_taxi,
-                          icon: <Car className="w-5 h-5 text-purple-400" />,
+                          icon: <Car className="w-5 h-5 text-primary" />,
                         },
                         {
                           id: "service_cleaning",
@@ -2888,21 +2881,6 @@ function DevicePreview({
 }) {
   const isImageMockup = deviceStyle.startsWith("/devices/");
 
-  // Helper to get icon component
-  const getIcon = (iconName: string) => {
-    switch (iconName) {
-      case "sparkles":
-        return Sparkles;
-      case "car":
-        return Car;
-      case "map-pin":
-        return MapPin;
-      default:
-        return Package;
-    }
-  };
-
-  const Icon = getIcon(config?.icon || "package");
   const currentDeviceStyle = isImageMockup
     ? deviceStyle
     : "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png";
@@ -3038,13 +3016,11 @@ function DevicePreview({
                   className="w-full h-full object-cover object-top"
                 />
               ) : (
-                <div className="flex flex-col items-center justify-center h-full">
-                  <div className="w-10 h-10 rounded-2xl bg-primary flex items-center justify-center mb-3 shadow-[0_10px_20px_rgba(0,0,0,0.3)] ring-2 ring-white/10">
-                    <Icon size={18} className="text-white drop-shadow-md" />
-                  </div>
-                  <div className="w-16 h-2 bg-white/10 rounded-full mb-1.5" />
-                  <div className="w-10 h-1.5 bg-white/5 rounded-full" />
-                </div>
+                <img
+                  src="/app-screens/home.webp"
+                  alt="Real Tunisiska app home screen"
+                  className="w-full h-full object-cover object-top"
+                />
               )}
             </div>
 

@@ -1,58 +1,33 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { translations } from '@/translations';
-import { useLanguage } from '@/context/LanguageContext';
+import { motion } from "framer-motion";
+import { ArrowLeftRight, CheckCircle2 } from "lucide-react";
+import { translations } from "@/translations";
+import { useLanguage } from "@/context/LanguageContext";
+import { useSettings } from "@/context/SettingsContext";
+import { getSectionContent, isSectionVisible } from "@/lib/pageSettings";
+import RealAppShot from "@/components/RealAppShot";
 
 export default function AboutPage() {
   const { lang } = useLanguage();
+  const { settings } = useSettings();
   const t = translations[lang];
-
+  const content = getSectionContent(settings, "about", lang, t.aboutPage);
+  if (settings && !isSectionVisible(settings, "about")) return null;
   return (
-    <div className="pt-24 pb-20 max-w-7xl mx-auto px-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center max-w-3xl mx-auto mb-16"
-      >
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">{t.aboutPage.title}</h1>
-        <p className="text-xl text-gray-400">{t.aboutPage.subtitle}</p>
-      </motion.div>
-
-      <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <div className="aspect-video rounded-3xl overflow-hidden bg-white/5 border border-white/10 relative">
-            <div className="absolute inset-0 bg-linear-to-tr from-primary/20 to-purple-500/20 mix-blend-overlay"></div>
-            <img
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000"
-              alt="Team collaboration"
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="space-y-8"
-        >
-          <div>
-            <h2 className="text-2xl font-bold mb-4 text-primary">{t.aboutPage.missionTitle}</h2>
-            <p className="text-gray-300 leading-relaxed text-lg">{t.aboutPage.missionDesc}</p>
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold mb-4 text-accent">{t.aboutPage.visionTitle}</h2>
-            <p className="text-gray-300 leading-relaxed text-lg">{t.aboutPage.visionDesc}</p>
-          </div>
-        </motion.div>
+    <main className="content-page" dir="ltr">
+      <div className="content-shell">
+        <header className="content-heading" dir={lang === "ar" ? "auto" : "ltr"}><h1>{content.title}</h1><p>{content.subtitle}</p></header>
+        <section className="about-layout">
+          <motion.div className="about-copy" initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .45 }} dir={lang === "ar" ? "auto" : "ltr"}>
+            <div className="about-route-mark"><ArrowLeftRight size={20} /><span>Sweden <i>↔</i> Tunisia</span></div>
+            <div className="about-copy-block"><h2>{content.missionTitle}</h2><p>{content.missionDesc}</p></div>
+            <div className="about-copy-block"><h2>{content.visionTitle}</h2><p>{content.visionDesc}</p></div>
+            <div className="about-proof"><CheckCircle2 size={18} /><span>{t.landing.routeCardFoot}</span></div>
+          </motion.div>
+          <RealAppShot screen="home" alt={t.landing.homeScreenLabel} className="about-shot" />
+        </section>
       </div>
-    </div>
+    </main>
   );
 }

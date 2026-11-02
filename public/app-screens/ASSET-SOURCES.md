@@ -1,0 +1,5 @@
+- `home.webp` — converted from the real iPhone app screenshot supplied by the project owner: `Screenshot iPhone 15 Pro Max 2026-11-02 at 19.32.08.png`.
+- `trip-details.webp` — converted from the real iPhone app screenshot supplied by the project owner: `Screenshot iPhone 15 Pro Max 2026-11-02 at 19.35.19.png`.
+- `news.webp` — converted from the real iPhone app screenshot supplied by the project owner: `Screenshot iPhone 15 Pro Max 2026-11-02 at 19.37.58.png`.
+- `news-detail.webp` — converted from the real iPhone app screenshot supplied by the project owner: `Screenshot iPhone 15 Pro Max 2026-11-02 at 19.38.10.png`.
+- `capacity-calendar.webp` — converted from the real iPhone app screenshot supplied by the project owner: `Screenshot iPhone 15 Pro Max 2026-11-02 at 19.48.00.png`.

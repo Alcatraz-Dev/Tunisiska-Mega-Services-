@@ -1,642 +1,320 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import {
+  ArrowLeftRight,
+  ArrowRight,
+  ArrowUpRight,
+  Box,
+  CarFront,
+  Check,
   Package,
   Sparkles,
-  Car,
-  ArrowRight,
-  CheckCircle2,
-  Clock,
   MapPin,
 } from "lucide-react";
-import { translations } from "@/translations";
-import Link from "next/link";
+import { FaApple, FaGooglePlay } from "react-icons/fa6";
 import { useLanguage } from "@/context/LanguageContext";
 import { useSettings } from "@/context/SettingsContext";
+import { translations } from "@/translations";
+import { resolveStoreUrl, StoreSettings } from "@/lib/storeLinks";
+import { getManagedGallery, getMockup, getMockupImage, getSectionContent, isSectionVisible, type ManagedMockup } from "@/lib/pageSettings";
+
+function StoreBadge({
+  store,
+  settings,
+  eyebrow,
+  label,
+}: {
+  store: "appStore" | "googlePlay";
+  settings: StoreSettings | null | undefined;
+  eyebrow: string;
+  label: string;
+}) {
+  if (settings?.links?.[`${store}Enabled`] === false) return null;
+  const href = resolveStoreUrl(settings, store);
+  const Icon = store === "appStore" ? FaApple : FaGooglePlay;
+
+  return (
+    <a
+      className="store-badge"
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${eyebrow} ${label}`}
+    >
+      <Icon aria-hidden="true" className="store-badge-icon" />
+      <span className="store-badge-copy" dir="auto">
+        <small>{eyebrow}</small>
+        <strong>{label}</strong>
+      </span>
+      <ArrowUpRight aria-hidden="true" className="store-badge-arrow" />
+    </a>
+  );
+}
+
+function AppScreen({
+  src,
+  alt,
+  config,
+  className = "",
+  sizes = "(max-width: 640px) 60vw, 280px",
+  fallbackSrc = src,
+}: {
+  src: string;
+  alt: string;
+  config?: ManagedMockup;
+  className?: string;
+  sizes?: string;
+  fallbackSrc?: string;
+}) {
+  const mockupImage = config?.type === "image" ? config.image : undefined;
+  const requestedImage = mockupImage || src;
+  const [failedImage, setFailedImage] = useState<string | null>(null);
+  const imageSource = failedImage === requestedImage ? fallbackSrc : requestedImage;
+  const Icon = config?.icon === "sparkles"
+    ? Sparkles
+    : config?.icon === "car"
+      ? CarFront
+      : config?.icon === "map-pin"
+        ? MapPin
+        : Package;
+  const deviceStyle = config?.style || "";
+  const deviceKind = deviceStyle.toLowerCase().includes("laptop") || deviceStyle.toLowerCase().includes("macbook")
+    ? "laptop"
+    : deviceStyle.toLowerCase().includes("ipad") || deviceStyle.toLowerCase().includes("tablet")
+      ? "tablet"
+      : "phone";
+
+  return (
+    <div className={`app-screen-frame app-screen-${deviceKind} ${className}`} data-device-style={deviceStyle}>
+      {config?.type === "icon" ? (
+        <div className={`app-screen-icon app-screen-icon-${config.color || "primary"}`}>
+          <Icon aria-hidden="true" size={34} strokeWidth={1.7} />
+        </div>
+      ) : (
+        <Image
+          src={imageSource}
+          alt={alt}
+          width={430}
+          height={932}
+          loading="eager"
+          sizes={sizes}
+          className="app-screen-image"
+          unoptimized={imageSource.startsWith("http")}
+          onError={() => {
+            if (requestedImage !== fallbackSrc) setFailedImage(requestedImage);
+          }}
+        />
+      )}
+    </div>
+  );
+}
 
 export default function HomePage() {
   const { lang } = useLanguage();
   const { settings } = useSettings();
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const [galleryInView, setGalleryInView] = useState(false);
+  const [galleryPaused, setGalleryPaused] = useState(false);
   const t = translations[lang];
+  const copy = t.landing;
   const isRtl = lang === "ar";
-
-  const openAppModal = (comingSoon = false) =>
-    window.dispatchEvent(
-      new CustomEvent("open-app-modal", { detail: { comingSoon } }),
-    );
-
-  const handleDownload = (type: "appStore" | "googlePlay") => {
-    const link = settings?.links?.[type];
-    const isEnabled =
-      type === "appStore"
-        ? settings?.links?.appStoreEnabled !== false
-        : settings?.links?.googlePlayEnabled !== false;
-
-    if (link && isEnabled) {
-      window.open(link, "_blank");
-    } else {
-      openAppModal(true);
-    }
-  };
-
-  const getSectionContent = (id: string, defaultContent: any) => {
-    const customContent = settings?.sections?.[id]?.content?.[lang];
-    if (customContent) {
-      return { ...defaultContent, ...customContent };
-    }
-    return defaultContent;
-  };
-
-  const heroContent = getSectionContent("hero", t.hero);
-  const featuresContent = getSectionContent("features", t.features);
-  const ctaContent = getSectionContent("cta", t.cta);
-  const galleryContent = getSectionContent("gallery", {
-    headline:
-      lang === "ar"
-        ? "اكتشف شكل التطبيق"
-        : lang === "sv"
-          ? "Utforska Appen"
-          : "Explore the App",
-    description:
-      lang === "ar"
-        ? "ألق نظرة على التصميم الأنيق والواجهة السلسة لخدماتنا في التطبيق."
-        : lang === "sv"
-          ? "Ta en titt på den eleganta designen och det smidiga gränssnittet för våra tjänster i appen."
-          : "Take a look at the elegant design and seamless interface of our services in the app.",
+  const heroCopy = getSectionContent(settings, "hero", lang, {
+    tag: copy.eyebrow,
+    title1: copy.title,
+    title2: "",
+    desc: copy.description,
   });
+  const featureCopy = getSectionContent(settings, "features", lang, {
+    title1: t.features.title1,
+    title2: t.features.title2,
+    desc: t.features.desc,
+  });
+  const galleryCopy = getSectionContent(settings, "gallery", lang, {
+    headline: copy.screensTitle,
+    description: copy.screensDescription,
+  });
+  const ctaCopy = getSectionContent(settings, "cta", lang, {
+    title: t.cta.title,
+    desc: copy.ctaDescription,
+    button: t.cta.button,
+  });
+  const heroCenterConfig = getMockup(settings, "heroCenter");
+  const heroLeftConfig = getMockup(settings, "heroLeft");
+  const heroRightConfig = getMockup(settings, "heroRight");
+  const heroMainImage = getMockupImage(settings, "heroCenter") || "/app-screens/home.webp";
+  const heroSideImage = getMockupImage(settings, "heroLeft") || "/app-screens/trip-details.webp";
+  const heroThirdImage = getMockupImage(settings, "heroRight") || "/app-screens/capacity-calendar.webp";
+  const services = [
+    { id: "shipping", title: t.features.f1Title, desc: t.features.f1Desc, Icon: Package },
+    { id: "cleaning", title: t.features.f2Title, desc: t.features.f2Desc, Icon: Sparkles },
+    { id: "taxi", title: t.features.f3Title, desc: t.features.f3Desc, Icon: CarFront },
+    { id: "containerShipping", title: t.features.f4Title, desc: t.features.f4Desc, Icon: Box },
+  ]
+    .filter(({ id }) => isSectionVisible(settings, `service_${id}`))
+    .map((service) => {
+      const content = getSectionContent(settings, `service_${service.id}`, lang, service);
+      return { ...service, title: String(content.title || service.title), desc: String(content.desc || service.desc) };
+    });
 
-  const DeviceMockup = ({
-    style = "iphone-15",
-    children,
-    className = "",
-    innerClassName = "",
-  }: {
-    style?: string;
-    children: React.ReactNode;
-    className?: string;
-    innerClassName?: string;
-  }) => {
-    const isImageMockup = style && style.startsWith("/devices/");
-    const currentStyle = isImageMockup
-      ? style
-      : "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png";
+  const defaultScreens = [
+    { src: "/app-screens/trip-details.webp", title: copy.tripScreenLabel },
+    { src: "/app-screens/capacity-calendar.webp", title: copy.capacityScreenLabel },
+    { src: "/app-screens/news.webp", title: copy.newsScreenLabel },
+    { src: "/app-screens/news-detail.webp", title: copy.newsDetailScreenLabel },
+  ];
+  const managedScreens = getManagedGallery(settings);
+  const managedScreenCards: Array<{ src: string; alt: string; title: string; config?: ManagedMockup }> = managedScreens
+        .map((screen, index) => ({
+          src: screen.image || defaultScreens[index % defaultScreens.length].src,
+          alt: screen.alt || screen.title || defaultScreens[index % defaultScreens.length].title,
+          title: screen.title || defaultScreens[index % defaultScreens.length].title,
+          config: screen,
+        }));
+  const screenCards = managedScreens.length
+    ? managedScreenCards
+    : defaultScreens.map((screen) => ({ ...screen, alt: screen.title, config: undefined }));
 
-    // ── Pixel-exact bezel measurements (shared with admin DevicePreview) ────
-    // Derived by scanning PNG alpha channels to locate the transparent screen hole.
-    // Format: [left%, top%, right%, bottom%]
-    const BEZEL_MAP: Record<string, [number, number, number, number]> = {
-      // iOS phones
-      "/devices/iOS/16 Pro Max/16 Pro Max - Black Titanium.png": [
-        7.5, 5.5, 7.5, 4.5,
-      ],
-      "/devices/iOS/16 Pro Max/16 Pro Max - Desert Titanium.png": [
-        7.5, 5.5, 7.5, 4.5,
-      ],
-      "/devices/iOS/16 Pro/16 Pro - Black Titanium.png": [7.5, 5.5, 7.5, 4.5],
-      "/devices/iOS/16/16 - Ultramarine.png": [7.5, 5.5, 7.5, 4.5],
-      "/devices/iOS/15 Pro Max/15 Pro Max - Natural Titanium.png": [
-        7.5, 5.5, 7.5, 4.5,
-      ],
-      // Android phones
-      "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Obsidian.png": [
-        10.5, 6.0, 10.5, 5.0,
-      ],
-      "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Rose Quartz.png": [
-        10.5, 6.0, 10.5, 5.0,
-      ],
-      "/devices/Android Phone/Pixel 9 Pro XL/Pixel 9 Pro XL Hazel.png": [
-        10.5, 6.0, 10.5, 5.0,
-      ],
-      "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Black.png": [
-        11.5, 7.0, 11.5, 6.0,
-      ],
-      "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Silver.png": [
-        11.5, 7.0, 11.5, 6.0,
-      ],
-      "/devices/Android Phone/Pixel 8 Pro/Pixel 8 Pro - Blue.png": [
-        11.5, 7.0, 11.5, 6.0,
-      ],
-      "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Obsidian.png": [
-        10.5, 6.0, 10.5, 5.0,
-      ],
-      "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Hazel.png": [
-        10.5, 6.0, 10.5, 5.0,
-      ],
-      "/devices/Android Phone/Pixel 9 Pro/Pixel 9 Pro - Rose Quartz.png": [
-        10.5, 6.0, 10.5, 5.0,
-      ],
-      "/devices/Android Phone/Pixel 8/Pixel 8 - Hazel.png": [
-        11.5, 7.0, 11.5, 6.0,
-      ],
-      // Tablets - iPadOS
-      "/devices/iPadOS/iPad Pro/M4 & M5/13/iPad Pro 13 M4 & M5 - Portrait - Silver.png":
-        [4.42, 3.39, 4.46, 3.42],
-      "/devices/iPadOS/iPad Air/M2 & M3/13/iPad Air 13 - M2 & M3 - Portrait - Space Gray.png":
-        [4.45, 3.41, 4.49, 3.44],
-      // Tablets - Android
-      "/devices/Android Tablet/Samsung Galaxy Tab S11 Ultra/Samsung Galaxy Tab S11 Ultra.png":
-        [5.95, 8.85, 5.98, 8.85],
-      "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Hazel.png": [
-        6.36, 9.41, 6.39, 9.43,
-      ],
-      "/devices/Android Tablet/Pixel Tablet/Pixel Tablet - Porcelain.png": [
-        6.36, 9.41, 6.39, 9.43,
-      ],
-      // Laptops
-      "/devices/MacBook/MacBook Pro 16.png": [10.2, 11.0, 10.2, 11.0],
-      "/devices/MacBook/MacBook Air 15.png": [9.8, 10.6, 9.8, 10.6],
-      "/devices/Windows Laptop/Dell/2024 XPS 16 Platinum.png": [
-        11.0, 8.3, 11.0, 8.3,
-      ],
-    };
+  useEffect(() => {
+    const gallery = galleryRef.current;
+    if (!gallery || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(([entry]) => setGalleryInView(entry.isIntersecting), { threshold: 0.15 });
+    observer.observe(gallery);
+    return () => observer.disconnect();
+  }, []);
 
-    const bezel = BEZEL_MAP[currentStyle] ?? [7.5, 5.0, 7.5, 5.0];
-    const [l, t, r, b] = bezel;
-
-    // Helper to check if currentStyle includes a keyword (case-insensitive)
-    const isStyle = (keyword: string) =>
-      currentStyle.toLowerCase().includes(keyword.toLowerCase());
-
-    // Corner rounding matching each device category's physical curve
-    const isLapStyle =
-      isStyle("macbook") || isStyle("laptop") || isStyle("dell");
-    const isTabStyle = isStyle("ipad") || isStyle("tablet");
-    let rounding = "9%";
-    if (isLapStyle) rounding = "0.4%";
-    else if (isTabStyle) rounding = "6%";
-    else if (isStyle("pixel")) rounding = "9%";
-    else if (isStyle("iphone") || isStyle("ios")) rounding = "9%";
-
-    // Proper segment-level encoding handles spaces AND & in paths
-    const frameSrc = currentStyle
-      .split("/")
-      .map((segment) => encodeURIComponent(segment))
-      .join("/");
-
-    const paddingStyle = {
-      paddingLeft: `${l}%`,
-      paddingRight: `${r}%`,
-      paddingTop: `${t}%`,
-      paddingBottom: `${b}%`,
-    };
-
-    return (
-      <div className={`flex flex-col items-center group relative ${className}`}>
-        <div className="relative w-full drop-shadow-2xl">
-          {/* The device frame image */}
-          <img
-            src={frameSrc}
-            alt="Device Frame"
-            className="w-full h-auto block relative z-20 pointer-events-none"
-          />
-
-          {/* The screen content container positioned exactly within the frame's transparent area */}
-          {/* The screen content container positioned exactly within the frame's transparent area */}
-          <div
-            className="absolute inset-0 z-10 overflow-hidden select-none touch-none"
-            style={{ ...paddingStyle, borderRadius: rounding }}
-          >
-            <div
-              className={`w-full h-full relative overflow-hidden flex flex-col items-center justify-center bg-slate-950/20 backdrop-blur-sm ${innerClassName}`}
-              style={{ borderRadius: rounding }}
-            >
-              <div className="absolute inset-0 z-0 bg-slate-950"></div>
-              <div className="relative z-10 w-full h-full translate-y-[1mm] overflow-hidden">
-                {children}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  // Helper to get icon component
-  const getIcon = (iconName: string) => {
-    switch (iconName) {
-      case "sparkles":
-        return Sparkles;
-      case "car":
-        return Car;
-      case "map-pin":
-        return MapPin;
-      default:
-        return Package;
-    }
-  };
-
-  const MockupContent = ({
-    config,
-    isLaptop = false,
-    isTablet = false,
-    className = "",
-    disableHover = false,
-  }: {
-    config: any;
-    isLaptop?: boolean;
-    isTablet?: boolean;
-    className?: string;
-    disableHover?: boolean;
-  }) => {
-    if (!config) return null;
-    if (config.type === "image" && config.image) {
-      return (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={config.image}
-          alt="App Mockup"
-          className={`w-full h-full object-cover ${isLaptop ? "object-center" : "object-top"} transition-transform duration-500 ${!disableHover ? "group-hover:scale-105" : ""}`}
-        />
-      );
-    }
-
-    const Icon = getIcon(config.icon);
-
-    const bgColor =
-      config.color === "purple"
-        ? "bg-purple-600"
-        : config.color === "accent"
-          ? "bg-accent"
-          : "bg-primary";
-
-    const size = isLaptop ? "w-24 h-24" : isTablet ? "w-20 h-20" : "w-16 h-16";
-    const iconSize = isLaptop
-      ? "w-12 h-12"
-      : isTablet
-        ? "w-10 h-10"
-        : "w-8 h-8";
-
-    return (
-      <div
-        className={`flex flex-col items-center justify-center gap-4 ${className} w-full h-full`}
-      >
-        <div
-          className={`${size} ${bgColor} rounded-3xl flex items-center justify-center shadow-[0_20px_40px_rgba(0,0,0,0.3)] ring-4 ring-white/10 rotate-12 transition-all duration-700 hover:rotate-0 hover:scale-110`}
-        >
-          <Icon className={`${iconSize} text-white shadow-sm`} />
-        </div>
-        {(isLaptop || isTablet) && (
-          <div className="text-center animate-in fade-in slide-in-from-bottom-2 duration-1000">
-            <p className="text-white font-bold text-lg leading-tight">
-              Tunsiska
-            </p>
-            <p className="text-gray-400 text-sm">Mega Services</p>
-          </div>
-        )}
-      </div>
-    );
-  };
+  useEffect(() => {
+    const gallery = galleryRef.current;
+    if (!gallery || !galleryInView || galleryPaused || screenCards.length < 2) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      const firstCard = gallery.querySelector<HTMLElement>(".screen-gallery-card");
+      if (!firstCard) return;
+      const gap = Number.parseFloat(window.getComputedStyle(gallery.querySelector(".screen-gallery-track")!).gap) || 0;
+      const step = firstCard.getBoundingClientRect().width + gap;
+      const lastPosition = gallery.scrollWidth - gallery.clientWidth;
+      if (lastPosition <= 0) return;
+      if (gallery.scrollLeft + step >= lastPosition - 2) gallery.scrollTo({ left: 0, behavior: "smooth" });
+      else gallery.scrollBy({ left: step, behavior: "smooth" });
+    }, 3600);
+    return () => window.clearInterval(timer);
+  }, [galleryInView, galleryPaused, screenCards.length]);
 
   return (
-    <>
-      {settings?.sections?.hero?.visible !== false && (
-        <section className="relative pt-12 pb-20 lg:pt-24 lg:pb-32 overflow-hidden bg-gradient-hero">
-          <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left Content */}
+    <div className="landing-page" dir="ltr">
+      {isSectionVisible(settings, "hero") && (
+        <section className="landing-hero">
+          <div className="landing-shell landing-hero-grid">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              className="landing-hero-copy"
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="max-w-2xl"
+              transition={{ duration: 0.55, ease: "easeOut" }}
+              dir={isRtl ? "auto" : "ltr"}
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border border-white/10 text-sm font-medium text-primary mb-6">
-                <Sparkles className="w-4 h-4" />
-                <span>{heroContent.tag}</span>
+              <div className="route-eyebrow">
+                <span className="route-eyebrow-dot" />
+                {heroCopy.tag}
               </div>
-
-              <h1 className="text-3xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
-                {heroContent.title1}{" "}
-                <span className="text-gradient">{heroContent.title2}</span>
-              </h1>
-
-              <p className="text-lg lg:text-xl text-gray-400 mb-10 leading-relaxed max-w-xl">
-                {heroContent.desc}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={() => handleDownload("appStore")}
-                  className="flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-white text-black font-semibold hover:bg-gray-100 transition-all hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  <svg viewBox="0 0 384 512" className="w-6 h-6 fill-current">
-                    <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
-                  </svg>
-                  <div className={`text-${isRtl ? "right" : "left"}`}>
-                    <div className="text-[10px] uppercase tracking-wider opacity-80">
-                      {t.hero.downloadAppStore}
-                    </div>
-                    <div className="text-sm leading-tight">
-                      {t.hero.appStore}
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => handleDownload("googlePlay")}
-                  className="flex items-center justify-center gap-3 px-8 py-4 rounded-2xl glass-card text-white font-semibold hover:bg-white/5 transition-all hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  <svg
-                    viewBox="0 0 512 512"
-                    className="w-6 h-6 fill-current text-green-400"
-                  >
-                    <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z" />
-                  </svg>
-                  <div className={`text-${isRtl ? "right" : "left"}`}>
-                    <div className="text-[10px] uppercase tracking-wider opacity-80">
-                      {t.hero.getGooglePlay}
-                    </div>
-                    <div className="text-sm leading-tight">
-                      {t.hero.googlePlay}
-                    </div>
-                  </div>
-                </button>
+              <h1>{[heroCopy.title1, heroCopy.title2].filter(Boolean).join(" ")}</h1>
+              <p className="landing-hero-description">{heroCopy.desc}</p>
+              <div className="landing-store-row">
+                <StoreBadge
+                  store="appStore"
+                  settings={settings}
+                  eyebrow={t.hero.downloadAppStore}
+                  label={t.hero.appStore}
+                />
+                <StoreBadge
+                  store="googlePlay"
+                  settings={settings}
+                  eyebrow={t.hero.getGooglePlay}
+                  label={t.hero.googlePlay}
+                />
               </div>
+              <Link className="text-action" href="#services">
+                {copy.browseServices}
+                <ArrowRight aria-hidden="true" className={isRtl ? "rotate-180" : ""} size={18} />
+              </Link>
             </motion.div>
 
-            {/* Right Content - 3D Mockup */}
-            <div
-              className="relative h-[600px] lg:h-[700px] flex items-center justify-center perspective-1000"
-              dir="ltr"
-            >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/30 blur-[120px] rounded-full"></div>
-
-              {/* Left Phone */}
+            <div className="landing-hero-visual" aria-label={copy.appPreviewLabel}>
+              <div className="hero-orbit hero-orbit-one" />
+              <div className="hero-orbit hero-orbit-two" />
               <motion.div
-                initial={{ opacity: 0, x: 100 }}
-                animate={{
-                  opacity: 0.8,
-                  x: (settings?.mockups?.heroCenter?.style || "")
-                    .toLowerCase()
-                    .includes("ipad")
-                    ? -180
-                    : -140,
-                }}
-                transition={{ duration: 1.2, ease: "easeOut" }}
-                className="absolute z-0 hidden md:block"
+                className="hero-phone hero-phone-main"
+                initial={{ opacity: 0, y: 24, rotate: 2 }}
+                animate={{ opacity: 1, y: 0, rotate: 0 }}
+                transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
               >
-                <DeviceMockup
-                  style={
-                    settings?.mockups?.heroLeft?.style ||
-                    settings?.mockups?.style
-                  }
-                  className={`${(settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook") ? "w-80 lg:w-96" : "w-56 lg:w-60"}`}
-                  innerClassName={
-                    settings?.mockups?.heroLeft?.type === "image"
-                      ? ""
-                      : "bg-linear-to-b from-indigo-950 to-slate-900"
-                  }
-                >
-                  <MockupContent
-                    config={settings?.mockups?.heroLeft}
-                    isLaptop={
-                      (
-                        settings?.mockups?.heroLeft?.style ||
-                        settings?.mockups?.style ||
-                        ""
-                      )
-                        .toLowerCase()
-                        .includes("laptop") ||
-                      (
-                        settings?.mockups?.heroLeft?.style ||
-                        settings?.mockups?.style ||
-                        ""
-                      )
-                        .toLowerCase()
-                        .includes("macbook")
-                    }
-                    isTablet={
-                      (settings?.mockups?.heroLeft?.style || "")
-                        .toLowerCase()
-                        .includes("ipad") ||
-                      (settings?.mockups?.heroLeft?.style || "")
-                        .toLowerCase()
-                        .includes("tablet")
-                    }
-                  />
-                </DeviceMockup>
+                <AppScreen src={heroMainImage} alt={copy.homeScreenLabel} config={heroCenterConfig} fallbackSrc="/app-screens/home.webp" sizes="(max-width: 900px) 66vw, 340px" />
               </motion.div>
-
-              {/* Right Phone */}
               <motion.div
-                initial={{ opacity: 0, x: -100 }}
-                animate={{
-                  opacity: 0.8,
-                  x: (settings?.mockups?.heroCenter?.style || "")
-                    .toLowerCase()
-                    .includes("ipad")
-                    ? 180
-                    : 140,
-                }}
-                transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-                className="absolute z-0 hidden md:block"
+                className="hero-phone hero-phone-side"
+                initial={{ opacity: 0, x: 18, y: 12, rotate: 8 }}
+                animate={{ opacity: 1, x: 0, y: 0, rotate: 7 }}
+                transition={{ duration: 0.7, delay: 0.28, ease: "easeOut" }}
               >
-                <DeviceMockup
-                  style={
-                    settings?.mockups?.heroRight?.style ||
-                    settings?.mockups?.style
-                  }
-                  className={`${(settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroLeft?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook") ? "w-80 lg:w-96" : "w-56 lg:w-60"}`}
-                  innerClassName={
-                    settings?.mockups?.heroRight?.type === "image"
-                      ? ""
-                      : "bg-linear-to-b from-purple-950 to-slate-900"
-                  }
-                >
-                  <MockupContent
-                    config={settings?.mockups?.heroRight}
-                    isLaptop={
-                      (
-                        settings?.mockups?.heroRight?.style ||
-                        settings?.mockups?.style ||
-                        ""
-                      )
-                        .toLowerCase()
-                        .includes("laptop") ||
-                      (
-                        settings?.mockups?.heroRight?.style ||
-                        settings?.mockups?.style ||
-                        ""
-                      )
-                        .toLowerCase()
-                        .includes("macbook")
-                    }
-                    isTablet={
-                      (settings?.mockups?.heroRight?.style || "")
-                        .toLowerCase()
-                        .includes("ipad") ||
-                      (settings?.mockups?.heroRight?.style || "")
-                        .toLowerCase()
-                        .includes("tablet")
-                    }
-                  />
-                </DeviceMockup>
+                <AppScreen src={heroSideImage} alt={copy.tripScreenLabel} config={heroLeftConfig} fallbackSrc="/app-screens/trip-details.webp" sizes="(max-width: 900px) 35vw, 190px" />
               </motion.div>
-
-              {/* Center Phone */}
               <motion.div
-                initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
-                className="relative z-10"
+                className="hero-phone hero-phone-third"
+                initial={{ opacity: 0, x: -14, y: 16, rotate: -7 }}
+                animate={{ opacity: 1, x: 0, y: 0, rotate: -7 }}
+                transition={{ duration: 0.65, delay: 0.36, ease: "easeOut" }}
               >
-                <DeviceMockup
-                  style={
-                    settings?.mockups?.heroCenter?.style ||
-                    settings?.mockups?.style
-                  }
-                  className={`${(settings?.mockups?.heroCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("laptop") || (settings?.mockups?.heroCenter?.style || settings?.mockups?.style || "").toLowerCase().includes("macbook") ? "w-80 lg:w-md" : "w-64 lg:w-72"}`}
-                  innerClassName={
-                    settings?.mockups?.heroCenter?.type === "image"
-                      ? ""
-                      : "bg-linear-to-b from-slate-900 to-indigo-950"
-                  }
-                >
-                  <MockupContent
-                    config={settings?.mockups?.heroCenter}
-                    isLaptop={
-                      (
-                        settings?.mockups?.heroCenter?.style ||
-                        settings?.mockups?.style ||
-                        ""
-                      )
-                        .toLowerCase()
-                        .includes("laptop") ||
-                      (
-                        settings?.mockups?.heroCenter?.style ||
-                        settings?.mockups?.style ||
-                        ""
-                      )
-                        .toLowerCase()
-                        .includes("macbook")
-                    }
-                    isTablet={
-                      (settings?.mockups?.heroCenter?.style || "")
-                        .toLowerCase()
-                        .includes("ipad") ||
-                      (settings?.mockups?.heroCenter?.style || "")
-                        .toLowerCase()
-                        .includes("tablet")
-                    }
-                  />
-                </DeviceMockup>
+                <AppScreen src={heroThirdImage} alt={copy.capacityScreenLabel} config={heroRightConfig} fallbackSrc="/app-screens/capacity-calendar.webp" sizes="(max-width: 900px) 28vw, 150px" />
               </motion.div>
-
-              {/* Floating Cards */}
-              <motion.div
-                animate={{ y: [0, -15, 0] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 5,
-                  ease: "easeInOut",
-                }}
-                className={`absolute top-20 ${isRtl ? "-right-12 lg:-right-24" : "-left-12 lg:-left-24"} z-20 glass-card rounded-2xl p-4 flex items-center gap-4 w-64`}
-                dir={isRtl ? "rtl" : "ltr"}
-              >
-                <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-5 h-5 text-green-400" />
+              <div className="route-preview-card" dir={isRtl ? "auto" : "ltr"}>
+                <div className="route-preview-brand">
+                  <Image src="/brand/app-icon.png" alt="" width={38} height={38} />
+                  <span>{copy.routeCardTitle}</span>
                 </div>
-                <div>
-                  <div className="text-sm font-semibold">
-                    {t.mockup.bookingConfirmed}
-                  </div>
-                  <div className="text-xs text-gray-400">
-                    {t.mockup.cleaningScheduled}
-                  </div>
+                <div className="route-preview-stops">
+                  <span className="route-stop"><i>SE</i>{copy.sweden}</span>
+                  <ArrowLeftRight aria-hidden="true" size={20} />
+                  <span className="route-stop"><i>TN</i>{copy.tunisia}</span>
                 </div>
-              </motion.div>
-
-              <motion.div
-                animate={{ y: [0, 15, 0] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 6,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
-                className={`absolute bottom-32 ${isRtl ? "-left-8 lg:-left-16" : "-right-8 lg:-right-16"} z-20 glass-card rounded-2xl p-4 flex items-center gap-4 w-56`}
-                dir={isRtl ? "rtl" : "ltr"}
-              >
-                <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
-                  <Clock className="w-5 h-5 text-accent" />
-                </div>
-                <div>
-                  <div className="text-xs text-gray-400">
-                    {t.mockup.estimatedArrival}
-                  </div>
-                  <div className="text-sm font-semibold">{t.mockup.time}</div>
-                </div>
-              </motion.div>
+                <div className="route-preview-foot"><Check size={15} />{copy.routeCardFoot}</div>
+              </div>
             </div>
+          </div>
+          <div className="landing-shell hero-route-strip">
+            <div className="route-strip-icon"><ArrowLeftRight size={20} /></div>
+            <div><strong>{copy.routeTitle}</strong><span>{copy.routeSubtitle}</span></div>
+            <Link href="#screens" aria-label={copy.seeScreens}><ArrowRight size={19} className={isRtl ? "rotate-180" : ""} /></Link>
           </div>
         </section>
       )}
 
-      {/* Features Section */}
-      {settings?.sections?.features?.visible !== false && (
-        <section id="services" className="py-24 relative z-10">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
-                {featuresContent.title1} <br />
-                {featuresContent.title2}
-              </h2>
-              <p className="text-gray-400">{featuresContent.desc}</p>
+      {isSectionVisible(settings, "features") && services.length > 0 && (
+        <section id="services" className="landing-section service-section">
+          <div className="landing-shell">
+            <div className="section-heading" dir={isRtl ? "auto" : "ltr"}>
+              <div>
+                <span className="section-kicker">{copy.serviceKicker}</span>
+                <h2>{featureCopy.title1} {featureCopy.title2}</h2>
+              </div>
+              <p>{featureCopy.desc}</p>
             </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                {
-                  id: "shipping",
-                  icon: <Package className="w-6 h-6 text-primary" />,
-                  title: t.features.f1Title,
-                  desc: t.features.f1Desc,
-                },
-                {
-                  id: "cleaning",
-                  icon: <Sparkles className="w-6 h-6 text-accent" />,
-                  title: t.features.f2Title,
-                  desc: t.features.f2Desc,
-                },
-                {
-                  id: "taxi",
-                  icon: <Car className="w-6 h-6 text-purple-400" />,
-                  title: t.features.f3Title,
-                  desc: t.features.f3Desc,
-                },
-                {
-                  id: "containerShipping",
-                  icon: <Package className="w-6 h-6 text-blue-400" />,
-                  title: t.features.f4Title,
-                  desc: t.features.f4Desc,
-                },
-              ].map((feature, i) => (
-                <Link href={`/services/${feature.id}`} key={i}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+            <div className="service-grid">
+              {services.map(({ id, title, desc, Icon }, index) => (
+                <Link href={`/services/${id}`} key={id} className="service-card-link" dir={isRtl ? "auto" : "ltr"}>
+                  <motion.article
+                    className="service-card"
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.42, delay: index * 0.06 }}
                     whileHover={{ y: -5 }}
-                    className="glass-card rounded-3xl p-8 group cursor-pointer h-full flex flex-col"
                   >
-                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                      {feature.icon}
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-gray-400 leading-relaxed grow">
-                      {feature.desc}
-                    </p>
-                    <div className="mt-6 flex items-center text-sm font-medium text-white/50 group-hover:text-white transition-colors">
-                      {t.features.learnMore}{" "}
-                      <ArrowRight
-                        className={`w-4 h-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"} opacity-0 group-hover:opacity-100 transition-all`}
-                      />
-                    </div>
-                  </motion.div>
+                    <span className={`service-icon service-icon-${index}`}><Icon aria-hidden="true" size={23} strokeWidth={1.8} /></span>
+                    <h3>{title}</h3>
+                    <p>{desc}</p>
+                    <span className="service-card-action">{t.features.learnMore}<ArrowRight size={16} className={isRtl ? "rotate-180" : ""} /></span>
+                  </motion.article>
                 </Link>
               ))}
             </div>
@@ -644,307 +322,59 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* CTA Section */}
-      {settings?.sections?.cta?.visible !== false && (
-        <section className="pt-24 pb-0 relative overflow-hidden">
-          <div className="absolute inset-0 bg-linear-to-b from-transparent to-primary/5"></div>
-          <div className="max-w-5xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
-            <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-6">
-              {ctaContent.title}
-            </h2>
-            <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
-              {ctaContent.desc}
-            </p>
-            <button
-              onClick={() => openAppModal()}
-              className="px-8 py-4 mb-20 rounded-full bg-white text-black font-semibold hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 text-lg shadow-[0_0_40px_rgba(99,102,241,0.3)]"
-            >
-              {ctaContent.button}
-            </button>
-
-            {/* Mockups Showcase */}
+      {isSectionVisible(settings, "gallery") && (
+        <section id="screens" className="landing-section screens-section">
+          <div className="landing-shell">
+            <div className="section-heading screens-heading" dir={isRtl ? "auto" : "ltr"}>
+              <div>
+                <span className="section-kicker">{copy.screensKicker}</span>
+                <h2>{galleryCopy.headline}</h2>
+              </div>
+              <p>{galleryCopy.description}</p>
+            </div>
             <div
-              className="relative w-full h-[300px] md:h-[400px] flex justify-center perspective-1000 border-b border-white/10"
-              dir="ltr"
+              className="screen-gallery"
+              ref={galleryRef}
+              role="region"
+              aria-label={copy.appPreviewLabel}
+              tabIndex={0}
+              onMouseEnter={() => setGalleryPaused(true)}
+              onMouseLeave={() => setGalleryPaused(false)}
+              onFocus={() => setGalleryPaused(true)}
+              onBlur={() => setGalleryPaused(false)}
+              onPointerDown={() => setGalleryPaused(true)}
+              onPointerUp={() => setGalleryPaused(false)}
             >
-              {/* Background Glow */}
-              <div className="absolute bottom-0 w-[80%] md:w-[600px] h-[300px] bg-primary/20 blur-[120px] rounded-[100%] z-0 translate-y-1/2"></div>
-
-              {/* Left Phone (Cleaning) */}
-              <motion.div
-                initial={{ y: 200, x: 60, rotate: 15, opacity: 0 }}
-                whileInView={{ y: 80, x: 20, rotate: -15, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1, ease: "easeOut", delay: 0.1 }}
-                className="absolute left-0 md:left-[10%] z-10 hidden sm:block origin-bottom transition-transform"
-              >
-                <DeviceMockup
-                  style={
-                    settings?.mockups?.ctaLeft?.style ||
-                    settings?.mockups?.style
-                  }
-                  className="w-44 md:w-56"
-                  innerClassName={
-                    settings?.mockups?.ctaLeft?.type === "image"
-                      ? ""
-                      : "bg-linear-to-tr from-slate-950 to-indigo-950"
-                  }
-                >
-                  <MockupContent
-                    config={settings?.mockups?.ctaLeft}
-                    isLaptop={
-                      (
-                        settings?.mockups?.ctaLeft?.style ||
-                        settings?.mockups?.style ||
-                        ""
-                      )
-                        .toLowerCase()
-                        .includes("laptop") ||
-                      (
-                        settings?.mockups?.ctaLeft?.style ||
-                        settings?.mockups?.style ||
-                        ""
-                      )
-                        .toLowerCase()
-                        .includes("macbook")
-                    }
-                    isTablet={
-                      (settings?.mockups?.ctaLeft?.style || "")
-                        .toLowerCase()
-                        .includes("ipad") ||
-                      (settings?.mockups?.ctaLeft?.style || "")
-                        .toLowerCase()
-                        .includes("tablet")
-                    }
-                  />
-                </DeviceMockup>
-              </motion.div>
-
-              {/* Right Phone (Taxi) */}
-              <motion.div
-                initial={{ y: 200, x: -60, rotate: -15, opacity: 0 }}
-                whileInView={{ y: 80, x: -20, rotate: 15, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
-                className="absolute right-0 md:right-[10%] z-10 hidden sm:block origin-bottom transition-transform"
-              >
-                <DeviceMockup
-                  style={
-                    settings?.mockups?.ctaRight?.style ||
-                    settings?.mockups?.style
-                  }
-                  className="w-44 md:w-56"
-                  innerClassName={
-                    settings?.mockups?.ctaRight?.type === "image"
-                      ? ""
-                      : "bg-linear-to-bl from-slate-950 to-purple-950"
-                  }
-                >
-                  <MockupContent
-                    config={settings?.mockups?.ctaRight}
-                    isLaptop={
-                      (
-                        settings?.mockups?.ctaRight?.style ||
-                        settings?.mockups?.style ||
-                        ""
-                      )
-                        .toLowerCase()
-                        .includes("laptop") ||
-                      (
-                        settings?.mockups?.ctaRight?.style ||
-                        settings?.mockups?.style ||
-                        ""
-                      )
-                        .toLowerCase()
-                        .includes("macbook")
-                    }
-                    isTablet={
-                      (settings?.mockups?.ctaRight?.style || "")
-                        .toLowerCase()
-                        .includes("ipad") ||
-                      (settings?.mockups?.ctaRight?.style || "")
-                        .toLowerCase()
-                        .includes("tablet")
-                    }
-                  />
-                </DeviceMockup>
-              </motion.div>
-
-              {/* Center Phone (Shipping/Main) */}
-              <motion.div
-                initial={{ y: 300, opacity: 0 }}
-                whileInView={{ y: 30, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
-                className="absolute z-20 origin-bottom hover:-translate-y-4 transition-transform duration-500"
-              >
-                <DeviceMockup
-                  style={
-                    settings?.mockups?.ctaCenter?.style ||
-                    settings?.mockups?.style
-                  }
-                  className="w-56 md:w-64 shadow-2xl"
-                  innerClassName={
-                    settings?.mockups?.ctaCenter?.type === "image"
-                      ? ""
-                      : "bg-linear-to-b from-indigo-500/10 to-slate-900 flex flex-col pt-12 p-4 gap-4"
-                  }
-                >
-                  {settings?.mockups?.ctaCenter?.type === "image" ? (
-                    <MockupContent
-                      config={settings.mockups.ctaCenter}
-                      isLaptop={
-                        (
-                          settings?.mockups?.ctaCenter?.style ||
-                          settings?.mockups?.style ||
-                          ""
-                        )
-                          .toLowerCase()
-                          .includes("laptop") ||
-                        (
-                          settings?.mockups?.ctaCenter?.style ||
-                          settings?.mockups?.style ||
-                          ""
-                        )
-                          .toLowerCase()
-                          .includes("macbook")
-                      }
-                      isTablet={
-                        (settings?.mockups?.ctaCenter?.style || "")
-                          .toLowerCase()
-                          .includes("ipad") ||
-                        (settings?.mockups?.ctaCenter?.style || "")
-                          .toLowerCase()
-                          .includes("tablet")
-                      }
-                    />
-                  ) : (
-                    <>
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center shrink-0 border border-primary/30">
-                          {(() => {
-                            const CtaIcon = getIcon(
-                              settings?.mockups?.ctaCenter?.icon,
-                            );
-                            return <CtaIcon className="w-5 h-5 text-primary" />;
-                          })()}
-                        </div>
-                        <div className="space-y-1.5 grow">
-                          <div className="h-2.5 w-full bg-white/20 rounded-full"></div>
-                          <div className="h-1.5 w-2/3 bg-white/10 rounded-full"></div>
-                        </div>
-                      </div>
-                      <div className="h-32 w-full bg-white/5 border border-white/10 rounded-2xl relative overflow-hidden flex flex-col items-center justify-center gap-2">
-                        <MapPin className="w-6 h-6 text-white/50" />
-                        <div className="h-1.5 w-1/2 bg-white/10 rounded-full"></div>
-                      </div>
-                      <div className="space-y-2 mt-auto mb-2">
-                        <div className="h-10 w-full bg-white/10 rounded-xl"></div>
-                        <div className="h-10 w-full bg-primary text-xs flex items-center justify-center font-medium text-white shadow-lg rounded-xl">
-                          Tracking Details
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </DeviceMockup>
-              </motion.div>
+              <div className="screen-gallery-track">
+                {screenCards.map(({ src, alt, title, config }, index) => (
+                  <article className="screen-gallery-card" key={`${src}-${index}`}>
+                    <AppScreen src={src} alt={alt} config={config} fallbackSrc={defaultScreens[index % defaultScreens.length].src} sizes="(max-width: 640px) 70vw, (max-width: 1000px) 38vw, 220px" />
+                    <h3 dir={isRtl ? "auto" : "ltr"}>{title}</h3>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
       )}
 
-      {/* App Screens Gallery */}
-      {settings?.sections?.gallery?.visible !== false &&
-        settings?.mockups?.gallery?.filter((g: any) => g.image).length > 0 && (
-          <section className="relative w-full py-24 overflow-hidden bg-black/50 border-t border-white/5">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.05)_0%,transparent_70%)] pointer-events-none"></div>
-
-            <div className="text-center max-w-3xl mx-auto px-6 mb-16 relative z-10">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-3xl md:text-5xl font-bold tracking-tight mb-6"
-              >
-                {galleryContent.headline}
-              </motion.h2>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="text-gray-400 text-lg mx-auto"
-              >
-                {galleryContent.description}
-              </motion.p>
-            </div>
-
-            <div className="w-full overflow-hidden relative">
-              <div className="flex gap-6 md:gap-10 px-8 md:px-[20vw] overflow-x-auto pb-12 snap-x snap-mandatory hide-scrollbar items-center">
-                {settings.mockups.gallery.map((mock: any, idx: number) => {
-                  if (!mock.image) return null;
-
-                  return (
-                    <motion.div
-                      key={idx}
-                      initial={{ opacity: 0, scale: 0.95, y: 30 }}
-                      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ duration: 0.5, delay: idx * 0.1 }}
-                      className={`snap-center shrink-0 ${
-                        (mock.style || settings?.mockups?.style || "")
-                          .toLowerCase()
-                          .includes("laptop") ||
-                        (mock.style || settings?.mockups?.style || "")
-                          .toLowerCase()
-                          .includes("macbook")
-                          ? "w-[350px] md:w-[600px]"
-                          : (mock.style || settings?.mockups?.style || "")
-                                .toLowerCase()
-                                .includes("ipad") ||
-                              (mock.style || settings?.mockups?.style || "")
-                                .toLowerCase()
-                                .includes("tablet")
-                            ? "w-[300px] md:w-[450px]"
-                            : "w-[240px] md:w-[280px]"
-                      }`}
-                    >
-                      <DeviceMockup
-                        style={mock.style || settings?.mockups?.style}
-                        className="w-full"
-                      >
-                        <MockupContent
-                          config={mock}
-                          isLaptop={
-                            (mock.style || settings?.mockups?.style || "")
-                              .toLowerCase()
-                              .includes("laptop") ||
-                            (mock.style || settings?.mockups?.style || "")
-                              .toLowerCase()
-                              .includes("macbook")
-                          }
-                          isTablet={
-                            (mock.style || "").toLowerCase().includes("ipad") ||
-                            (mock.style || "").toLowerCase().includes("tablet")
-                          }
-                          disableHover={true}
-                        />
-                      </DeviceMockup>
-                    </motion.div>
-                  );
-                })}
+      {isSectionVisible(settings, "cta") && (
+        <section className="landing-cta-section">
+          <div className="landing-shell">
+            <div className="landing-cta-panel" dir={isRtl ? "auto" : "ltr"}>
+              <div className="cta-copy">
+                <span className="section-kicker">{copy.ctaKicker}</span>
+                <h2>{ctaCopy.title}</h2>
+                <p>{ctaCopy.desc}</p>
               </div>
-
-              {/* Scroll fading edges */}
-              <div
-                className={`absolute top-0 bottom-0 ${isRtl ? "right-0 bg-linear-to-l" : "left-0 bg-linear-to-r"} from-black to-transparent w-16 md:w-48 pointer-events-none z-10`}
-              ></div>
-              <div
-                className={`absolute top-0 bottom-0 ${isRtl ? "left-0 bg-linear-to-r" : "right-0 bg-linear-to-l"} from-black to-transparent w-16 md:w-48 pointer-events-none z-10`}
-              ></div>
+              <div className="cta-actions">
+                <StoreBadge store="appStore" settings={settings} eyebrow={t.hero.downloadAppStore} label={t.hero.appStore} />
+                <StoreBadge store="googlePlay" settings={settings} eyebrow={t.hero.getGooglePlay} label={t.hero.googlePlay} />
+              </div>
             </div>
-          </section>
-        )}
-    </>
+          </div>
+        </section>
+      )}
+    </div>
   );
 }

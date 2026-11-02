@@ -1,47 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { Globe, Share2, Share } from "lucide-react";
+import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 import { useSettings } from "@/context/SettingsContext";
 import { translations } from "@/translations";
+import { resolveStoreUrl } from "@/lib/storeLinks";
+import { isSectionVisible } from "@/lib/pageSettings";
 import { FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa6";
 import { SlSocialFacebook } from "react-icons/sl";
 export default function Footer() {
   const { lang } = useLanguage();
+  const isHome = true;
   const { settings } = useSettings();
   const t = translations[lang];
   const isRtl = lang === "ar";
 
-  const openAppModal = (comingSoon = false) =>
-    window.dispatchEvent(
-      new CustomEvent("open-app-modal", { detail: { comingSoon } }),
-    );
-
   const handleDownload = (type: "appStore" | "googlePlay") => {
-    const link = settings?.links?.[type];
-    const isEnabled =
-      type === "appStore"
-        ? settings?.links?.appStoreEnabled !== false
-        : settings?.links?.googlePlayEnabled !== false;
-
-    if (link && isEnabled) {
-      window.open(link, "_blank");
-    } else {
-      openAppModal(true);
-    }
+    window.open(resolveStoreUrl(settings, type), "_blank", "noopener,noreferrer");
   };
 
   return (
-    <footer className="border-t border-white/10 bg-[#05080f] pt-16 pb-8 mt-auto">
+    <footer className={`border-t border-white/10 bg-[#05080f] pt-16 pb-8 mt-auto ${isHome ? "site-footer-light" : ""}`}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-16">
           <div className="col-span-2 lg:col-span-2">
             <div className="flex items-center gap-2 mb-6">
-              <img
-                src="/logo.png"
-                alt="Tunsiska Mega Services"
-                className="h-12 w-auto object-contain rounded-full bg-white p-0.5"
+              <Image
+                src="/brand/tunisiska-logo.png"
+                alt="Tunisiska Mega Services"
+                width={500}
+                height={500}
+                className="footer-brand-logo"
               />
             </div>
             <p className="text-sm text-gray-400 max-w-xs mb-6 leading-relaxed">
@@ -53,7 +43,7 @@ export default function Footer() {
                   href={settings.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-linear-to-br hover:from-purple-600 hover:to-pink-500 hover:text-white transition-all duration-300 group"
+                  className="footer-social-link w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent hover:text-white transition-all duration-300 group"
                   aria-label="Instagram"
                 >
                   <FaInstagram className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
@@ -64,7 +54,7 @@ export default function Footer() {
                   href={settings.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 group"
+                  className="footer-social-link w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 group"
                   aria-label="Facebook"
                 >
                   <SlSocialFacebook className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
@@ -75,7 +65,7 @@ export default function Footer() {
                   href={settings.social.youtube}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-300 group"
+                  className="footer-social-link w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-300 group"
                   aria-label="YouTube"
                 >
                   <FaYoutube className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
@@ -86,7 +76,7 @@ export default function Footer() {
                   href={settings.social.tiktok}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-black hover:ring-1 hover:ring-white/20 transition-all duration-300 group"
+                  className="footer-social-link w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-black hover:ring-1 hover:ring-white/20 transition-all duration-300 group"
                   aria-label="TikTok"
                 >
                   <FaTiktok className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
@@ -98,83 +88,27 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">{t.footer.company}</h4>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li>
-                <Link
-                  href="/about"
-                  className="hover:text-white transition-colors"
-                >
-                  {t.footer.aboutUs}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/careers"
-                  className="hover:text-white transition-colors"
-                >
-                  {t.footer.careers}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/press"
-                  className="hover:text-white transition-colors"
-                >
-                  {t.footer.press}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="hover:text-white transition-colors"
-                >
-                  {t.footer.contact}
-                </Link>
-              </li>
+              {isSectionVisible(settings, "about") && <li><Link href="/about" className="hover:text-white transition-colors">{t.footer.aboutUs}</Link></li>}
+              {isSectionVisible(settings, "careers") && <li><Link href="/careers" className="hover:text-white transition-colors">{t.footer.careers}</Link></li>}
+              {isSectionVisible(settings, "press") && <li><Link href="/press" className="hover:text-white transition-colors">{t.footer.press}</Link></li>}
+              {isSectionVisible(settings, "contact") && <li><Link href="/contact" className="hover:text-white transition-colors">{t.footer.contact}</Link></li>}
             </ul>
           </div>
 
           <div>
             <h4 className="font-semibold mb-4">{t.footer.services}</h4>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li>
-                <Link
-                  href="/services/shipping"
-                  className="hover:text-white transition-colors"
-                >
-                  {t.footer.shipping}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/taxi"
-                  className="hover:text-white transition-colors"
-                >
-                  {t.footer.taxi}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/cleaning"
-                  className="hover:text-white transition-colors"
-                >
-                  {t.footer.cleaning}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/containerShipping"
-                  className="hover:text-white transition-colors"
-                >
-                  {t.footer.containerShipping}
-                </Link>
-              </li>
+              {isSectionVisible(settings, "service_shipping") && <li><Link href="/services/shipping" className="hover:text-white transition-colors">{t.footer.shipping}</Link></li>}
+              {isSectionVisible(settings, "service_taxi") && <li><Link href="/services/taxi" className="hover:text-white transition-colors">{t.footer.taxi}</Link></li>}
+              {isSectionVisible(settings, "service_cleaning") && <li><Link href="/services/cleaning" className="hover:text-white transition-colors">{t.footer.cleaning}</Link></li>}
+              {isSectionVisible(settings, "service_containerShipping") && <li><Link href="/services/containerShipping" className="hover:text-white transition-colors">{t.footer.containerShipping}</Link></li>}
             </ul>
           </div>
 
           <div className="col-span-2 md:col-span-4 lg:col-span-1">
             <h4 className="font-semibold mb-4">{t.footer.getApp}</h4>
             <div className="flex flex-col gap-3">
-              <button
+              {settings?.links?.appStoreEnabled !== false && <button
                 onClick={() => handleDownload("appStore")}
                 className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors w-full sm:w-auto lg:w-full"
               >
@@ -189,9 +123,9 @@ export default function Footer() {
                     {t.hero.appStore}
                   </div>
                 </div>
-              </button>
+              </button>}
 
-              <button
+              {settings?.links?.googlePlayEnabled !== false && <button
                 onClick={() => handleDownload("googlePlay")}
                 className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors w-full sm:w-auto lg:w-full"
               >
@@ -209,7 +143,7 @@ export default function Footer() {
                     {t.hero.googlePlay}
                   </div>
                 </div>
-              </button>
+              </button>}
             </div>
           </div>
         </div>
