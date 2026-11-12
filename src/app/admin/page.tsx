@@ -320,6 +320,114 @@ export default function AdminDashboard() {
 
   const [isUploading, setIsUploading] = useState<string | null>(null);
 
+  // Pure state helpers so the same change can be applied to React state and
+  // immediately persisted (uploaded images must reach the live site).
+  const withMockupChange = (
+    base: typeof settings,
+    mockupKey: string,
+    propKey: string,
+    value: string,
+  ) => ({
+    ...base,
+    mockups: {
+      ...base.mockups,
+      [mockupKey]: {
+        ...base.mockups[mockupKey],
+        [propKey]: value,
+      },
+    },
+  });
+
+  const withGalleryChange = (
+    base: typeof settings,
+    index: number,
+    key: string,
+    value: string,
+  ) => {
+    const newGallery = [...base.mockups.gallery];
+    newGallery[index] = { ...newGallery[index], [key]: value };
+    return {
+      ...base,
+      mockups: {
+        ...base.mockups,
+        gallery: newGallery,
+      },
+    };
+  };
+
+  const withContentChange = (
+    base: typeof settings,
+    sectionId: string,
+    langId: string,
+    field: string,
+    value: string,
+  ) => {
+    const currentSection = base.sections[sectionId] || {
+      visible: true,
+      content: {},
+    };
+    const currentLangContent = currentSection.content[langId] || {};
+
+    // If it's a service section and we are changing the image, apply to all languages
+    if (sectionId.startsWith("service_") && field === "image") {
+      const newContent = { ...currentSection.content };
+      ["en", "sv", "ar"].forEach((l) => {
+        newContent[l] = {
+          ...(newContent[l] || {}),
+          image: value,
+        };
+      });
+
+      return {
+        ...base,
+        sections: {
+          ...base.sections,
+          [sectionId]: {
+            ...currentSection,
+            content: newContent,
+          },
+        },
+      };
+    }
+
+    return {
+      ...base,
+      sections: {
+        ...base.sections,
+        [sectionId]: {
+          ...currentSection,
+          content: {
+            ...currentSection.content,
+            [langId]: {
+              ...currentLangContent,
+              [field]:
+                field === "features"
+                  ? value.split("\n").filter((s: string) => s.trim() !== "")
+                  : value,
+            },
+          },
+        },
+      },
+    };
+  };
+
+  // target is "gallery-<index>", "section-<sectionId>-<lang>-<field>" or a mockup key
+  const withUploadedImage = (
+    base: typeof settings,
+    target: string,
+    url: string,
+  ) => {
+    if (target.startsWith("gallery-")) {
+      const index = parseInt(target.split("-")[1], 10);
+      return withGalleryChange(base, index, "image", url);
+    }
+    if (target.startsWith("section-")) {
+      const [, sectionId, langId, fieldId] = target.split("-");
+      return withContentChange(base, sectionId, langId, fieldId, url);
+    }
+    return withMockupChange(base, target, "image", url);
+  };
+
   const handleImageUpload = async (mock: string, file: File) => {
     setIsUploading(mock);
     const formData = new FormData();
@@ -328,26 +436,31 @@ export default function AdminDashboard() {
     try {
       const result = await uploadFile(formData);
       if (result.success && result.url) {
-        if (mock.startsWith("gallery-")) {
-          const index = parseInt(mock.split("-")[1], 10);
-          handleGalleryChange(index, "image", result.url);
-        } else if (mock.startsWith("section-")) {
-          const parts = mock.split("-"); // section-sectionId-lang-field
-          const sectionId = parts[1];
-          const langId = parts[2];
-          const fieldId = parts[3];
-          handleContentChange(sectionId, langId, fieldId, result.url);
+        const nextSettings = withUploadedImage(settings, mock, result.url);
+        setSettings(nextSettings);
+
+        // Uploading an image is meant to publish it, not just preview it in
+        // the dashboard, so persist it to Sanity right away.
+        const saveResult = await saveSettings(nextSettings);
+        if (saveResult.success) {
+          await refreshSettings();
+          setToast({
+            show: true,
+            message:
+              lang === "ar"
+                ? "تم رفع الصورة ونشرها في الموقع"
+                : "Image uploaded and published to the site",
+            type: "success",
+          });
         } else {
-          handleMockupChange(mock, "image", result.url);
+          setToast({
+            show: true,
+            message:
+              saveResult.error ||
+              "Image uploaded but not published — press Save Changes to retry",
+            type: "error",
+          });
         }
-        setToast({
-          show: true,
-          message:
-            lang === "ar"
-              ? "تم رفع الصورة بنجاح"
-              : "Image uploaded successfully",
-          type: "success",
-        });
       } else {
         setToast({
           show: true,
@@ -381,28 +494,11 @@ export default function AdminDashboard() {
     propKey: string,
     value: string,
   ) => {
-    setSettings({
-      ...settings,
-      mockups: {
-        ...settings.mockups,
-        [mockupKey]: {
-          ...settings.mockups[mockupKey],
-          [propKey]: value,
-        },
-      },
-    });
+    setSettings(withMockupChange(settings, mockupKey, propKey, value));
   };
 
   const handleGalleryChange = (index: number, key: string, value: string) => {
-    const newGallery = [...settings.mockups.gallery];
-    newGallery[index] = { ...newGallery[index], [key]: value };
-    setSettings({
-      ...settings,
-      mockups: {
-        ...settings.mockups,
-        gallery: newGallery,
-      },
-    });
+    setSettings(withGalleryChange(settings, index, key, value));
   };
 
   const handleListItemChange = (
@@ -560,58 +656,11 @@ export default function AdminDashboard() {
 
   const handleContentChange = (
     sectionId: string,
-    lang: string,
+    langId: string,
     field: string,
     value: string,
   ) => {
-    const currentSection = settings.sections[sectionId] || {
-      visible: true,
-      content: {},
-    };
-    const currentLangContent = currentSection.content[lang] || {};
-
-    // If it's a service section and we are changing the image, apply to all languages
-    if (sectionId.startsWith("service_") && field === "image") {
-      const newContent = { ...currentSection.content };
-      ["en", "sv", "ar"].forEach((l) => {
-        newContent[l] = {
-          ...(newContent[l] || {}),
-          image: value,
-        };
-      });
-
-      setSettings({
-        ...settings,
-        sections: {
-          ...settings.sections,
-          [sectionId]: {
-            ...currentSection,
-            content: newContent,
-          },
-        },
-      });
-      return;
-    }
-
-    setSettings({
-      ...settings,
-      sections: {
-        ...settings.sections,
-        [sectionId]: {
-          ...currentSection,
-          content: {
-            ...currentSection.content,
-            [lang]: {
-              ...currentLangContent,
-              [field]:
-                field === "features"
-                  ? value.split("\n").filter((s: string) => s.trim() !== "")
-                  : value,
-            },
-          },
-        },
-      },
-    });
+    setSettings(withContentChange(settings, sectionId, langId, field, value));
   };
 
   const handleMockupStyleChange = (style: string) => {
